@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Amrap</title>
+    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
+    <link rel="stylesheet" href="CSS/fonts.css">
+
+</head>
+
+<body>
+    <h1 class="titulo">Modificar Ejercicios</h1>
+
+
+    <!-- menu desplegable comienzo  -->
+    <header>
+        <nav>
+            <ul>
+                <li> <a href="inicio"><span class="primero"><i class="icon icon-home "></i></span> Inicio</a> </li>
+                <li> <a href="ejercicios"><span class="segundo"><i class="icon icon-book"></i></span> Ejercicios</a>
+                <li> <a href="rutinas"><span class="cuarto"><i class="icon icon-books"></i></span>Rutinas</a></li>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <!-- menu desplegable fin  -->
+
+    <section Class=principal>
+
+        <form class="formulario" action="actualizar-autor" method="POST">
+
+            <p th:if="${error != null}" th:text=${error} class=error></p>
+
+            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+
+            <!--  <p th:if="${datosAutor != null}"> vienen datos del otro formulario(borrar esto)</p> -->
+
+
+            <input type="hidden" name="id" th:value="${datosAutor.id}"><br>
+
+            <label>Nombre:</label><br>
+            <input type="text" name="nombrecito" th:value="${datosAutor.nombre}"><br><br>
+
+            <label>Nombre:</label><br>
+            <input type="text" name="nombre"><br><br>
+
+            <label>Categoría:</label><br>
+            <input type="text" name="Categoría"><br><br>
+
+            <label>Link video:</label><br>
+            <input type="text" name="video"><br><br>
+
+            <label>Series:</label><br>
+            <input type="number" name="series"><br><br>
+
+            <label>Repeticiones:</label><br>
+            <input type="number" name="repeticiones"><br><br>
+
+            <label>Pausa:</label><br>
+            <input type="number" name="pausa"><br><br>
+
+            <label>Dicicultad:</label><br>
+            <input type="number" name="dicicultad"><br><br>
+
+            <label>Kilogramos:</label><br>
+            <input type="text" name="kilogramos"><br><br>
+
+            <label>Notas:</label><br>
+            <input type="text" name="notas"><br><br>
+
+            <label>Atencion:</label><br>
+            <input type="text" name="atencion"><br><br>
+
+
+            <button type="submit" class="boton tres"><span>Actualizar</span></button>
+
+            <button type="reset" class="boton cuatro"><span>Limpiar</span></button>
+
+        </form>
+
+
+        <!--   formulario para mostrar el objeto cambiado-->
+        <form class="formulario2" action="/AutorBuscarPorNombre" method="GET">
+
+            <label>Resultados:</label><br>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>
+                            <p>Nombre</p>
+                        </th>
+                        <!--  <th>
+                        ID
+                    </th> -->
+                        <th>
+                            Estado
+                        </th>
+
+                    </tr>
+                </thead>
+
+                <tr th:each="autor : ${datosAutor}">
+                    <td th:text="${datosAutor.nombre}"></td>
+                    <!--  <td th:text="${datosAutor.id}"> -->
+
+                    <td th:switch="${datosAutor.alta}">
+                        <!--  este switch me permite mostrar lo que yo quieren en segun la condicion-->
+                        <p th:case="${true}">Activo</p>
+                        <p th:case="${false}">Inactivo</p>
+
+                    </td>
+                </tr>
+
+            </table>
+
+        </form>
+
+    </section>
+
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Amrap</title>
+    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
+    <link rel="stylesheet" href="CSS/fonts.css">
+
+</head>
+
+<body>
+    <h1 class="titulo">Buscar Ejercicio</h1>
+
+
+    <!-- menu desplegable comienzo  -->
+    <header>
+        <nav>
+            <ul>
+                <li> <a href="inicio"><span class="primero"><i class="icon icon-home "></i></span> Inicio</a> </li>
+                <li> <a href="ejercicios"><span class="segundo"><i class="icon icon-book"></i></span> Ejercicios</a> </li>
+                <li> <a href="rutinas"><span class="cuarto"><i class="icon icon-books"></i></span>Rutinas</a></li>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <!-- menu desplegable fin  -->
+
+
+    <section Class= principal>
+
+        <form class="formulario" action="/buscar_ejercicio" method="GET">
+
+            <label>Nombre:</label><br>
+            <input type="text" name="nombre"><br><br>
+
+            <label>Categoria:</label><br>
+            <input type="text" name="categoria"><br><br>
+
+            <button type="submit" class="boton tres"><span>Buscar</span></button>
+
+            <button type="reset" class="boton cuatro"><span>Limpiar</span></button>
+
+        </form>
+
+
+
+        <!--   ************** formulario resultados -->
+
+        <section class="formulario2" action="/buscar_ejercicio" method="GET">
+
+            <label>Resultados:</label><br>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>
+                            <p>Nombre</p>
+                        </th>
+                     
+                        <th>
+                            <p>Categoría</p>
+                        </th>
+                        <th>
+                            <p>Series</p>
+                        </th>
+                        <th>
+                            <p>Repeticiones</p>
+                        </th>
+                        <th>
+                            <p>Pausa</p>
+                        </th>
+                        <th>
+                            <p>Dificultad</p>
+                        </th>
+                        <th>
+                            <p>Kilogramos</p>
+                        </th>
+                        <th>
+                            <p>Notas</p>
+                        </th>
+                        <th>
+                            <p>Atencion</p>
+                        </th>
+
+                    </tr>
+                </thead>
+
+                <tr th:each=" listaEjercicios : ${listaEjercicios}">
+                    <td th:text="${listaEjercicios.nombre}"></td>
+                    <td th:text="${listaEjercicios.categoria}"></td>                    
+                    <td th:text="${listaEjercicios.series}"></td>
+                    <td th:text="${listaEjercicios.repeticiones}"></td>
+                    <td th:text="${listaEjercicios.pausa}"></td>
+                    <td th:text="${listaEjercicios.dificultad}"></td>
+                    <td th:text="${listaEjercicios.kilogramos}"></td>
+                    <td th:text="${listaEjercicios.notas}"></td>
+                    <td th:text="${listaEjercicios.atencion}"></td>
+
+                    <!--  <td><button class="boton2 uno "><a th:href="@{/modificar-autor(id=__${listaAutores.id}__)}"><span>Seleccionar</span></button></a></td> -->
+                    <!-- <td><button class="boton2 uno "><a th:href="@{|/modificar-autor}+'?id='+${listaAutores.id|}"><span>Seleccionar</span></a></button></td> -->
+                   <!--  <td><a th:href="@{/modificar-autor}+'?id='+${listaAutores.id}"><button class="boton2 uno" ><span>Seleccionar</span></button></a></td> -->
+                </tr>
+
+            </table>
+            
+        </section>
+
+    </section>
+
+</body>
+
+</html>
