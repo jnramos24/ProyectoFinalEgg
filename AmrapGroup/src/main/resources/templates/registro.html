@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Amrap</title>
+    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
+    <link rel="stylesheet" href="CSS/fonts.css">
+</head>
+
+<body>
+
+
+    <h1 class="titulo"><span class="letras-titulo">Amrap</span> </h1>
+
+
+    <!-- menu desplegable comienzo  -->
+    <header>
+        <nav>
+            <ul>
+                <li> <a href="inicio"><span class="primero"><i class="icon icon-home "></i></span> Inicio</a> </li>
+                <li> <a href="buscar-rutina"><span class="cuarto"><i class="icon icon-books"></i></span>Rutinas</a></li>
+                <li> <a href="buscar-ejercicio"><span class="segundo"><i class="icon icon-book"></i></span>
+                        Ejercicios</a></li>
+                <li> <a href="buscar-ejercicioNombre"><span class="quinto"><i class="icon icon-books"></i></span>Nombres
+                        de ejercicios</a></li>
+                <li> <a href="buscar-categoria"><span class="tercero"><i
+                                class="icon icon-books"></i></span>Categorias</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- menu desplegable fin  -->
+
+    <section Class=principal>
+
+        <form class="formulario" action="/registrar" method="POST" enctype="multipart/form-data">
+
+            <p th:if="${error != null}" th:text=${error} class=error></p>
+
+            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+
+
+
+
+            <label>Nombre:</label><br>
+            <input type="text" name="nombre" th:value="${nombre}"><br><br>
+
+            <label>Apellido:</label><br>
+            <input type="text" name="apellido" th:value="${apellido}"><br><br>
+
+            <label>DNI:</label><br>
+            <input type="text" name="dni" th:value="${dni}"><br><br>
+
+            <label>Email:</label><br>
+            <input type="text" name="email" th:value="${email}"><br><br>
+
+            <label>Clave:</label><br>
+            <input type="text" name="clave1" th:value="${clave1}"><br><br>
+
+            <label>Repetir Clave:</label><br>
+            <input type="text" name="clave2" th:value="${clave2}"><br><br>
+
+            <p><label> Foto </label></p>
+            <input type="file" name="archivo" />
+
+
+            <button type="submit" class="boton tres"><span>Guardar</span></button>
+
+            <button type="reset" class="boton cuatro"><span>Limpiar</span></button>
+
+        </form>
+
+    </section>
+
+
+</body>
+
+</html>

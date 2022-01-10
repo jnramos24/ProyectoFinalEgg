@@ -18,9 +18,11 @@
         <nav>
             <ul>
                 <li> <a href="inicio"><span class="primero"><i class="icon icon-home "></i></span> Inicio</a> </li>
-                <li> <a href="ejercicios"><span class="segundo"><i class="icon icon-book"></i></span> Ejercicios</a> </li>
-                <li> <a href="rutinas"><span class="cuarto"><i class="icon icon-books"></i></span>Rutinas</a></li>
-                </li>
+                <li> <a href="buscar-rutina"><span class="cuarto"><i class="icon icon-books"></i></span>Rutinas</a></li>
+                <li> <a href="buscar-ejercicio"><span class="segundo"><i class="icon icon-book"></i></span> Ejercicios</a></li>
+                <li> <a href="buscar-ejercicioNombre"><span class="quinto"><i class="icon icon-books"></i></span>Nombres de ejercicios</a></li>
+                <li> <a href="buscar-categoria"><span class="tercero"><i class="icon icon-books"></i></span>Categorias</a></li>
+                <li> <a href="logout">Salir</a></li>
             </ul>
         </nav>
     </header>
@@ -83,6 +85,9 @@
                         <th>
                             <p>Atencion</p>
                         </th>
+                        <th>
+                            <p>Video</p>
+                        </th>
 
                     </tr>
                 </thead>
@@ -97,6 +102,7 @@
                     <td th:text="${listaEjercicios.kilogramos}"></td>
                     <td th:text="${listaEjercicios.notas}"></td>
                     <td th:text="${listaEjercicios.atencion}"></td>
+                    <td><button class="boton2 uno "><a th:href="${listaEjercicios.video}" target="_blank"><span>Video</span></button></a></td> 
 
                     <!--  <td><button class="boton2 uno "><a th:href="@{/modificar-autor(id=__${listaAutores.id}__)}"><span>Seleccionar</span></button></a></td> -->
                     <!-- <td><button class="boton2 uno "><a th:href="@{|/modificar-autor}+'?id='+${listaAutores.id|}"><span>Seleccionar</span></a></button></td> -->

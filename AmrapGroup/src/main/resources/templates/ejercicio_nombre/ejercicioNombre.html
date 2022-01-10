@@ -9,9 +9,8 @@
 </head>
 
 <body>
-
     
-    <h1 class="titulo"><span class="letras-titulo">Amrap</span> </h1>
+    <h1 class="titulo">Nombres de ejercicios</h1>
 
 
     <!-- menu desplegable comienzo  -->
@@ -19,17 +18,30 @@
         <nav>
             <ul>
                 <li> <a href="inicio"><span class="primero"><i class="icon icon-home "></i></span> Inicio</a> </li>
-                <li> <a href="login"><span class="sexto"><i class="icon icon-home "></i></span>login</a> </li>
-                <li> <a href="buscar-rutina"><span class="cuarto"><i class="icon icon-books"></i></span>Rutinas</a></li>
-                <li> <a href="buscar-ejercicio"><span class="segundo"><i class="icon icon-book"></i></span> Ejercicios</a></li>
+                <li> <a href="rutinas"><span class="cuarto"><i class="icon icon-books"></i></span>Rutinas</a></li>
+                <li> <a href="ejercicios"><span class="segundo"><i class="icon icon-book"></i></span> Ejercicios</a></li>
                 <li> <a href="buscar-ejercicioNombre"><span class="quinto"><i class="icon icon-books"></i></span>Nombres de ejercicios</a></li>
                 <li> <a href="buscar-categoria"><span class="tercero"><i class="icon icon-books"></i></span>Categorias</a></li>
-                
+
+
             </ul>
         </nav>
     </header>
     <!-- menu desplegable fin  -->
 
+    <!--  botones inicio -->
+    ><div class="contenedor">
+        <div class="contenedor-botones">
+
+            <a id="a" th:href="@{nuevo-ejercicioNombre}"><button class="boton tres"><span>Crear Nombre de ejer.</span> </button></a>
+            <a  th:href="@{/buscar-ejercicioNombre}"><button class="boton cuatro"><span>Buscar Nombre de ejer. </span></button></a>
+        
+      
+        </div>
+    </div>
+    <!--  botones fin -->
+
 </body>
 
 </html>
+

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Amrap</title>
+    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
+    <link rel="stylesheet" href="CSS/fonts.css">
+
+</head>
+
+<body>
+    <h1 class="titulo">Buscar Nombres de Ejercicios</h1>
+
+
+    <!-- menu desplegable comienzo  -->
+    <header>
+        <nav>
+            <ul>
+                <li> <a href="inicio"><span class="primero"><i class="icon icon-home "></i></span> Inicio</a> </li>
+                <li> <a href="rutinas"><span class="cuarto"><i class="icon icon-books"></i></span>Rutinas</a></li>
+                <li> <a href="buscar-ejercicio"><span class="segundo"><i class="icon icon-book"></i></span> Ejercicios</a></li>
+                <li> <a href="buscar-ejercicioNombre"><span class="quinto"><i class="icon icon-books"></i></span>Nombres de ejercicios</a></li>
+                <li> <a href="buscar-categoria"><span class="tercero"><i class="icon icon-books"></i></span>Categorias</a></li>
+                <li> <a href="logout">Salir</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- menu desplegable fin  -->
+
+
+    <section Class=principal>
+
+        <div class="formulario">
+            <div>
+                <a id="a" th:href="@{nuevo-ejercicioNombre}"><button class="boton tres"><span>Crear Nombre ejer.</span></button></a>
+                <a th:href="@{/listar-ejercicioNombres}"><button class="boton cuatro"><span>Listar</span></button></a><br><br>
+            </div>
+
+            <form action="/buscar-ejercicioNombre" method="GET">
+
+                <p th:if="${error != null}" th:text=${error} class=error></p>
+                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+
+                <label>Nombre:</label><br>
+
+                <select class="alta" name="nombre">
+                    <option></option>
+                    <option th:each="listaEjercNomb : ${listaEjercNomb}" th:value="${listaEjercNomb.nombre}" th:text="${listaEjercNomb.nombre}"></option>
+                </select><br><br>
+
+                <label>CategorÍa:</label><br>
+                <select class="alta" name="idCategoria">
+                    <option></option>
+                    <option th:each="categorias : ${categorias}" th:value="${categorias.id}" th:text="${categorias.nombre}"></option>
+                </select><br><br>
+
+                <button type="submit" class="boton tres"><span>Buscar</span></button>
+
+            </form>
+
+        </div>
+
+
+        <!--   ************** formulario resultados -->
+
+        <section class="formulario2" action="/buscar-ejercicioNombre" method="GET">
+
+            <label>NOMBRES DE EJERCICIOS</label><br><br>
+
+            <p th:if="${error != null}" th:text=${error} class=error></p>
+            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>
+                            <p>Nombre</p>
+                        </th>
+
+                        <th>
+                            <p>Categoria</p>
+                        </th>
+
+                        <th>
+                            <p>video</p>
+                        </th>
+                        <th>
+                            <p>Acciones</p>
+                        </th>
+
+                    </tr>
+                </thead>
+
+                <tr th:each=" listaEjerciciosNombres : ${listaEjerciciosNombres}">
+                    <td th:text="${listaEjerciciosNombres.nombre}"></td>
+                    <td th:text="${listaEjerciciosNombres.categoria.nombre}"></td>
+                    <td><button class="boton2 uno "><a th:href="${listaEjerciciosNombres.video}" target="_blank"><span>Ver video</span></button></a></td>
+                    <td>
+                        <a th:href="@{/modificar-ejercicioNombre}+'?id='+${listaEjerciciosNombres.id}"><button class="boton2 uno"><span>Editar</span></button></a>    
+                        <a th:href="@{/eliminar-ejercicioNombre}+'?id='+${listaEjerciciosNombres.id}"><button class="boton2 uno"><span>Eliminar</span></button></a>                    
+                    </td>
+   
+                </tr>
+
+            </table>
+
+        </section>
+
+    </section>
+
+</body>
+
+</html>
