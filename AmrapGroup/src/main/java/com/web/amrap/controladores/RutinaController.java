@@ -2,12 +2,12 @@ package com.web.amrap.controladores;
 
 import com.web.amrap.entidades.Ejercicio;
 import com.web.amrap.entidades.Rutina;
+import com.web.amrap.entidades.Usuario;
 import com.web.amrap.errores.ErrorServicio;
 import com.web.amrap.implementacion.RutinaImplement;
-import java.util.ArrayList;
+import com.web.amrap.implementacion.UsuarioImplement;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -25,15 +25,18 @@ public class RutinaController {
     private RutinaImplement rutinaImplement;
 
     @Autowired
-    private EjercicioController ejercicioController;
-
+    private UsuarioImplement usuarioImplement;
+    
+    
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/listar-rutinas")
-    public String listarRutinas(ModelMap modelo) {
+    public String listarRutinasPorId(ModelMap modelo, HttpSession session) {
 
         try {
 
-            List<Rutina> rutinas = rutinaImplement.listarRutinas();
+            Usuario login = (Usuario) session.getAttribute("usuariosession");
+
+            List<Rutina> rutinas = rutinaImplement.buscarRutinaPorUsuario(login.getId());
             modelo.addAttribute("rutinas", rutinas);
 
         } catch (ErrorServicio ex) {
@@ -44,84 +47,70 @@ public class RutinaController {
 
         return "/rutina/rutinas_busqueda.html";
     }
+    
+    
+
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("/buscar-rutina")
+    public String buscarRutina(ModelMap modelo, HttpSession session,
+            @RequestParam (required = false) String idUsuario) {
+
+        try {
+
+            List<Rutina> rutinas = rutinaImplement.buscarRutinaPorUsuario(idUsuario);
+            modelo.addAttribute("rutinas", rutinas);
+
+        } catch (ErrorServicio ex) {
+
+            modelo.put("error", ex.getMessage());
+            return "/rutina/rutinas_busqueda.html";
+        }
+
+        return "/rutina/rutinas_buscar.html";
+    }
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/nueva-rutina")
-    public String cargarRutina(ModelMap modelo) {
+    public String cargarRutina(ModelMap modelo, HttpSession session) {
 
-//        List<Rutina> rutinas = null;
-//
-//        try {
-//
-//            rutinas = rutinaImplement.listarRutinas();
-//            modelo.put("rutinas", rutinas);
-//
-//        } catch (ErrorServicio ex) {
-//
-//            modelo.put("error", ex.getMessage());
-//        }
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuariosession");
+        modelo.put("usuarioLogueado", usuarioLogueado);
+
         return "/rutina/rutinas_cargar.html";
     }
+    
+    
 
-  
-    @PostMapping("/cargar-rutina")
-    public String rutinasCargar(ModelMap modelo, String objetivo) {
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PostMapping("/crear-rutina")
+    public String cargarRutina(ModelMap modelo, HttpSession session,
+            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) String objetivo,
+            @RequestParam String idUsuario) {
 
-        Rutina rutina = new Rutina();
-      
+        System.out.println("**************** este es el id que entra como parametro: " + idUsuario);
 
-        rutina.setObjetivo(objetivo);
-   
+        Usuario login = (Usuario) session.getAttribute("usuariosession");
+        if (login == null || !login.getId().equals(idUsuario)) {
+            return "redirect:/inicio";
+        }
+
         try {
+            Usuario usuario = usuarioImplement.buscarUsuarioPorId(idUsuario);
+            modelo.addAttribute("perfil", usuario);
 
-            rutinaImplement.crearRutina(objetivo, objetivo, objetivo);
+            rutinaImplement.crearRutina(idUsuario, nombre, objetivo);
+
             modelo.put("exito", "La rutina, se cargó correctamente");
 
         } catch (ErrorServicio ex) {
 
             modelo.put("error", ex.getMessage());
-
+            modelo.put("nombre", nombre);
             modelo.put("objetivo", objetivo);
 
-            return "/rutina/rutinas_cargar.html";
+            return "redirect:/inicio";
         }
-        return "/rutina/rutinas_cargar.html";
+        return "redirect:/listar-rutinas";
     }
-    
-//    
-//    @GetMapping("/buscar-rutina")
-//    public String buscarEjercicio(ModelMap modelo,
-//            @RequestParam(required = false) String idNombre,
-//            @RequestParam(required = false) String idCategoria) {
-//
-//        List<EjercicioNombre> nombresEjercicios = null;
-//        List<Categoria> categorias = null;
-//
-//        try {
-//
-//            nombresEjercicios = ejercicioNombreImplement.listarEjercicioNombre(); //manda la lista de nombre de ejercicios a la vista
-//            modelo.put("nombresEjercicios", nombresEjercicios);
-//
-//            categorias = categoriaImplement.listarCategorias(); //manda la lista de nombre de categorias a la vista
-//            modelo.put("categorias", categorias);
-//
-//            if (idNombre != null && !idNombre.isEmpty()) {
-//
-//                List<Ejercicio> listaEjercicios = ejercicioImplement.buscarPorNombre(idNombre);
-//                modelo.addAttribute("listaEjercicios", listaEjercicios); // ver si asi se renderiza bien
-//
-//            } else if (idCategoria != null && !idCategoria.isEmpty()) {
-//
-//                List<Ejercicio> listaEjercicios = ejercicioImplement.buscarPorCategoria(idCategoria);
-//                modelo.addAttribute("listaEjercicios", listaEjercicios);
-//            }
-//
-//        } catch (ErrorServicio ex) {
-//            modelo.put("error", ex.getMessage());
-//            return "/rutina/rutinas_busqueda.html";
-//        }
-//
-//        return "/rutina/rutinas_busqueda.html";
-//    }
-
 }

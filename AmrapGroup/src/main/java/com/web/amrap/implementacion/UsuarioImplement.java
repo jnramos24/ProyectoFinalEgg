@@ -33,7 +33,8 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
     @Override
     public void registarUsuario(String nombre, String apellido, String dni, String email, String clave1, String clave2, MultipartFile archivo) throws ErrorServicio {
 
-        validarDatos(nombre, apellido, email, dni, clave1, clave2);
+        validarDatos(nombre, apellido, email, dni);
+        validarClaves(clave1, clave2);
 
         Usuario usuario = new Usuario();
 
@@ -48,15 +49,14 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
 
 //        Foto foto = fotoServicio.guardar(archivo);
 //        usuario.setFoto(foto);
-
         usuarioRepositorio.save(usuario);
     }
 
     @Transactional
     @Override
-    public void modificarUsuario(String id, String nombre, String apellido, String dni, String email, String clave1, String clave2, MultipartFile archivo) throws ErrorServicio {
+    public void modificarUsuario(String id, String nombre, String apellido, String dni, String email, MultipartFile archivo) throws ErrorServicio {
 
-        validarDatos(nombre, apellido, email, dni, clave1, clave2);
+        validarDatos(nombre, apellido, email, dni);
 
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
 
@@ -69,8 +69,7 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
             usuario.setEmail(email);
             usuario.setDni(dni);
 
-            String claveEncriptada = new BCryptPasswordEncoder().encode(clave1);
-            usuario.setClave(claveEncriptada);
+
 
 //            String idFoto = null;
 //
@@ -79,14 +78,13 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
 //            }
 //            Foto foto = fotoServicio.actualizarFoto(idFoto, archivo);
 //            usuario.setFoto(foto);
-
             usuarioRepositorio.save(usuario);
 
         } else {
             throw new ErrorServicio("No se encontró el usuario");
         }
     }
-    
+
     @Transactional
     @Override
     public Usuario buscarUsuarioPorId(String id) throws ErrorServicio {
@@ -100,11 +98,10 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
             return usuario;
 
         } else {
-            throw new ErrorServicio("No se encontro ningún ejercicio");
+            throw new ErrorServicio("No se encontro ningún usuario");
         }
 
     }
-    
 
     @Transactional
     @Override
@@ -144,9 +141,9 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
         }
     }
 
-    @Transactional
+   
     @Override
-    public void validarDatos(String nombre, String apellido, String email, String dni, String clave1, String clave2) throws ErrorServicio {
+    public void validarDatos(String nombre, String apellido, String email, String dni) throws ErrorServicio {
 
         if (nombre == null || nombre.isEmpty()) {
             throw new ErrorServicio("El nombre, no puede ser nulo.");
@@ -164,19 +161,12 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
             throw new ErrorServicio("El dni no puede ser nulo.");
         }
 
-        if (clave1 == null || clave1.isEmpty() || clave1.length() < 6) {
-            throw new ErrorServicio("La clave no puede ser nula, y tiene que ser de 6 o mas caracteres.");
-        }
-        
-         if (!clave1.equals(clave2)) {
-            throw new ErrorServicio("Las claves deben ser iguales");
-        }
     }
 
-  @Override
+    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepositorio.buscarUsuarioPorMail(email);
-        
+
         System.out.println("******************************* este es el usuario que encontró para cuando quiera logearme: " + usuario);
 
         if (usuario != null) {
@@ -193,6 +183,40 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
             return user;
         } else {
             return null;
+        }
+    }
+
+    //******************************
+    @Override
+    public void modificarClaveUsuario(String id, String clave1, String clave2) throws ErrorServicio {
+
+        validarClaves(clave1, clave2);
+
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+
+        if (respuesta.isPresent()) {
+
+            Usuario usuario = respuesta.get();
+
+            String claveEncriptada = new BCryptPasswordEncoder().encode(clave1);
+            usuario.setClave(claveEncriptada);
+
+            usuarioRepositorio.save(usuario);
+
+        } else {
+            throw new ErrorServicio("No se encontró el usuario");
+        }
+    }
+
+    @Override
+    public void validarClaves(String clave1, String clave2) throws ErrorServicio {
+
+        if (clave1 == null || clave1.isEmpty() || clave1.length() < 6) {
+            throw new ErrorServicio("La clave no puede ser nula, y tiene que tener 6 o más caracteres.");
+        }
+
+        if (!clave1.equals(clave2)) {
+            throw new ErrorServicio("Las claves deben ser iguales");
         }
     }
 

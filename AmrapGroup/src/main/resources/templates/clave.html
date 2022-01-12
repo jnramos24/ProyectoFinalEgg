@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Amrap</title>
+    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
+    <link rel="stylesheet" href="CSS/fonts.css">
+</head>
+
+<body>
+
+
+    <h1 class="titulo"><span class="letras-titulo">Amrap</span> </h1>
+
+
+    <!-- menu desplegable comienzo  -->
+    <header th:replace="/inicio.html::header"></header>
+    <!-- menu desplegable fin  -->
+
+    <section Class=principal>
+
+
+        <form class= formulario action="/actualizar-clave" method="POST" enctype="multipart/form-data">
+
+            <h1>Modificar Clave</h1><br>
+
+            <p th:if="${error != null}" th:text=${error} class=error></p>
+
+            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+  
+
+            <input type="hidden" name="id" th:value="${perfil.id}"/>
+
+        
+            <p> <label> Clave </label></p>
+            <input type="password" name="clave1" th:value="${clave1}"/><br><br>
+            
+            <p> <label> Repetir Clave </label></p>
+            <input type="password"  name="clave2" th:value="${clave2}"/><br><br>
+            
+            <button type="submit" class="boton tres"><span>Guardar cambios</span></button>
+
+        </form>
+
+    </section>
+
+
+</body>
+
+</html>

@@ -21,11 +21,14 @@ public class UsuarioController {
     @Autowired
     private UsuarioImplement usuarioImplement;
 
+    
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/")
     public String index() {
         return "index.html";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/inicio")
     public String inicio() {
         return "inicio.html";
@@ -47,7 +50,7 @@ public class UsuarioController {
 
         try {
             usuarioImplement.registarUsuario(nombre, apellido, dni, email, clave1, clave2, null);
-            
+
             modelo.put("exito", "El usuario, se registró correctamente");
 
         } catch (ErrorServicio ex) {
@@ -62,6 +65,7 @@ public class UsuarioController {
             return "registro.html";
         }
         return "redirect:/login";
+//        return "registrado.html";// lu
 
     }
 
@@ -75,7 +79,7 @@ public class UsuarioController {
         }
         if (logout != null) {
             model.put("logout", "Ha salido correctamente de la plataforma");
-            
+
             return "login.html";
         }
 
@@ -108,7 +112,60 @@ public class UsuarioController {
             @RequestParam String nombre,
             @RequestParam String apellido,
             @RequestParam String dni,
-            @RequestParam String email,
+            @RequestParam String email) {
+
+        Usuario usuario = null;
+
+        try {
+            Usuario login = (Usuario) session.getAttribute("usuariosession");
+            if (login == null || !login.getId().equals(id)) {
+                return "redirect:/inicio";
+            }
+            usuario = usuarioImplement.buscarUsuarioPorId(id);
+
+            usuarioImplement.modificarUsuario(id, nombre, apellido, dni, email, archivo);
+
+            session.setAttribute("usuariosession", usuario);
+
+            return "inicio.html";
+
+        } catch (ErrorServicio ex) {
+
+            modelo.put("error", ex.getMessage());
+            modelo.put("perfil", usuario);
+
+            return "perfil.html";
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("/modificar-clave")
+    public String modificarClave(ModelMap model, HttpSession session,
+            @RequestParam String id) {
+
+        model.addAttribute("cambiarClave", "cambiarClave");
+
+        Usuario login = (Usuario) session.getAttribute("usuariosession");
+        if (login == null || !login.getId().equals(id)) {
+            return "redirect:/inicio";
+        }
+
+        try {
+            Usuario usuario = usuarioImplement.buscarUsuarioPorId(id);
+            model.addAttribute("perfil", usuario); 
+
+        } catch (ErrorServicio e) {
+
+            model.addAttribute("error", e.getMessage());
+        }
+        return "clave.html";
+    }
+    
+    
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PostMapping("/actualizar-clave")
+    public String actualizacionClave(ModelMap modelo, HttpSession session,
+            @RequestParam String id,
             @RequestParam String clave1,
             @RequestParam String clave2) {
 
@@ -121,18 +178,20 @@ public class UsuarioController {
             }
             usuario = usuarioImplement.buscarUsuarioPorId(id);
 
-            usuarioImplement.modificarUsuario(id, nombre, apellido, dni, email, clave1, clave2, archivo);
-
+            usuarioImplement.modificarClaveUsuario(id, clave1, clave2);
             session.setAttribute("usuariosession", usuario);
+            
+            modelo.put("exito", "La clave se modificó correctamente");
 
-            return "redirect:/inicio";
+            return "inicio.html";
 
         } catch (ErrorServicio ex) {
 
             modelo.put("error", ex.getMessage());
             modelo.put("perfil", usuario);
 
-            return "perfil.html";
+            return "clave.html";
         }
     }
+
 }

@@ -15,13 +15,13 @@
 
 
     <!-- menu desplegable comienzo  -->
-    <header>
+    <header th:fragment="header">
         <nav>
             <ul>
                 <li> <a href="inicio"><span class="primero"><i class="icon icon-home "></i></span> Inicio</a> </li>
-              <!--   <li> <a href="registro"><span class="tercero"><i class="icon icon-home "></i></span> Registrar usuario</a> </li>
-                <li> <a href="login"><span class="sexto"><i class="icon icon-home "></i></span>login</a> </li> -->
-                <li> <a href="buscar-rutina"><span class="cuarto"><i class="icon icon-books"></i></span>Rutinas</a></li>
+                <li> <a th:href="@{/editar-perfil}+'?id='+${session.usuariosession.id}"><span class="segundo"><i class="icon icon-books"></i></span>Configurar Usuario</a></li>
+                <!-- <li> <a th:href="@{/buscar-rutina}+'?idUsuario='+${session.usuariosession.id}"><span class="cuarto"><i class="icon icon-books"></i></span>Rutinas</a></li> -->
+                <li> <a th:href="@{/buscar-rutina}"><span class="cuarto"><i class="icon icon-books"></i></span>Rutinas</a></li>
                 <li> <a href="buscar-ejercicio"><span class="segundo"><i class="icon icon-book"></i></span> Ejercicios</a></li>
                 <li> <a href="buscar-ejercicioNombre"><span class="quinto"><i class="icon icon-books"></i></span>Nombres de ejercicios</a></li>
                 <li> <a href="buscar-categoria"><span class="tercero"><i class="icon icon-books"></i></span>Categorias</a></li>

@@ -19,5 +19,7 @@ public interface RutinaService {
     
     public List<Rutina> listarRutinas() throws ErrorServicio;
     
-    public Rutina buscarRutinaPorId(String id) throws ErrorServicio;    
+    public Rutina buscarRutinaPorId(String id) throws ErrorServicio;   
+    
+    public List<Rutina> buscarRutinaPorUsuario(String idUsuario) throws ErrorServicio;
 }

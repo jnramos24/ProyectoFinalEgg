@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Amrap</title>
+    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
+    <link rel="stylesheet" href="CSS/fonts.css">
+</head>
+
+<body>
+
+
+    <h1 class="titulo"><span class="letras-titulo">Amrap</span> </h1>
+
+
+    <!-- menu desplegable comienzo  -->
+    <header th:replace="/inicio.html::header"></header>
+    <!-- menu desplegable fin  -->
+
+    <section Class=principal>
+
+
+
+
+        <div class=formulario>
+
+            <h1>Editar Perfil</h1><br>
+
+
+            <form action="/actualizar-perfil" method="POST" enctype="multipart/form-data">
+
+
+
+                <p th:if="${error != null}" th:text=${error} class=error></p>
+
+                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+
+
+                <input type="hidden" name="id" th:value="${perfil.id}" />
+
+                <p><label> Nombre </label></p>
+                <input type="text" name="nombre" th:value="${perfil.nombre}" /><br><br>
+
+                <p><label> Apellido </label></p>
+                <input type="text" name="apellido" th:value="${perfil.apellido}" /><br><br>
+
+                <p><label> DNI </label></p>
+                <input type="text" name="dni" th:value="${perfil.dni}" /><br><br>
+
+                <p><label> E-mail </label></p>
+                <input type="email" name="email" th:value="${perfil.email}" /><br><br>
+
+
+                <p><label> Foto </label></p>
+                <input type="file" name="archivo" /><br><br>
+
+
+                <button type="submit" class="boton tres"><span>Guardar cambios</span></button>
+
+            </form>
+
+
+            <div>
+                <a th:href="@{/modificar-clave}+'?id='+${session.usuariosession.id}" id="a"><button
+                        class="boton tres"><span>Cambiar clave</span></button></a>
+            </div>
+        </div>
+
+    </section>
+
+
+</body>
+
+</html>

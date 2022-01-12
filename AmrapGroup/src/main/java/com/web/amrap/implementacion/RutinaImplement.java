@@ -98,7 +98,21 @@ public class RutinaImplement implements RutinaService {
             return rutinas;
 
         } else {
-            throw new ErrorServicio("No se encontró ningun ejercicio.");
+            throw new ErrorServicio("No se encontró ninguna rutina.");
+        }
+    }
+    
+    @Override
+    public List<Rutina> buscarRutinaPorUsuario(String idUsuario) throws ErrorServicio {
+
+        List<Rutina> rutinas = rutinaRepositorio.buscarRutinaPorUsuario(idUsuario);
+
+        if (rutinas != null && !rutinas.isEmpty()) {
+
+            return rutinas;
+
+        } else {
+            throw new ErrorServicio("No se encontró ninguna rutina.");
         }
     }
 

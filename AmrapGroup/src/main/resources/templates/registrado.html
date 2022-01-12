@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Amrap</title>
+    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
+    <link rel="stylesheet" href="CSS/fonts.css">
+</head>
+
+<body>
+
+
+    <h1 class="titulo"><span class="letras-titulo">Amrap</span> </h1>
+
+
+    <!-- menu desplegable comienzo  -->
+    <header>
+        <nav>
+            <ul>
+                <li> <a href="inicio"><span class="primero"><i class="icon icon-home "></i></span> Inicio</a> </li>
+                <li> <a href="buscar-rutina"><span class="cuarto"><i class="icon icon-books"></i></span>Rutinas</a></li>
+                <li> <a href="buscar-ejercicio"><span class="segundo"><i class="icon icon-book"></i></span>
+                        Ejercicios</a></li>
+                <li> <a href="buscar-ejercicioNombre"><span class="quinto"><i class="icon icon-books"></i></span>Nombres
+                        de ejercicios</a></li>
+                <li> <a href="buscar-categoria"><span class="tercero"><i
+                                class="icon icon-books"></i></span>Categorias</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- menu desplegable fin  -->
+
+    <section Class=principal>
+
+        <nav>
+            <ul>
+                <!-- <li> <a th:href="@{/editar-perfil(id=__${session.usuariosession.id}__)}"></i></span> Configurar usuario</a> </li> -->
+           
+            </ul>
+        </nav>
+
+        <div class="formulario" >
+
+            <p th:if="${error != null}" th:text=${error} class=error></p>
+
+            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+
+
+        </div>
+
+    </section>
+
+
+</body>
+
+</html>
