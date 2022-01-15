@@ -12,11 +12,14 @@ import org.springframework.stereotype.Repository;
 public interface EjercicioRepositorio extends JpaRepository<Ejercicio, String> {
 
     
+    @Query("SELECT c FROM Ejercicio c WHERE c.ejercicioNombre.id like %:idNombre% AND c.rutina.id = :idRutina")
+    public List<Ejercicio> buscarPorNombre(@Param("idNombre") String idNombre, @Param("idRutina") String idRutina);
+    
     @Query("SELECT c FROM Ejercicio c WHERE c.ejercicioNombre.id like %:idNombre%")
-    public List<Ejercicio> buscarPorNombre(@Param("idNombre") String idNombre);
+    public List<Ejercicio> buscarPorNombreEjercicio(@Param("idNombre") String idNombre);
 
-    @Query("SELECT c FROM Ejercicio c WHERE c.ejercicioNombre.categoria.id like %:idCategoria%")
-    public List<Ejercicio> buscarPorCategoria(@Param("idCategoria") String idCategoria);
+    @Query("SELECT c FROM Ejercicio c WHERE c.ejercicioNombre.categoria.id like %:idCategoria% AND c.rutina.id = :idRutina")
+    public List<Ejercicio> buscarPorCategoria(@Param("idCategoria") String idCategoria, @Param("idRutina") String idRutina);
     
     @Query("SELECT c FROM Ejercicio c WHERE c.identificador like :identificador")
     public Optional<Ejercicio> buscarPorIdentificador(@Param("identificador") String identificador);

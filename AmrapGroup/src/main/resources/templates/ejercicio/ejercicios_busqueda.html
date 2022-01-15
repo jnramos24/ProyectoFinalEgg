@@ -23,9 +23,12 @@
         <div class="formulario">
 
             <div>
-                <a id="a" th:href="@{nuevo-ejercicio}"><button class="boton tres"><span>Crear Ejercicio</span></button></a>
-                <a th:href="@{/listar-ejercicios}"><button
-                        class="boton cuatro"><span>Listar</span></button></a><br><br>
+                <a id="a" th:href="@{nuevo-ejercicio (idRutina=${idRutina})}"><button class="boton tres"><span>Crear Ejercicio</span></button></a>
+                <!--  en esta url, le sumamos al metodo nuevo-ejercicio, el id de rutina, que lo recibimos en la vista por medio de un model, que a vez, venia como un requestparam -->
+
+                <a th:href="@{/listar-ejercicios (idRutina=${idRutina})}"><button class="boton cuatro"><span>Listar</span></button></a><br><br>
+                  <!--  en esta url, le sumamos al metodo nuevo-ejercicio, el id de rutina, que lo recibimos en la vista por medio de un model, que a vez, venia como un requestparam -->
+                  
             </div>
 
             <form  action="/buscar-ejercicio" method="GET">
@@ -33,6 +36,8 @@
                 <p th:if="${error != null}" th:text=${error} class=error></p>
                 <p th:if="${exito != null}" th:text=${exito} class=exito></p>
 
+
+                <input type="hidden" name="idRutina" th:value="${idRutina}">
 
                 <label>Nombre:</label><br>
                 <select class="alta" name="idNombre">
@@ -57,7 +62,7 @@
 
         <!--   ************** formulario resultados -->
 
-        <section class="formulario2" action="/buscar_ejercicio" method="GET">
+        <section class="formulario2" action="/buscar-ejercicio" method="GET">
 
             <label>EJERCICIOS:</label><br><br>
 

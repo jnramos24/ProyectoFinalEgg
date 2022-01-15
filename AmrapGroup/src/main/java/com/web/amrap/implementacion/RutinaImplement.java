@@ -52,16 +52,15 @@ public class RutinaImplement implements RutinaService {
             Rutina rutina = respuesta.get();
 
             if (rutina.getUsuario().getId().equals(idUsuario)) {
-                
+
                 rutina.setNombre(nombre);
                 rutina.setObjetivo(objetivo);
-                
-                 rutinaRepositorio.save(rutina);
+
+                rutinaRepositorio.save(rutina);
             } else {
                 throw new ErrorServicio("El usuario no tiene permisos suficientes para realizar la modificación");
             }
 
-           
         } else {
             throw new ErrorServicio("No se encontró ninguna rutina con este id.");
         }
@@ -69,16 +68,16 @@ public class RutinaImplement implements RutinaService {
 
     @Transactional
     @Override
-    public void eliminarRutina(String idUsuario,String idRutina) throws ErrorServicio {
+    public void eliminarRutina(String idUsuario, String idRutina) throws ErrorServicio {
 
         Optional<Rutina> respuesta = rutinaRepositorio.findById(idRutina);
 
         if (respuesta.isPresent()) {
-            
+
             if (respuesta.get().getUsuario().getId().equals(idUsuario)) {
-                       
-                 rutinaRepositorio.deleteById(idRutina);
-                 
+
+                rutinaRepositorio.deleteById(idRutina);
+
             } else {
                 throw new ErrorServicio("El usuario no tiene permisos suficientes para realizar la modificación");
             }
@@ -101,7 +100,7 @@ public class RutinaImplement implements RutinaService {
             throw new ErrorServicio("No se encontró ninguna rutina.");
         }
     }
-    
+
     @Override
     public List<Rutina> buscarRutinaPorUsuario(String idUsuario) throws ErrorServicio {
 

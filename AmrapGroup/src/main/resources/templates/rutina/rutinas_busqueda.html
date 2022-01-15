@@ -73,6 +73,13 @@
                     <td th:text="${rutinas.nombre}"></td>
                     <td th:text="${rutinas.objetivo}"></td>
 
+                    <td>
+                        <a th:href="@{/modificar-rutina (idUsuario=${rutinas.usuario.id},idRutina=${rutinas.id})}"><button class="boton2 uno"><span>Editar</span></button></a>  
+                        <a th:href="@{/eliminar-rutina (idUsuario=${rutinas.usuario.id},idRutina=${rutinas.id})}"><button class="boton2 uno"><span>Eliminar</span></button></a>  
+                        <!--  de esta manera se envia una hiperlink con dos o mas parametros para recibirlos en el controlador. -->
+                        <a th:href="@{/listar-ejercicios (idRutina=${rutinas.id})}"><button class="boton2 uno"><span>Ejercicios</span></button></a>
+                    </td>
+
 
                 </tr>
 

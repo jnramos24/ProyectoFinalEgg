@@ -26,8 +26,7 @@ public class RutinaController {
 
     @Autowired
     private UsuarioImplement usuarioImplement;
-    
-    
+
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/listar-rutinas")
     public String listarRutinasPorId(ModelMap modelo, HttpSession session) {
@@ -47,13 +46,11 @@ public class RutinaController {
 
         return "/rutina/rutinas_busqueda.html";
     }
-    
-    
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/buscar-rutina")
     public String buscarRutina(ModelMap modelo, HttpSession session,
-            @RequestParam (required = false) String idUsuario) {
+            @RequestParam(required = false) String idUsuario) {
 
         try {
 
@@ -78,8 +75,6 @@ public class RutinaController {
 
         return "/rutina/rutinas_cargar.html";
     }
-    
-    
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @PostMapping("/crear-rutina")
@@ -113,4 +108,92 @@ public class RutinaController {
         }
         return "redirect:/listar-rutinas";
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("/modificar-rutina")
+    public String modificarRutina(ModelMap modelo, HttpSession session,
+            @RequestParam String idUsuario,
+            @RequestParam String idRutina) {
+
+        Usuario login = (Usuario) session.getAttribute("usuariosession");
+        if (login == null || !login.getId().equals(idUsuario)) {
+            return "redirect:/inicio";
+        }
+
+        try {
+
+            Rutina rutina = rutinaImplement.buscarRutinaPorId(idRutina);
+            modelo.addAttribute("rutina", rutina);
+            
+            modelo.addAttribute("idUsuario", idUsuario);
+  
+            return "/rutina/rutinas_modificar.html";
+
+        } catch (ErrorServicio ex) {
+
+            modelo.addAttribute("error", ex.getMessage());
+
+            return "/rutina/rutinas_modificar.html";
+        }
+
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PostMapping("/actualizar-rutina")
+    public String actualizarRutina(ModelMap modelo, HttpSession session,
+            @RequestParam String idUsuario,
+            @RequestParam String idRutina,
+            @RequestParam String nombre,
+            @RequestParam String objetivo) {
+
+        Rutina rutina = null;
+
+        try {
+
+            rutina = rutinaImplement.buscarRutinaPorId(idRutina);
+
+            rutinaImplement.modificarRutina(idUsuario, idRutina, nombre, objetivo);
+
+            rutina = rutinaImplement.buscarRutinaPorId(idRutina);
+            modelo.put("rutina", rutina);
+
+            modelo.put("exito", "La rutina, se modificó correctamente");
+
+            return "/rutina/rutinas_modificar.html";
+
+        } catch (ErrorServicio ex) {
+
+            modelo.put("error", ex.getMessage());
+            modelo.put("rutina", rutina);
+
+            return "/rutina/rutinas_modificar.html";
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("/eliminar-rutina")
+    public String eliminarRutina(ModelMap modelo, HttpSession session,
+            @RequestParam String idUsuario,
+            @RequestParam String idRutina) {
+
+        Usuario login = (Usuario) session.getAttribute("usuariosession");
+        if (login == null || !login.getId().equals(idUsuario)) {
+            return "redirect:/inicio";
+        }
+
+        try {
+            rutinaImplement.eliminarRutina(idUsuario, idRutina);
+
+            modelo.put("exito", "La rutina se eliminó correctamente");
+
+            return "redirect:/listar-rutinas";
+
+        } catch (ErrorServicio ex) {
+            modelo.put("error", ex.getMessage());
+
+            return "/rutina/rutinas_buscar.html";
+        }
+
+    }
+
 }

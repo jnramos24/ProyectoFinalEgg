@@ -28,7 +28,7 @@ public class EjercicioImplement implements EjercicioService {
 
     @Autowired
     IdentificadorImplement identificadorImplement;
-    
+
     @Autowired
     RutinaRepositorio rutinaRepositorio;
 
@@ -38,7 +38,7 @@ public class EjercicioImplement implements EjercicioService {
             String kilogramos, String notas, String atencion, String idEjercNom, String idRutina) throws ErrorServicio {
 
         EjercicioNombre ejercicioNombre = ejercicioNombreRepositorio.findById(idEjercNom).get();
-        
+
         Rutina rutina = rutinaRepositorio.findById(idRutina).get();
 
         validarDatos(rutina, ejercicioNombre, series, repeticiones, pausa, dificultad, kilogramos);
@@ -67,14 +67,14 @@ public class EjercicioImplement implements EjercicioService {
 
     @Transactional
     @Override
-    public void modificarEjercicio(String id, Integer series, Integer repeticiones,Integer pausa,Integer dificultad, 
+    public void modificarEjercicio(String id, Integer series, Integer repeticiones, Integer pausa, Integer dificultad,
             String kilogramos, String notas, String atencion, String idEjercNom, String idRutina) throws ErrorServicio {
 
         EjercicioNombre ejercicioNombre = ejercicioNombreRepositorio.findById(idEjercNom).get();
-        
+
         Rutina rutina = rutinaRepositorio.findById(idRutina).get();
 
-        validarDatos(rutina,ejercicioNombre, series, repeticiones, pausa, dificultad, kilogramos);
+        validarDatos(rutina, ejercicioNombre, series, repeticiones, pausa, dificultad, kilogramos);
 
         Optional<Ejercicio> respuestaEjercicio = ejercicioRepositorio.findById(id);
 
@@ -149,9 +149,9 @@ public class EjercicioImplement implements EjercicioService {
 
     @Transactional
     @Override
-    public List<Ejercicio> buscarPorNombre(String nombre) throws ErrorServicio {
+    public List<Ejercicio> buscarPorNombre(String nombre, String idRutina) throws ErrorServicio {
 
-        List<Ejercicio> ejercicios = ejercicioRepositorio.buscarPorNombre(nombre);
+        List<Ejercicio> ejercicios = ejercicioRepositorio.buscarPorNombre(nombre, idRutina);
 
         if (ejercicios != null && !ejercicios.isEmpty()) {
 
@@ -164,9 +164,24 @@ public class EjercicioImplement implements EjercicioService {
 
     @Transactional
     @Override
-    public List<Ejercicio> buscarPorCategoria(String cateogoria) throws ErrorServicio {
+    public List<Ejercicio> buscarPorNombreEjercicio(String idEjerccioNombre) throws ErrorServicio {
 
-        List<Ejercicio> ejercicios = ejercicioRepositorio.buscarPorCategoria(cateogoria);
+        List<Ejercicio> ejercicios = ejercicioRepositorio.buscarPorNombreEjercicio(idEjerccioNombre);
+
+        if (ejercicios != null && !ejercicios.isEmpty()) {
+
+            return ejercicios;
+
+        } else {
+            throw new ErrorServicio("No se encontro ningún ejercicio");
+        }
+    }
+
+    @Transactional
+    @Override
+    public List<Ejercicio> buscarPorCategoria(String cateogoria, String idRutina) throws ErrorServicio {
+
+        List<Ejercicio> ejercicios = ejercicioRepositorio.buscarPorCategoria(cateogoria, idRutina);
 
         if (ejercicios != null && !ejercicios.isEmpty()) {
 
@@ -211,12 +226,10 @@ public class EjercicioImplement implements EjercicioService {
     @Override
     public void validarDatos(Rutina rutina, EjercicioNombre ejercicioNombre, Integer series, Integer repeticiones, Integer pausa,
             Integer dificultad, String kilogramos) throws ErrorServicio {
-        
+
 //        if (rutina == null) {
 //            throw new ErrorServicio("El ejercicio debe pertenecer a una rutina.");
 //        }
-        
-
         if (ejercicioNombre == null) {
             throw new ErrorServicio("El ejercicio debe contener un objeto EjercicioNombre.");
         }

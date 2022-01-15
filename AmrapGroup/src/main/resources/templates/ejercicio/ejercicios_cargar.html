@@ -28,6 +28,8 @@
             <p th:if="${exito != null}" th:text=${exito} class=exito></p>
 
 
+            <input type="hidden" name="idRutina" th:value="${idRutina}"><br>
+
             <label>Nombre:</label><br>
             <select class="alta" name="idEjercNom" >
                 <option th:each="nombre : ${nombres}" th:value="${nombre.id}" th:text="${nombre.nombre}"></option><br>

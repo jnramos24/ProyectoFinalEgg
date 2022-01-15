@@ -20,9 +20,11 @@ public interface EjercicioService {
 
     public Ejercicio buscarEjercicioPorId(String id) throws ErrorServicio;
 
-    public List<Ejercicio> buscarPorNombre(String nombre) throws ErrorServicio;
+    public List<Ejercicio> buscarPorNombre(String nombre, String idRutina) throws ErrorServicio;
 
-    public List<Ejercicio> buscarPorCategoria(String categoria) throws ErrorServicio;
+    public List<Ejercicio> buscarPorCategoria(String categoria, String idRutina) throws ErrorServicio;
+    
+    public List<Ejercicio> buscarPorNombreEjercicio(String idEjerccioNombre) throws ErrorServicio;
     
     public List<Ejercicio> listarPorRutina(String categoria) throws ErrorServicio;
     

@@ -78,7 +78,7 @@ public class EjercicioNombreImplement implements EjercicioNombreService {
 
         Optional<EjercicioNombre> respuestaEjercicioNombre = ejercicioNombreRepositorio.findById(id);
         
-        List<Ejercicio> respuestaEjercicio = ejercicioRepositorio.buscarPorNombre(id);
+        List<Ejercicio> respuestaEjercicio = ejercicioRepositorio.buscarPorNombreEjercicio(id);
 
         if (respuestaEjercicioNombre.isPresent() && respuestaEjercicio.isEmpty() ) {
 

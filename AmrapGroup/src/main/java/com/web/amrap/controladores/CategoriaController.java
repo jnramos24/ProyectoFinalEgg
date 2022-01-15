@@ -24,6 +24,13 @@ public class CategoriaController {
     private CategoriaImplement categoriaImplement;
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("/configuracion")
+    public String configuracion(ModelMap modelo) {
+
+        return "/ajustes.html";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/listar-categorias")
     public String listar(ModelMap modelo) {
 

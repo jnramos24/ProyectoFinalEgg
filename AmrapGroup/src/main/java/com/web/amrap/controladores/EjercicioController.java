@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 @RequestMapping("/")
 public class EjercicioController {
@@ -37,11 +36,11 @@ public class EjercicioController {
     @Autowired
     private EjercicioNombreImplement ejercicioNombreImplement;
 
-
-   
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/listar-ejercicios")
-    public String listarEjercicios(ModelMap modelo) {
+    public String listarEjercicios(ModelMap modelo, @RequestParam String idRutina) { // este parametro se recibe por la url de otro metodo que llama a este
+
+        modelo.put("idRutina", idRutina);   // se reenvia hacia la vista de crear ejercicio, el id, que se recibio por la url desde rutina 
 
         List<Ejercicio> listaEjercicios = null;
         List<Ejercicio> listaEjerc = null;
@@ -49,30 +48,32 @@ public class EjercicioController {
         List<EjercicioNombre> nombresEjercicios = null;
 
         try {
-            
+
             nombresEjercicios = ejercicioNombreImplement.listarEjercicioNombre(); //manda la lista de nombre de ejercicios a la vista
             modelo.put("nombresEjercicios", nombresEjercicios);
 
             categorias = categoriaImplement.listarCategorias(); //manda la lista de nombre de categorias a la vista
             modelo.put("categorias", categorias);
 
-            listaEjercicios = ejercicioImplement.listarEjercicios();//manda la lista de ejercicios a la vista
+            listaEjercicios = ejercicioImplement.listarPorRutina(idRutina);//manda la lista de ejercicios a la vista
             modelo.addAttribute("listaEjercicios", listaEjercicios);
 
             listaEjerc = ejercicioImplement.listarEjercicios();//manda la lista de  ejercicios a la vista
             modelo.addAttribute("listaEjerc", listaEjerc);
 
+            return "/ejercicio/ejercicios_busqueda.html";
 
         } catch (ErrorServicio ex) {
             modelo.put("error", ex.getMessage());
             return "/ejercicio/ejercicios_busqueda.html";
         }
-        return "/ejercicio/ejercicios_busqueda.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/nuevo-ejercicio")
-    public String cargarEjercicio(ModelMap modelo) {
+    public String cargarEjercicio(ModelMap modelo, @RequestParam String idRutina) { // este parametro se recibe por la url de otro metodo que llama a este
+
+        modelo.put("idRutina", idRutina);   // se reenvia hacia la vista de crear ejercicio, el id, que se recibio por la url desde rutina     
 
         List<EjercicioNombre> nombres = null;
 
@@ -110,6 +111,8 @@ public class EjercicioController {
 
             modelo.put("exito", "El ejercicio, se cargó correctamente");
 
+            return "redirect:/listar-ejercicios?idRutina=" + idRutina;
+
         } catch (ErrorServicio ex) {
 
             modelo.put("error", ex.getMessage());
@@ -123,15 +126,17 @@ public class EjercicioController {
 
             return "/ejercicio/ejercicios_cargar.html";
         }
-        return "/ejercicio/ejercicios_cargar.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/buscar-ejercicio")
     public String buscarEjercicio(ModelMap modelo,
             @RequestParam(required = false) String idNombre,
-            @RequestParam(required = false) String idCategoria) {
+            @RequestParam(required = false) String idCategoria,
+            @RequestParam String idRutina) { // este parametro se recibe por la url de otro metodo que llama a este
 
+         modelo.put("idRutina", idRutina);   // se reenvia hacia la vista de crear ejercicio, el id, que se recibio por la url desde rutina  
+        
         List<EjercicioNombre> nombresEjercicios = null;
         List<Categoria> categorias = null;
 
@@ -145,12 +150,12 @@ public class EjercicioController {
 
             if (idNombre != null && !idNombre.isEmpty()) {
 
-                List<Ejercicio> listaEjercicios = ejercicioImplement.buscarPorNombre(idNombre);
+                List<Ejercicio> listaEjercicios = ejercicioImplement.buscarPorNombre(idNombre, idRutina);
                 modelo.addAttribute("listaEjercicios", listaEjercicios); // ver si asi se renderiza bien
 
             } else if (idCategoria != null && !idCategoria.isEmpty()) {
 
-                List<Ejercicio> listaEjercicios = ejercicioImplement.buscarPorCategoria(idCategoria);
+                List<Ejercicio> listaEjercicios = ejercicioImplement.buscarPorCategoria(idCategoria, idRutina);
                 modelo.addAttribute("listaEjercicios", listaEjercicios);
             }
 
@@ -161,10 +166,11 @@ public class EjercicioController {
 
         return "/ejercicio/ejercicios_busqueda.html";
     }
-    
+
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/modificar-ejercicio")
-    public String modificarEjercicio(@RequestParam String id, ModelMap modelo) {
+    public String modificarEjercicio(ModelMap modelo,
+            @RequestParam String id) {
 
         try {
 
@@ -175,14 +181,14 @@ public class EjercicioController {
             modelo.addAttribute("ejercicio", ejercicio);
 
         } catch (ErrorServicio ex) {
-            
+
             modelo.addAttribute("error", ex.getMessage());
-            
+
             return "/ejercicio/ejercicios_modificar.html";
         }
         return "/ejercicio/ejercicios_modificar.html";
     }
-    
+
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @PostMapping("/actualizar-ejercicio")
     public String actualizarEjercicio(ModelMap modelo,
@@ -197,49 +203,48 @@ public class EjercicioController {
             @RequestParam(required = false) String idEjercNom,
             @RequestParam(required = false) String idRutina) {
 
-        
         Ejercicio ejercicio = null;
 
         try {
-           
+
             List<EjercicioNombre> nombresEjercicios = ejercicioNombreImplement.listarEjercicioNombre(); //manda la lista de nombre de ejercicios a la vista
             modelo.put("nombresEjercicios", nombresEjercicios);
 
             ejercicio = ejercicioImplement.buscarEjercicioPorId(id);
 
-            ejercicioImplement.modificarEjercicio(id,series,repeticiones,
-            pausa, dificultad, kilogramos, notas, atencion, idEjercNom, idRutina);
+            ejercicioImplement.modificarEjercicio(id, series, repeticiones,
+                    pausa, dificultad, kilogramos, notas, atencion, idEjercNom, idRutina);
 
             ejercicio = ejercicioImplement.buscarEjercicioPorId(id); // devuelve el objeto modificado
             modelo.put("ejercicio", ejercicio);
 
-            modelo.put("exito", "El ejercicioNombre se modificó correctamente");
+            modelo.put("exito", "El ejercicio, se modificó correctamente");
 
         } catch (ErrorServicio ex) {
 
             modelo.put("error", ex.getMessage());
             modelo.put("ejercicioNombre", ejercicio);
-            
+
             return "/ejercicio/ejercicios_modificar.html";
         }
         return "/ejercicio/ejercicios_modificar.html";
     }
-    
+
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/eliminar-ejercicio")
     public String eliminarEjercicio(@RequestParam String id, ModelMap modelo) {
-        
+
         try {
             ejercicioImplement.eliminarEjercicio(id);
-           
+
             modelo.put("exito", "El ejercicio se eliminó correctamente");
-            
+
         } catch (ErrorServicio ex) {
             modelo.put("error", ex.getMessage());
 
-             return "/ejercicio/ejercicios_busqueda.html";
+            return "/ejercicio/ejercicios_busqueda.html";
         }
-         return "/ejercicio/ejercicios_busqueda.html";
+        return "/ejercicio/ejercicios_busqueda.html";
     }
-    
+
 }

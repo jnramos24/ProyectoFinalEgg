@@ -10,7 +10,7 @@
 
 <body>
 
-    
+
     <h1 class="titulo"><span class="letras-titulo">Amrap</span> </h1>
 
 
@@ -19,15 +19,16 @@
         <nav>
             <ul>
                 <li> <a href="inicio"><span class="primero"><i class="icon icon-home "></i></span> Inicio</a> </li>
-                <li> <a th:href="@{/editar-perfil}+'?id='+${session.usuariosession.id}"><span class="segundo"><i class="icon icon-books"></i></span>Configurar Usuario</a></li>
-                <!-- <li> <a th:href="@{/buscar-rutina}+'?idUsuario='+${session.usuariosession.id}"><span class="cuarto"><i class="icon icon-books"></i></span>Rutinas</a></li> -->
                 <li> <a th:href="@{/buscar-rutina}"><span class="cuarto"><i class="icon icon-books"></i></span>Rutinas</a></li>
-                <li> <a href="buscar-ejercicio"><span class="segundo"><i class="icon icon-book"></i></span> Ejercicios</a></li>
-                <li> <a href="buscar-ejercicioNombre"><span class="quinto"><i class="icon icon-books"></i></span>Nombres de ejercicios</a></li>
-                <li> <a href="buscar-categoria"><span class="tercero"><i class="icon icon-books"></i></span>Categorias</a></li>
-                <li> <a href="logout">Salir</a></li>
+                <li> <a href="configuracion"><span class="tercero"><i class="icon icon-books"></i></span>Configuracion</a></li>
+                <li> <a th:href="@{/mostrar-perfil}+'?id='+${session.usuariosession.id}"><span class="segundo"><i class="icon icon-books"></i></span><p th:text="${session.usuariosession.nombre}+' '+${session.usuariosession.apellido}"></p></a></li>
+                <li> <a href="logout">Salir</a></li>           
+
+
+
             </ul>
         </nav>
+    
     </header>
     <!-- menu desplegable fin  -->
 

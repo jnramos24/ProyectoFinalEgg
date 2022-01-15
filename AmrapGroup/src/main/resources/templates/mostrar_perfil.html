@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Amrap</title>
+    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
+    <link rel="stylesheet" href="CSS/fonts.css">
+</head>
+
+<body>
+
+
+    <h1 class="titulo"><span class="letras-titulo">Amrap</span> </h1>
+
+
+    <!-- menu desplegable comienzo  -->
+    <header th:replace="/inicio.html::header"></header>
+    <!-- menu desplegable fin  -->
+
+    <section Class=principal>
+
+        <div class="formulario">
+
+            <div>
+                <a id="a" th:href="@{/editar-perfil}+'?id='+${session.usuariosession.id}"><button class="boton tres"><span>Editar perfil</span></button></a>
+            
+            </div>
+
+            
+        </div>
+
+        <!--   ************** formulario resultados -->
+
+        <section class="formulario2" action="/mostrar-perfil" method="GET">
+
+            <label>USUARIO:</label><br><br>
+
+            <p th:if="${error != null}" th:text=${error} class=error></p>
+            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+            <p th:if="${eliminado != null}" th:text=${exito} class=exito></p>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>
+                            <p>Nombre</p>
+                        </th>
+
+                        <th>Apellido
+                            <p></p>
+                        </th>
+                        <th>
+                            <p>E-mail</p>
+                        </th>
+                        
+
+                    </tr>
+                </thead>
+
+                <tr >
+                    <td th:text="${session.usuariosession.nombre}"></td>
+                    <td th:text="${session.usuariosession.apellido}"></td>
+                    <td th:text="${session.usuariosession.email}"></td>
+                    
+                </tr>
+
+            </table>
+
+        </section>
+
+    </section>
+
+
+</body>
+
+</html>

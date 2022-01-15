@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Amrap</title>
+    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
+    <link rel="stylesheet" href="CSS/fonts.css">
+</head>
+
+<body>
+
+    <h1 class="titulo">Categorias</h1>
+
+
+ <!-- menu desplegable comienzo  -->
+ <header th:replace="/inicio.html::header"></header>
+ <!-- menu desplegable fin  -->
+
+    <!--  botones inicio -->
+    ><div class="contenedor">
+        <div class="contenedor-botones">
+
+            <a th:href="@{/buscar-ejercicioNombre}" id="a"><button class="boton tres"><span>Crear categoría</span>
+                </button></a>
+            <a th:href="@{/buscar-categoria}"><button class="boton cuatro"><span>Buscar categoría </span></button></a>
+
+
+        </div>
+    </div>
+    <!--  botones fin -->
+
+</body>
+
+</html>

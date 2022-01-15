@@ -20,12 +20,9 @@
 
     <section Class=principal>
 
-
-
-
         <div class=formulario>
 
-            <h1>Editar Perfil</h1><br>
+            <h1 >Editar Perfil</h1><br>
 
 
             <form action="/actualizar-perfil" method="POST" enctype="multipart/form-data">
@@ -36,7 +33,7 @@
 
                 <p th:if="${exito != null}" th:text=${exito} class=exito></p>
 
-
+                <!-- <input type="text" name="id" th:value="${session.usuariosession.id}" /> -->
                 <input type="hidden" name="id" th:value="${perfil.id}" />
 
                 <p><label> Nombre </label></p>
@@ -65,7 +62,9 @@
                 <a th:href="@{/modificar-clave}+'?id='+${session.usuariosession.id}" id="a"><button
                         class="boton tres"><span>Cambiar clave</span></button></a>
             </div>
+
         </div>
+
 
     </section>
 
