@@ -19,56 +19,69 @@
 
     <section Class=principal>
 
-        <form class="formulario" action="actualizar-ejercicio" method="POST">
-
-            <p th:if="${error != null}" th:text=${error} class=error></p>
-
-            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+        <section class="formulario">
 
 
-            <input type="hidden" name="id" th:value="${ejercicio.id}"><br>
+            <form action="actualizar-ejercicio" method="POST">
 
-            <input type="hidden" name="idRutina" th:value="${ejercicio.rutina.id}"><br>
+                <p th:if="${error != null}" th:text=${error} class=error></p>
 
-          
-            <label>Nombre:</label><br>
-            <select class="alta" name="idEjercNom">
-                <option th:each="nombresEjercicios : ${nombresEjercicios}" th:value="${nombresEjercicios.id}"
-                    th:text="${nombresEjercicios.nombre}"></option>
-            </select><br><br>
+                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
 
 
-            <label>Series:</label><br>
-            <input type="number" name="series" th:value="${ejercicio.series}"><br><br>
+                <input type="hidden" name="id" th:value="${ejercicio.id}">
 
-            <label>Repeticiones:</label><br>
-            <input type="number" name="repeticiones" th:value="${ejercicio.repeticiones}"><br><br>
-
-            <label>Pausa:</label><br>
-            <input type="number" name="pausa" th:value="${ejercicio.pausa}"><br><br>
-
-            <label>Dicicultad:</label><br>
-            <input type="number" name="dificultad" th:value="${ejercicio.dificultad}"><br><br>
-
-            <label>Kilogramos:</label><br>
-            <input type="text" name="kilogramos" th:value="${ejercicio.kilogramos}"><br><br>
-
-            <label>Notas:</label><br>
-            <input type="text" name="notas" th:value="${ejercicio.notas}"><br><br>
-
-            <label>Atencion:</label><br>
-            <input type="text" name="atencion" th:value="${ejercicio.atencion}"><br><br>
+                <input type="hidden" name="idRutina" th:value="${ejercicio.rutina.id}">
 
 
-            <button type="submit" class="boton tres"><span>Actualizar</span></button>
+                <label>Nombre:</label><br>
+                <select class="alta" name="idEjercNom">
+                    <option th:each="nombresEjercicios : ${nombresEjercicios}" th:value="${nombresEjercicios.id}"
+                        th:text="${nombresEjercicios.nombre}"></option>
+                </select><br><br>
 
-        </form>
+
+                <label>Series:</label><br>
+                <input type="number" name="series" th:value="${ejercicio.series}"><br><br>
+
+                <label>Repeticiones:</label><br>
+                <input type="number" name="repeticiones" th:value="${ejercicio.repeticiones}"><br><br>
+
+                <label>Pausa:</label><br>
+                <input type="number" name="pausa" th:value="${ejercicio.pausa}"><br><br>
+
+                <label>Dicicultad:</label><br>
+                <input type="number" name="dificultad" th:value="${ejercicio.dificultad}"><br><br>
+
+                <label>Kilogramos:</label><br>
+                <input type="text" name="kilogramos" th:value="${ejercicio.kilogramos}"><br><br>
+
+                <label>Notas:</label><br>
+                <input type="text" name="notas" th:value="${ejercicio.notas}"><br><br>
+
+                <label>Atencion:</label><br>
+                <input type="text" name="atencion" th:value="${ejercicio.atencion}"><br><br>
+
+
+                <button type="submit" class="boton tres"><span>Actualizar</span></button>
+
+            </form>
+
+            <div>
+                <a th:href="@{/listar-ejercicios (idRutina=${ejercicio.rutina.id})}"><button class="boton tres"><span>Listar ejercicios</span></button></a>
+
+            </div>
+
+
+        </section>
+
+
 
 
         <!--   formulario para mostrar el objeto cambiado-->
         <section class="formulario2" action="/modificar_ejercicio" method="GET">
 
-            <label>EJERCICIOS:</label><br><br>
+            <label>Ejercicios de <span th:text="${session.usuariosession.nombre}+' '+${session.usuariosession.apellido}"></span></label><br><br>
 
             <table>
 
@@ -123,8 +136,9 @@
                     <td th:text="${ejercicio.notas}"></td>
                     <td th:text="${ejercicio.atencion}"></td>
                     <td th:text="${ejercicio.ejercicioNombre.video}"></td>
-                    <td><button class="boton2 uno "><a th:href="${ejercicio.ejercicioNombre.video}" target="_blank"><span>Video</span></button></a></td>
-                  
+                    <td><button class="boton2 uno "><a th:href="${ejercicio.ejercicioNombre.video}"
+                                target="_blank"><span>Video</span></button></a></td>
+
                 </tr>
 
             </table>

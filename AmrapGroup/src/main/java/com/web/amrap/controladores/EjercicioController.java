@@ -233,18 +233,24 @@ public class EjercicioController {
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/eliminar-ejercicio")
     public String eliminarEjercicio(@RequestParam String id, ModelMap modelo) {
+        
+        Ejercicio ejercicio = null;
 
         try {
+            
+            ejercicio = ejercicioImplement.buscarEjercicioPorId(id);
+            
             ejercicioImplement.eliminarEjercicio(id);
 
             modelo.put("exito", "El ejercicio se eliminó correctamente");
+            
+            return "redirect:/listar-ejercicios?idRutina=" + ejercicio.getRutina().getId();
 
         } catch (ErrorServicio ex) {
             modelo.put("error", ex.getMessage());
 
-            return "/ejercicio/ejercicios_busqueda.html";
+            return "redirect:/listar-ejercicios?idRutina=" + ejercicio.getRutina().getId();
         }
-        return "/ejercicio/ejercicios_busqueda.html";
     }
 
 }
