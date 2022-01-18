@@ -36,6 +36,8 @@
 
             <label>USUARIO:</label><br><br>
 
+           <img th:if="${session.usuariosession.foto !=null}" th:src="${'/foto/usuario/' + session.usuariosession.id}">
+       
             <p th:if="${error != null}" th:text=${error} class=error></p>
             <p th:if="${exito != null}" th:text=${exito} class=exito></p>
             <p th:if="${eliminado != null}" th:text=${exito} class=exito></p>

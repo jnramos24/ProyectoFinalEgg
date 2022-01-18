@@ -1,8 +1,10 @@
 package com.web.amrap.implementacion;
 
+import com.web.amrap.entidades.Foto;
 import com.web.amrap.entidades.Usuario;
 import com.web.amrap.errores.ErrorServicio;
 import com.web.amrap.repositorios.UsuarioRepositorio;
+import com.web.amrap.servicios.FotoService;
 import com.web.amrap.servicios.UsuarioService;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +30,9 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
+    
+    @Autowired
+    private FotoService fotoService;
 
     @Transactional
     @Override
@@ -47,8 +52,8 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
         String claveEncriptada = new BCryptPasswordEncoder().encode(clave1);
         usuario.setClave(claveEncriptada);
 
-//        Foto foto = fotoServicio.guardar(archivo);
-//        usuario.setFoto(foto);
+        Foto foto = fotoService.guardarFoto(archivo);
+        usuario.setFoto(foto);
         usuarioRepositorio.save(usuario);
     }
 
@@ -71,13 +76,13 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
 
 
 
-//            String idFoto = null;
-//
-//            if (usuario.getFoto() != null) {
-//                idFoto = usuario.getFoto().getId();
-//            }
-//            Foto foto = fotoServicio.actualizarFoto(idFoto, archivo);
-//            usuario.setFoto(foto);
+            String idFoto = null;
+
+            if (usuario.getFoto() != null) {
+                idFoto = usuario.getFoto().getId();
+            }
+               Foto foto = fotoService.guardarFoto(archivo);
+            usuario.setFoto(foto);
             usuarioRepositorio.save(usuario);
 
         } else {

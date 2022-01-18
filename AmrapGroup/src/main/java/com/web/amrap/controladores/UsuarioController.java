@@ -48,7 +48,7 @@ public class UsuarioController {
             @RequestParam String clave2) {
 
         try {
-            usuarioImplement.registarUsuario(nombre, apellido, dni, email, clave1, clave2, null);
+            usuarioImplement.registarUsuario(nombre, apellido, dni, email, clave1, clave2, archivo);
 
             modelo.put("exito", "El usuario, se registró correctamente");
 
