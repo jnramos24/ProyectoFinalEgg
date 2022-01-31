@@ -31,7 +31,7 @@ public class SeguridadConfiguracion extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().sameOrigin().and()
                 .authorizeRequests() //en estas tres lineas digo que 
-                                  .antMatchers("/css/*", "/js/*", "/img/*") //los recursos que estan en esas 3 carpetas
+                                  .antMatchers("/css/*", "/js/*", "/img/*", "/index") //los recursos que estan en esas 3 carpetas
                                   .permitAll() //los pueda acceder cualquier usuario sin necesidad de estar logueado
                 .and().formLogin()
                               .loginPage("/login")

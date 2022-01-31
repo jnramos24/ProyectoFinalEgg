@@ -1,46 +1,48 @@
+
 <!DOCTYPE html>
-<html>
 
-<head>
-    <meta charset="utf-8">
-    <title>Amrap</title>
-    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
-    <link rel="stylesheet" href="CSS/fonts.css">
-</head>
-
-<body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+    xlmns="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="layout/plantilla :: head">
+  </head>
 
 
-    <h1 class="titulo"><span class="letras-titulo">Amrap</span> </h1>
+  <body>
 
-    <!-- <header th:replace="/inicio.html::header"></header> -->
+    <!-- ====== Header Start ====== -->
+    <header th:replace="layout/plantilla :: header"></header>
+    <!-- ====== Header End ====== -->
 
-
-    <section Class=principal>
-        <div class="formulario">
-
-
-            <h1>Iniciar sesión</h1><br>
-            <form action="/logincheck" method="POST">
-
-                <p th:if="${error != null}" th:text="${error}"  class=error></p>
-                <p th:if="${logout !=null}" th:text="${logout}"  class=exito></p>
-
-                <!-- USERNAME INPUT -->
-                <label>Email</label><br>
-                <input type="email" name="username" placeholder=" Email" th:value="${mail}" /><br><br>
-
-                <!-- PASSWORD INPUT -->
-                <label>Contraseña</label><br>
-                <input type="password" name="password" placeholder=" Ingrese contraseña" th:value="${clave1}" /><br><br>
-
-                <button type="submit" class="boton tres"><span>ingresar</span></button>
-                <!-- <a href="#">Olvidaste tu contraseña?</a><br> -->
-                <a href="registro">Todavía no estás registrado?</a>
-            </form>
+    <!-- ====== Banner Start ====== -->
+    <section class="ud-page-banner">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="ud-banner-content">
+              <h1></h1>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
+    <!-- ====== Banner End ====== -->
 
-</body>
+    <!-- ====== Login Start ====== -->
+    <section th:replace="layout/plantilla :: login"></section>
+    <!-- ====== Login End ====== -->
 
+    <!-- ====== Footer Start ====== -->
+    <footer th:replace="layout/plantilla :: footer"></footer>
+    <!-- ====== Footer End ====== -->
+
+    <!-- ====== Back To Top Start ====== -->
+    <a href="javascript:void(0)" class="back-to-top">
+      <i class="lni lni-chevron-up"> </i>
+    </a>
+    <!-- ====== Back To Top End ====== -->
+
+    <!-- ====== All Javascript Files ====== -->
+    <script src="js/wow.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
 </html>

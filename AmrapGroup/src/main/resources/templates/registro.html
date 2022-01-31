@@ -1,68 +1,135 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+    xlmns="http://www.thymeleaf.org/extras/spring-security">
 
-    <head>
-        <meta charset="utf-8">
-        <title>Amrap</title>
-        <link rel="stylesheet" href="CSS/Style_ejercicios.css">
-        <link rel="stylesheet" href="CSS/fonts.css">
-    </head>
+<head th:replace="layout/plantilla :: head">
+</head>
 
-    <body>
+<body>
+    <!-- ====== Header Start ====== -->
+    <header th:replace="layout/plantilla :: header" class="ud-header">
+        
+    </header>
+    <!-- ====== Header End ====== -->
 
+    <!-- ====== Banner Start ====== -->
+    <section class="ud-page-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ud-banner-content">
+                        <h1> REGISTRO AMRAP </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ====== Banner End ====== -->
 
-        <h1 class="titulo"><span class="letras-titulo">Amrap</span> </h1>
+    <!-- ====== Register Start ====== -->
+    <section class="ud-login">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ud-login-wrapper">
+                        <div class="ud-login-logo">
+                            <img src="img/logo/amrap1.png" alt="logo" />
+                        </div>
+                        <form class="ud-login-form" action="/registrar" method="POST" enctype="multipart/form-data">
+                            <h3> Registrarse </h3>
+                            <div class="ud-form-group">
 
+                                <br>
+                                <input type="text" 
+                                name="nombre" 
+                                th:value="${nombre}" 
+                                placeholder="Nombre"><br><br>
 
-        <!-- menu desplegable comienzo  -->
-        <!-- <header th:replace="/inicio.html::header"></header> -->
-        <!-- menu desplegable fin  -->
+                                <br>
+                                <input type="text" 
+                                name="apellido" 
+                                th:value="${apellido}"
+                                placeholder="Apellido"><br><br>
 
-        <section Class=principal>
+                                <br>
+                                <input type="text" 
+                                name="email" 
+                                th:value="${email}" 
+                                placeholder="Email"><br><br>
 
-            <form class="formulario" action="/registrar" method="POST" enctype="multipart/form-data">
+                                <label>Debe tener al menos 8 caracteres</label><br>
+                                <input type="password" 
+                                name="clave1" 
+                                placeholder="Password"
+                                th:value="${clave1}" /><br><br>
 
-                <p th:if="${error != null}" th:text=${error} class=error></p>
+                                <br>
+                                <input type="password" 
+                                name="clave2" 
+                                placeholder="Repetir Password"
+                                th:value="${clave2}" />
+                                <br>
+                                <br>
+                                <br>
 
-                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+                                <button class="ud-main-btn w-100">Enviar</button>
 
-                <h1>Registrar Usuario</h1><br>
+                                <p th:if="${error != null}" th:text=${error} class=error></p>
+                                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+                            </div>
+                            <br>
 
+                        </form>
 
-                <label>Nombre:</label><br>
-                <input type="text" name="nombre" th:value="${nombre}"><br><br>
+                        <div class="ud-socials-connect">
+                            <p>Conectarse con</p>
 
-                <label>Apellido:</label><br>
-                <input type="text" name="apellido" th:value="${apellido}"><br><br>
+                            <ul>
+                                <li>
+                                    <a href="#" class="facebook">
+                                        <i class="lni lni-facebook-filled"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="twitter">
+                                        <i class="lni lni-twitter-filled"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="google">
+                                        <i class="lni lni-google"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
 
-                <label>DNI:</label><br>
-                <input type="text" name="dni" th:value="${dni}"><br><br>
+                        <a class="forget-pass" href="javascript:void(0)">
+                            Olvidaste la contraseña?
+                        </a>
 
-                <label>Email:</label><br>
-                <input type="text" name="email" th:value="${email}"><br><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ====== Register End ====== -->
 
-                <label>Clave:</label><br>
-                <input type="password" name="clave1" th:value="${clave1}"><br><br>
+    <!-- ====== Footer Start ====== -->
+    <footer th:replace="layout/plantilla :: footer"class="ud-footer wow fadeInUp" data-wow-delay=".15s">    
+    </footer>
+    <!-- ====== Footer End ====== -->
 
-                <label>Repetir Clave:</label><br>
-                <input type="password" name="clave2" th:value="${clave2}"><br><br>
+    <!-- ====== Back To Top Start ====== -->
+    <a href="javascript:void(0)" class="back-to-top">
+        <i class="lni lni-chevron-up"> </i>
+    </a>
+    <!-- ====== Back To Top End ====== -->
 
-                <p><label> Foto </label></p>
-   
-                    <input type="file" class="field" name="archivo"/>
+    <!-- ====== All Javascript Files ====== -->
+    
+    <script src="js/wow.min.js"></script>
+    <script src="js/main.js"></script>
 
-                     
-               
-
-                <button type="submit" class="boton tres"><span>Guardar</span></button>
-
-                <button type="reset" class="boton cuatro"><span>Limpiar</span></button>
-
-            </form>
-
-        </section>
-
-
-    </body>
+</body>
 
 </html>

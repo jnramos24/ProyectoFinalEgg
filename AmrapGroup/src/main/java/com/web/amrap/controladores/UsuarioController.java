@@ -21,7 +21,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioImplement usuarioImplement;
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    //@PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/")
     public String index() {
         return "index.html";
@@ -93,7 +93,7 @@ public class UsuarioController {
         Usuario login = (Usuario) session.getAttribute("usuariosession");
         if (login == null || !login.getId().equals(id)) {
 
-            System.out.println("Este es el login: " + login + "   esta es el idlogin: " + login.getId() + "  y este es e l id que entra; " + id);
+            System.out.println("Este es el login: " + login + "   esta es el idlogin: " + login.getId() + "  y este es el id que entra; " + id);
             return "redirect:/inicio";
 
         }
