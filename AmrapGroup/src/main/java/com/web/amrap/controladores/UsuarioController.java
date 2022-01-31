@@ -1,8 +1,11 @@
 package com.web.amrap.controladores;
 
+import Enumeraciones.Role;
 import com.web.amrap.entidades.Usuario;
 import com.web.amrap.errores.ErrorServicio;
 import com.web.amrap.implementacion.UsuarioImplement;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,12 +25,12 @@ public class UsuarioController {
     private UsuarioImplement usuarioImplement;
 
     //@PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @GetMapping("/")
+   @GetMapping("/")
     public String index() {
         return "index.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or hasRole('ROLE_USUARIO_REGISTRADO'))")
     @GetMapping("/inicio")
     public String inicio() {
         return "inicio.html";
@@ -42,30 +45,28 @@ public class UsuarioController {
     public String registrar(ModelMap modelo, MultipartFile archivo,
             @RequestParam String nombre,
             @RequestParam String apellido,
-            @RequestParam String dni,
             @RequestParam String email,
             @RequestParam String clave1,
             @RequestParam String clave2) {
 
         try {
-            usuarioImplement.registarUsuario(nombre, apellido, dni, email, clave1, clave2, archivo);
+
+            usuarioImplement.registarUsuario(nombre, apellido, email, clave1, clave2, archivo);
 
             modelo.put("exito", "El usuario, se registró correctamente");
+
+            return "redirect:/login";
 
         } catch (ErrorServicio ex) {
             modelo.put("error", ex.getMessage());
             modelo.put("nombre", nombre);
             modelo.put("apellido", apellido);
-            modelo.put("dni", dni);
             modelo.put("mail", email);
             modelo.put("clave1", clave1);
             modelo.put("clave2", clave2);
 
             return "registro.html";
         }
-        return "redirect:/login";
-//        return "registrado.html";// lu
-
     }
 
     @GetMapping("/login")
@@ -85,7 +86,7 @@ public class UsuarioController {
         return "login.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or hasRole('ROLE_USUARIO_REGISTRADO'))")
     @GetMapping("/mostrar-perfil")
     public String mostrarPerfil(ModelMap model, HttpSession session,
             @RequestParam(required = false) String id) {
@@ -93,61 +94,64 @@ public class UsuarioController {
         Usuario login = (Usuario) session.getAttribute("usuariosession");
         if (login == null || !login.getId().equals(id)) {
 
-            System.out.println("Este es el login: " + login + "   esta es el idlogin: " + login.getId() + "  y este es el id que entra; " + id);
             return "redirect:/inicio";
-
         }
-
         return "mostrar_perfil.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or hasRole('ROLE_USUARIO_REGISTRADO'))")
     @GetMapping("/editar-perfil")
     public String editarPerfil(ModelMap model, HttpSession session,
             @RequestParam(required = false) String id) {
 
         Usuario login = (Usuario) session.getAttribute("usuariosession");
         if (login == null || !login.getId().equals(id)) {
-
-            System.out.println("Este es el login: " + login + "   esta es el idlogin: " + login.getId() + "  y este es e l id que entra; " + id);
             return "redirect:/inicio";
-
         }
 
         try {
-            Usuario usuario = usuarioImplement.buscarUsuarioPorId(login.getId());
+
+            Usuario usuario = usuario = usuarioImplement.buscarUsuarioPorId(id);
+
+            model.put("roles", Role.values());
+
             model.addAttribute("perfil", usuario);
+
         } catch (ErrorServicio e) {
             model.addAttribute("error", e.getMessage());
         }
         return "perfil.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or hasRole('ROLE_USUARIO_REGISTRADO'))")
     @PostMapping("/actualizar-perfil")
     public String actualizacion(ModelMap modelo, HttpSession session, MultipartFile archivo,
             @RequestParam String id,
             @RequestParam String nombre,
             @RequestParam String apellido,
-            @RequestParam String dni,
-            @RequestParam String email) {
+            @RequestParam String email,
+            @RequestParam(required = false) Role rol) {
+
+        if (rol == null) {
+            rol = rol.USUARIO_REGISTRADO;
+        }
 
         Usuario usuario = null;
 
+        Usuario login = (Usuario) session.getAttribute("usuariosession");
+        if (login == null) {
+            return "redirect:/inicio";
+        }
         try {
-            Usuario login = (Usuario) session.getAttribute("usuariosession");
-            if (login == null || !login.getId().equals(id)) {
-                return "redirect:/inicio";
-            }
             usuario = usuarioImplement.buscarUsuarioPorId(id);
 
-            usuarioImplement.modificarUsuario(id, nombre, apellido, dni, email, archivo);
+            usuarioImplement.modificarUsuario(id, nombre, apellido, email, archivo, rol);
 
             modelo.put("exito", "El usuario, se modifico correctamente");
 
             session.setAttribute("usuariosession", usuario);
-            
-            return "redirect:/mostrar-perfil?id="+login.getId();
+
+            return "redirect:/mostrar-perfil?id=" + id;
 
         } catch (ErrorServicio ex) {
 
@@ -156,11 +160,9 @@ public class UsuarioController {
 
             return "perfil.html";
         }
-
-        
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or hasRole('ROLE_USUARIO_REGISTRADO'))")
     @GetMapping("/modificar-clave")
     public String modificarClave(ModelMap model, HttpSession session,
             @RequestParam String id) {
@@ -183,7 +185,7 @@ public class UsuarioController {
         return "clave.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or hasRole('ROLE_USUARIO_REGISTRADO'))")
     @PostMapping("/actualizar-clave")
     public String actualizacionClave(ModelMap modelo, HttpSession session,
             @RequestParam String id,
@@ -212,6 +214,141 @@ public class UsuarioController {
             modelo.put("perfil", usuario);
 
             return "clave.html";
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping("/listar-usuarios")
+    public String listarUsuarios(ModelMap modelo) {
+
+        List<Usuario> listaUsuarios = null;
+
+        try {
+
+            listaUsuarios = usuarioImplement.listarUsuarios();
+            modelo.addAttribute("listaUsuarios", listaUsuarios);
+
+            return "/usuarios_busqueda.html";
+
+        } catch (ErrorServicio ex) {
+            modelo.put("error", ex.getMessage());
+            return "/usuarios_busqueda.html";
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping("/buscar-usuario")
+    public String buscarUsuario(ModelMap modelo,
+            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) String id) {
+
+        List<Usuario> listaUsuarios = new ArrayList();
+
+        try {
+
+            if (nombre != null && !nombre.isEmpty()) {
+
+                listaUsuarios = usuarioImplement.buscarUsuarioPorNombre(nombre);
+                modelo.addAttribute("listaUsuarios", listaUsuarios);
+
+            } else if (id != null && !id.isEmpty()) {
+
+                Usuario usuario = usuarioImplement.buscarUsuarioPorId(id);
+
+                listaUsuarios.add(usuario);
+                modelo.addAttribute("listaUsuarios", listaUsuarios);
+            }
+
+            return "/usuarios_busqueda.html";
+
+        } catch (ErrorServicio ex) {
+
+            modelo.put("error", ex.getMessage());
+            modelo.addAttribute("listaUsuarios", listaUsuarios);
+
+            return "/usuarios_busqueda.html";
+        }
+    }
+
+    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN'))")
+    @GetMapping("/seleccionar-perfil")
+    public String seleccionarUsuario(ModelMap modelo, HttpSession session,
+            @RequestParam String id) {
+
+        Usuario usuario = null;
+
+        try {
+            usuario = usuarioImplement.buscarUsuarioPorId(id);
+
+            session.setAttribute("usuariosession", usuario);
+
+            return "redirect:/mostrar-perfil?id=" + id;
+
+        } catch (ErrorServicio ex) {
+
+            modelo.put("error", ex.getMessage());
+
+            return "perfil.html";
+        }
+    }
+
+    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or hasRole('ROLE_USUARIO_REGISTRADO'))")
+    @GetMapping("/deshabilitar-usuario")
+    public String deshabilitarUsuario(ModelMap modelo, HttpSession session,
+            @RequestParam String id) {
+
+        Usuario usuario = null;
+
+        try {
+            Usuario login = (Usuario) session.getAttribute("usuariosession");
+            if (login == null || !login.getId().equals(id)) {
+                return "redirect:/inicio";
+            }
+
+            usuarioImplement.deshabilitarUsuario(id);
+
+            modelo.put("exito", "El usuario se deshabilitó correctamente");
+
+            usuario = usuarioImplement.buscarUsuarioPorId(id);
+            modelo.put("usuario", usuario);
+
+            return "redirect:/buscar-usuario?id=" + (usuario.getId());
+
+        } catch (ErrorServicio ex) {
+
+            modelo.put("error", ex.getMessage());
+
+            return "/usuarios_busqueda.html";
+        }
+    }
+
+    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or hasRole('ROLE_USUARIO_REGISTRADO'))")
+    @GetMapping("/habilitar-usuario")
+    public String habilitarUsuario(ModelMap modelo, HttpSession session,
+            @RequestParam String id) {
+
+        Usuario usuario = null;
+
+        try {
+            Usuario login = (Usuario) session.getAttribute("usuariosession");
+            if (login == null || !login.getId().equals(id)) {
+                return "redirect:/inicio";
+            }
+
+            usuarioImplement.habilitarUsuario(id);
+
+            usuario = usuarioImplement.buscarUsuarioPorId(id);
+            modelo.put("usuario", usuario);
+
+            modelo.put("exito", "El usuario se habilitó correctamente");
+
+            return "redirect:/buscar-usuario?id=" + (usuario.getId());
+
+        } catch (ErrorServicio ex) {
+
+            modelo.put("error", ex.getMessage());
+
+            return "/usuarios_busqueda.html";
         }
     }
 

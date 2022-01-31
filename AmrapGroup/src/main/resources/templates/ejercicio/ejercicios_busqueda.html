@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+    xlmns="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8">
     <title>Amrap</title>
-    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
-    <link rel="stylesheet" href="CSS/fonts.css">
+    <link rel="stylesheet" href="css/Style_ejercicios.css">
+    <link rel="stylesheet" href="css/fonts.css">
 
 </head>
 
@@ -23,15 +24,18 @@
         <div class="formulario">
 
             <div>
-                <a id="a" th:href="@{nuevo-ejercicio (idRutina=${idRutina})}"><button class="boton tres"><span>Crear Ejercicio</span></button></a>
+                <a sec:authorize="hasRole('ROLE_ADMIN')" id="a"
+                    th:href="@{nuevo-ejercicio (idRutina=${idRutina})}"><button class="boton tres"><span>Crear
+                            Ejercicio</span></button></a>
                 <!--  en esta url, le sumamos al metodo nuevo-ejercicio, el id de rutina, que lo recibimos en la vista por medio de un model, que a vez, venia como un requestparam -->
 
-                <a th:href="@{/listar-ejercicios (idRutina=${idRutina})}"><button class="boton cuatro"><span>Listar</span></button></a><br><br>
-                  <!--  en esta url, le sumamos al metodo nuevo-ejercicio, el id de rutina, que lo recibimos en la vista por medio de un model, que a vez, venia como un requestparam -->
-                  
+                <a th:href="@{/listar-ejercicios (idRutina=${idRutina})}"><button class="boton cuatro"><span>Listar
+                            Ejercicios</span></button></a><br><br>
+                <!--  en esta url, le sumamos al metodo nuevo-ejercicio, el id de rutina, que lo recibimos en la vista por medio de un model, que a vez, venia como un requestparam -->
+
             </div>
 
-            <form  action="/buscar-ejercicio" method="GET">
+            <form action="/buscar-ejercicio" method="GET">
 
                 <p th:if="${error != null}" th:text=${error} class=error></p>
                 <p th:if="${exito != null}" th:text=${exito} class=exito></p>
@@ -42,7 +46,8 @@
                 <label>Nombre:</label><br>
                 <select class="alta" name="idNombre">
                     <option></option>
-                    <option th:each="nombresEjercicios : ${nombresEjercicios}" th:value="${nombresEjercicios.id}" th:text="${nombresEjercicios.nombre}">
+                    <option th:each="nombresEjercicios : ${nombresEjercicios}" th:value="${nombresEjercicios.id}"
+                        th:text="${nombresEjercicios.nombre}">
                     </option>
                 </select><br><br>
 
@@ -50,7 +55,8 @@
                 <label>Categoría:</label><br>
                 <select class="alta" name="idCategoria">
                     <option></option>
-                    <option th:each="categorias : ${categorias}" th:value="${categorias.id}" th:text="${categorias.nombre}"></option>
+                    <option th:each="categorias : ${categorias}" th:value="${categorias.id}"
+                        th:text="${categorias.nombre}"></option>
                 </select><br><br>
 
                 <button type="submit" class="boton tres"><span>Buscar</span></button>
@@ -62,7 +68,7 @@
 
         <!--   ************** formulario resultados -->
 
-        <section class="formulario2" action="/buscar-ejercicio" method="GET">
+        <!-- <section class="formulario2" action="/buscar-ejercicio" method="GET">
 
             <label>EJERCICIOS:</label><br><br>
 
@@ -131,8 +137,60 @@
 
             </table>
 
-        </section>
+        </section> -->
+        <div class="container" th:each="listaEjercicios : ${listaEjercicios}">
 
+            <div class="card1" th:if="${listaEjercicios.completado == true}">
+
+                <img src="/CSS/img/img4.jpg">
+                <h4 th:text="${listaEjercicios.ejercicioNombre.nombre}"></h4>
+                <p th:text="${'Categoría: ' + listaEjercicios.ejercicioNombre.categoria.nombre}"></p>
+                <p th:text="${'Series: ' +listaEjercicios.series}"></p>
+                <p th:text="${'Repeticiones: ' +listaEjercicios.repeticiones}"> </p>
+                <p th:text="${'Pausa: ' +listaEjercicios.pausa}"> </p>
+                <p th:text="${'Dificultad: ' +listaEjercicios.dificultad}"> </p>
+                <p th:text="${'Kilogramos: ' +listaEjercicios.kilogramos}"> </p>
+                <p th:text="${'Notas: ' +listaEjercicios.notas}"> </p>
+                <p th:text="${'Atencion: ' +listaEjercicios.atencion}"> </p>
+                <p th:text="${listaEjercicios.completado == true} ? 'Completado: si' : 'Completado: No'"> </p>
+                <br>
+                <td><a th:href="${listaEjercicios.ejercicioNombre.video}" target="_blank"><button
+                            class="boton2 uno "><span>Video</span></button></a></td>
+
+
+                <a th:href="@{/modificar-ejercicio}+'?id='+${listaEjercicios.id}"><button
+                        class="boton2 uno "><span>Completar</span></button></a>
+                <a sec:authorize="hasRole('ROLE_ADMIN')"
+                    th:href="@{/eliminar-ejercicio}+'?id='+${listaEjercicios.id}"><button
+                        class="boton2 uno "><span>Eliminar</span></button></a>
+
+            </div>
+
+            <div class="card" th:if="${listaEjercicios.completado != true}">
+
+                <img src="/CSS/img/img4.jpg">
+                <h4 th:text="${listaEjercicios.ejercicioNombre.nombre}"></h4>
+                <p th:text="${'Categoría: ' + listaEjercicios.ejercicioNombre.categoria.nombre}"></p>
+                <p th:text="${'Series: ' +listaEjercicios.series}"></p>
+                <p th:text="${'Repeticiones: ' +listaEjercicios.repeticiones}"> </p>
+                <p th:text="${'Pausa: ' +listaEjercicios.pausa}"> </p>
+                <p th:text="${'Dificultad: ' +listaEjercicios.dificultad}"> </p>
+                <p th:text="${'Kilogramos: ' +listaEjercicios.kilogramos}"> </p>
+                <p th:text="${'Notas: ' +listaEjercicios.notas}"> </p>
+                <p th:text="${'Atencion: ' +listaEjercicios.atencion}"> </p>
+                <p th:text="${listaEjercicios.completado == true} ? 'Completado: si' : 'Completado: No'"> </p>
+                <br>
+                <td><a th:href="${listaEjercicios.ejercicioNombre.video}" target="_blank"><button
+                            class="boton2 uno "><span>Video</span></button></a></td>
+
+
+                <a th:href="@{/modificar-ejercicio}+'?id='+${listaEjercicios.id}"><button
+                        class="boton2 uno "><span>Completar</span></button></a>
+                <a sec:authorize="hasRole('ROLE_ADMIN')"
+                    th:href="@{/eliminar-ejercicio}+'?id='+${listaEjercicios.id}"><button
+                        class="boton2 uno "><span>Eliminar</span></button></a>
+            </div>
+        </div>
     </section>
 
 </body>

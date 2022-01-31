@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Amrap</title>
+    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
+    <link rel="stylesheet" href="CSS/fonts.css">
+
+</head>
+
+<body>
+    <h1 class="titulo">Listar usuarios</h1>
+
+
+    <!-- menu desplegable comienzo  -->
+    <header th:replace="/inicio.html::header"></header>
+    <!-- menu desplegable fin  -->
+
+
+    <section Class=principal>
+
+        <div class="formulario">
+
+            <div>
+
+                <a th:href="@{/listar-usuarios}"><button class="boton cuatro"><span>Listar Usuarios</span></button></a><br><br>
+
+            </div>
+
+            <form  action="/buscar-usuario" method="GET">
+                <form >
+
+                <p th:if="${error != null}" th:text=${error} class=error></p>
+                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+
+                <label>Nombre:</label><br>
+
+                <input type="text" name="nombre"><br><br>
+
+                <button type="submit" class="boton tres"><span>Buscar</span></button>
+
+            </form>
+
+        </div>
+
+        <section class="formulario2" action="/buscar-usuarios" method="GET">
+
+            <label>Usuarios</label><br><br>
+
+            <p th:if="${error != null}" th:text=${error} class=error></p>
+            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>
+                            <p>Nombre</p>
+                        </th>
+
+                        <th>
+                            <p>Apellido</p>
+                        </th>
+
+                        <th>
+                            <p>E-mail</p>
+                        </th>
+                        <th>
+                            <p>DNI</p>
+                        </th>
+
+                        <th>
+                            <p>Rol</p>
+                        </th>
+                        <th>
+                            <p>Alta</p>
+                        </th>
+                        <th>
+                            <p>Baja</p>
+                        </th>
+                        <th>
+                            <p>Foto</p>
+                        </th>
+                        <th>
+                            <p>acciones</p>
+                        </th>
+
+                    </tr>
+                </thead>
+
+                <tr th:each=" listaUsuarios : ${listaUsuarios}">
+                    <td th:text="${listaUsuarios.nombre}"></td>
+                    <td th:text="${listaUsuarios.apellido}"></td>
+                    <td th:text="${listaUsuarios.email}"></td>
+                    <td th:text="${listaUsuarios.dni}"></td>
+                    <td th:text="${listaUsuarios.rol}"></td>
+                    <td th:text="${listaUsuarios.alta}"></td>
+                    <td th:text="${listaUsuarios.baja}"></td>
+                    <td> <img class="foto1" th:src="${'/foto/usuario/' +listaUsuarios.id}"> </td>
+
+
+                    <td>
+
+                        <a th:href="@{/seleccionar-perfil (id=${listaUsuarios.id})}"><button
+                                class="boton2 uno"><span>Elegir</span></button></a>
+
+                    </td>
+
+
+                </tr>
+
+            </table>
+
+        </section>
+     
+
+</body>
+
+</html>

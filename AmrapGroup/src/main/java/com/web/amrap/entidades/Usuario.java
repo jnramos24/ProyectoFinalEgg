@@ -1,8 +1,11 @@
 package com.web.amrap.entidades;
 
+import Enumeraciones.Role;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -22,10 +25,12 @@ public class Usuario implements Serializable {
 
     private String nombre;
     private String apellido;
-    private String dni;
     private String email;
     private String clave;
 
+    @Enumerated(EnumType.STRING)
+    private Role rol;
+    
     @Temporal(TemporalType.TIMESTAMP)
     private Date alta;
 

@@ -25,7 +25,7 @@ public class EjercicioNombreController {
     @Autowired
     private CategoriaImplement categoriaImplement;
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO','ROLE_ADMIN')")
     @GetMapping("/listar-ejercicioNombres")
     public String listarEjercicioNombres(ModelMap modelo) {
 
@@ -51,7 +51,7 @@ public class EjercicioNombreController {
         return "/ejercicio_nombre/ejercicioNombre_busqueda.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/nuevo-ejercicioNombre")
     public String cargarEjercicioNombre(ModelMap modelo) {
 
@@ -68,7 +68,7 @@ public class EjercicioNombreController {
         return "/ejercicio_nombre/ejercicioNombre_cargar.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/cargar-ejercicioNombre")
     public String cargarEjercicioNombre(ModelMap modelo,
             @RequestParam String nombre,
@@ -94,7 +94,7 @@ public class EjercicioNombreController {
         return "redirect:/listar-ejercicioNombres";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO','ROLE_ADMIN')")
     @GetMapping("/buscar-ejercicioNombre")
     public String buscarEjercicioNombre(ModelMap modelo,
             @RequestParam(required = false) String nombre,
@@ -128,7 +128,7 @@ public class EjercicioNombreController {
         return "/ejercicio_nombre/ejercicioNombre_busqueda.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/modificar-ejercicioNombre")
     public String modificarEjercicioNombre(@RequestParam String id, ModelMap modelo) {
 
@@ -149,7 +149,7 @@ public class EjercicioNombreController {
         return "/ejercicio_nombre/ejercicioNombre_modificar.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/actualizar-ejercicioNombre")
     public String actualizarEjercicioNombre(ModelMap modelo,
             @RequestParam String id,
@@ -182,7 +182,7 @@ public class EjercicioNombreController {
         return "/ejercicio_nombre/ejercicioNombre_modificar.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/eliminar-ejercicioNombre")
     public String eliminarEjercicioNombre(@RequestParam String id, ModelMap modelo) {
 

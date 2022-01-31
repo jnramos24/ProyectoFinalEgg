@@ -1,8 +1,10 @@
 package com.web.amrap.controladores;
 
+import Enumeraciones.Role;
 import com.web.amrap.entidades.Categoria;
 import com.web.amrap.entidades.Ejercicio;
 import com.web.amrap.entidades.EjercicioNombre;
+import com.web.amrap.entidades.Usuario;
 import com.web.amrap.errores.ErrorServicio;
 import com.web.amrap.implementacion.CategoriaImplement;
 import com.web.amrap.implementacion.EjercicioImplement;
@@ -11,6 +13,7 @@ import com.web.amrap.repositorios.CategoriaRepositorio;
 import com.web.amrap.repositorios.EjercicioNombreRepositorio;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -36,7 +39,7 @@ public class EjercicioController {
     @Autowired
     private EjercicioNombreImplement ejercicioNombreImplement;
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO','ROLE_ADMIN')")
     @GetMapping("/listar-ejercicios")
     public String listarEjercicios(ModelMap modelo, @RequestParam String idRutina) { // este parametro se recibe por la url de otro metodo que llama a este
 
@@ -69,9 +72,9 @@ public class EjercicioController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/nuevo-ejercicio")
-    public String cargarEjercicio(ModelMap modelo, @RequestParam String idRutina) { // este parametro se recibe por la url de otro metodo que llama a este
+    public String nuevoEjercicio(ModelMap modelo, @RequestParam String idRutina) { // este parametro se recibe por la url de otro metodo que llama a este
 
         modelo.put("idRutina", idRutina);   // se reenvia hacia la vista de crear ejercicio, el id, que se recibio por la url desde rutina     
 
@@ -89,7 +92,7 @@ public class EjercicioController {
         return "/ejercicio/ejercicios_cargar.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/cargar-ejercicio")
     public String cargarEjercicio(ModelMap modelo,
             @RequestParam(required = false) Integer series,
@@ -128,7 +131,7 @@ public class EjercicioController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO','ROLE_ADMIN')")
     @GetMapping("/buscar-ejercicio")
     public String buscarEjercicio(ModelMap modelo,
             @RequestParam(required = false) String idNombre,
@@ -167,9 +170,9 @@ public class EjercicioController {
         return "/ejercicio/ejercicios_busqueda.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO','ROLE_ADMIN')")
     @GetMapping("/modificar-ejercicio")
-    public String modificarEjercicio(ModelMap modelo,
+    public String modificarEjercicio(ModelMap modelo,HttpSession session,
             @RequestParam String id) {
 
         try {
@@ -179,6 +182,11 @@ public class EjercicioController {
 
             Ejercicio ejercicio = ejercicioImplement.buscarEjercicioPorId(id);
             modelo.addAttribute("ejercicio", ejercicio);
+            
+            Usuario login = (Usuario) session.getAttribute("usuariosession");  
+            
+            Role rol = Role.ADMIN;
+            modelo.addAttribute("rol", rol);
 
         } catch (ErrorServicio ex) {
 
@@ -189,7 +197,7 @@ public class EjercicioController {
         return "/ejercicio/ejercicios_modificar.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO','ROLE_ADMIN')")
     @PostMapping("/actualizar-ejercicio")
     public String actualizarEjercicio(ModelMap modelo,
             @RequestParam String id,
@@ -201,7 +209,8 @@ public class EjercicioController {
             @RequestParam(required = false) String notas,
             @RequestParam(required = false) String atencion,
             @RequestParam(required = false) String idEjercNom,
-            @RequestParam(required = false) String idRutina) {
+            @RequestParam(required = false) String idRutina,
+            @RequestParam(required = false) String completo){
 
         Ejercicio ejercicio = null;
 
@@ -211,14 +220,23 @@ public class EjercicioController {
             modelo.put("nombresEjercicios", nombresEjercicios);
 
             ejercicio = ejercicioImplement.buscarEjercicioPorId(id);
+            
+            Boolean completado = false;
+            
+            if (completo.equals("completado")) {
+
+                completado = true;
+            }
 
             ejercicioImplement.modificarEjercicio(id, series, repeticiones,
-                    pausa, dificultad, kilogramos, notas, atencion, idEjercNom, idRutina);
+                    pausa, dificultad, kilogramos, notas, atencion, idEjercNom, idRutina, completado);
 
             ejercicio = ejercicioImplement.buscarEjercicioPorId(id); // devuelve el objeto modificado
             modelo.put("ejercicio", ejercicio);
 
             modelo.put("exito", "El ejercicio, se modificó correctamente");
+            
+            return "/ejercicio/ejercicios_modificar.html";
 
         } catch (ErrorServicio ex) {
 
@@ -227,10 +245,10 @@ public class EjercicioController {
 
             return "/ejercicio/ejercicios_modificar.html";
         }
-        return "/ejercicio/ejercicios_modificar.html";
+        
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/eliminar-ejercicio")
     public String eliminarEjercicio(@RequestParam String id, ModelMap modelo) {
         

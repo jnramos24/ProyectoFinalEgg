@@ -10,7 +10,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RutinaRepositorio extends JpaRepository<Rutina, String> {
 
-    @Query("SELECT c FROM Rutina c WHERE c.usuario.id = :idUsuario")
+   @Query("SELECT c FROM Rutina c WHERE c.usuario.id = :idUsuario ORDER BY alta ASC")
     public List<Rutina> buscarRutinaPorUsuario(@Param("idUsuario") String idUsuario);
+
+    @Query("SELECT c FROM Rutina c ORDER BY alta ASC")
+    public List<Rutina> findAllOrdenado();
 
 }

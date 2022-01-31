@@ -23,14 +23,14 @@ public class CategoriaController {
     @Autowired
     private CategoriaImplement categoriaImplement;
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or hasRole('ROLE_USUARIO_REGISTRADO'))")
     @GetMapping("/configuracion")
     public String configuracion(ModelMap modelo) {
 
         return "/ajustes.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO','ROLE_ADMIN')")
     @GetMapping("/listar-categorias")
     public String listar(ModelMap modelo) {
 
@@ -53,13 +53,13 @@ public class CategoriaController {
         return "/categoria/categorias_busqueda.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/nueva-categoria")
     public String nuevaCategoria() {
         return "/categoria/categorias_cargar.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/cargar-categoria")
     public String guardarCategoria(ModelMap modelo, @RequestParam String nombre) {
 
@@ -76,7 +76,7 @@ public class CategoriaController {
         return "redirect:/listar-categorias";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO','ROLE_ADMIN')")
     @GetMapping("/buscar-categoria")
     public String buscarCategoria(ModelMap modelo, @RequestParam(required = false) String nombre) {
 
@@ -100,7 +100,7 @@ public class CategoriaController {
         return "/categoria/categorias_busqueda.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/modificar-categoria")
     public String editarCategoria(@RequestParam String id, ModelMap modelo) {
 
@@ -120,7 +120,7 @@ public class CategoriaController {
         return "/categoria/categorias_modificar.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/actualizar-categoria")
     public String actualizarCategoria(ModelMap modelo, @RequestParam String id, @RequestParam String nombre) {
 
@@ -147,7 +147,7 @@ public class CategoriaController {
         return "/categoria/categorias_modificar.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/eliminar-categoria")
     public String eliminarCategoria(ModelMap modelo, @RequestParam String id) {
 
@@ -159,6 +159,8 @@ public class CategoriaController {
 
             categoriaImplement.eliminarCategoria(id);
             modelo.put("exito", "La categoría se eliminó correctamente");
+            
+            return "redirect:/listar-categorias";
 
         } catch (ErrorServicio ex) {
 
@@ -167,7 +169,6 @@ public class CategoriaController {
 
             return "/categoria/categorias_busqueda.html";
         }
-        return "redirect:/listar-categorias";
     }
 
 }

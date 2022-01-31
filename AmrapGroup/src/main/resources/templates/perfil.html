@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+    xlmns="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8">
@@ -22,7 +23,7 @@
 
         <div class=formulario>
 
-            <h1 >Editar Perfil</h1><br>
+            <h1>Editar Perfil</h1><br>
 
 
             <form action="/actualizar-perfil" method="POST" enctype="multipart/form-data">
@@ -48,9 +49,15 @@
                 <p><label> E-mail </label></p>
                 <input type="email" name="email" th:value="${perfil.email}" /><br><br>
 
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <label>Rol:</label><br>
+                    <span th:text="${perfil.rol}" class="exito"></span><br>
+                    <select class="alta" name="rol">
+                        <option th:each="roles : ${roles}" th:text="${roles}"></option>
+                    </select><br><br>
+                </div>
 
                 <p><label> Foto </label></p>
-    
                 <input type="file" name="archivo" /><br><br>
 
 
@@ -64,7 +71,73 @@
                         class="boton tres"><span>Cambiar clave</span></button></a>
             </div>
 
+            <div th:if="${session.usuariosession.baja == null}">
+                <a th:href="@{/deshabilitar-usuario}+'?id='+${session.usuariosession.id}" id="a"><button
+                        class="boton tres"><span>Inhabilitar Usuario</span></button></a>
+            </div>
+
+            <div th:if="${session.usuariosession.baja != null}">
+                <a th:href="@{/habilitar-usuario}+'?id='+${session.usuariosession.id}" id="a"><button
+                        class="boton tres"><span>Habilitar Usuario</span></button></a>
+            </div>
+
         </div>
+
+        <section class="formulario2" action="/mostrar-perfil" method="GET">
+
+            <label th:text="${session.usuariosession.nombre} +' '+ ${session.usuariosession.apellido}"></label><br><br>
+
+           
+       
+            <p th:if="${error != null}" th:text=${error} class=error></p>
+            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+            <p th:if="${eliminado != null}" th:text=${exito} class=exito></p>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>
+                            <p>Nombre</p>
+                        </th>
+
+                        <th>Apellido
+                            <p></p>
+                        </th>
+                        <th>
+                            <p>E-mail</p>
+                        </th>
+                        <th>
+                            <p>DNI</p>
+                        </th>
+                         <th>
+                            <p>Rol</p>
+                        </th>
+                          <th>
+                            <p>Alta</p>
+                        </th>
+                        <th>
+                            <p>Baja</p>
+                        </th>
+
+                    </tr>
+                </thead>
+
+                <tr >
+                    <td th:text="${session.usuariosession.nombre}"></td>
+                    <td th:text="${session.usuariosession.apellido}"></td>
+                    <td th:text="${session.usuariosession.email}"></td>
+                    <td th:text="${session.usuariosession.dni}"></td>
+                    <td th:text="${session.usuariosession.rol}"></td>
+                    <td th:text="${session.usuariosession.alta}"></td>
+                    <td th:text="${session.usuariosession.baja}"></td>
+                    <img class="foto" th:if="${session.usuariosession.foto !=null}" th:src="${'/foto/usuario/' + session.usuariosession.id}">
+                    
+                </tr>
+                
+            </table>
+            
+        </section>
 
 
     </section>

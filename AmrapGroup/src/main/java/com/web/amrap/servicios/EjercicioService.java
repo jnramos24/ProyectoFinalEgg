@@ -14,7 +14,7 @@ public interface EjercicioService {
             Integer dificultad, String kilogramos, String notas, String atencion, String idEjercNom, String idRutina) throws ErrorServicio;
 
     public void modificarEjercicio(String id, Integer series, Integer repeticiones, Integer pausa, 
-            Integer dificultad,String kilogramos, String notas, String atencion, String idEjercNom, String idRutina) throws ErrorServicio;
+            Integer dificultad,String kilogramos, String notas, String atencion, String idEjercNom, String idRutina, Boolean completado) throws ErrorServicio;
 
     public void eliminarEjercicio(String id) throws ErrorServicio;
 

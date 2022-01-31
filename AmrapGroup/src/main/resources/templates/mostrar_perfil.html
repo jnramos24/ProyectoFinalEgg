@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+    xlmns="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8">
@@ -34,9 +35,9 @@
 
         <section class="formulario2" action="/mostrar-perfil" method="GET">
 
-            <label>USUARIO:</label><br><br>
+            <label th:text="${session.usuariosession.nombre} +' '+ ${session.usuariosession.apellido}"></label><br><br>
 
-           <img th:if="${session.usuariosession.foto !=null}" th:src="${'/foto/usuario/' + session.usuariosession.id}">
+           
        
             <p th:if="${error != null}" th:text=${error} class=error></p>
             <p th:if="${exito != null}" th:text=${exito} class=exito></p>
@@ -56,7 +57,18 @@
                         <th>
                             <p>E-mail</p>
                         </th>
-                        
+                        <th>
+                            <p>DNI</p>
+                        </th>
+                         <th>
+                            <p>Rol</p>
+                        </th>
+                          <th>
+                            <p>Alta</p>
+                        </th>
+                        <th>
+                            <p>Baja</p>
+                        </th>
 
                     </tr>
                 </thead>
@@ -65,11 +77,16 @@
                     <td th:text="${session.usuariosession.nombre}"></td>
                     <td th:text="${session.usuariosession.apellido}"></td>
                     <td th:text="${session.usuariosession.email}"></td>
+                    <td th:text="${session.usuariosession.dni}"></td>
+                    <td th:text="${session.usuariosession.rol}"></td>
+                    <td th:text="${session.usuariosession.alta}"></td>
+                    <td th:text="${session.usuariosession.baja}"></td>
+                    <img class="foto" th:if="${session.usuariosession.foto !=null}" th:src="${'/foto/usuario/' + session.usuariosession.id}">
                     
                 </tr>
-
+                
             </table>
-
+            
         </section>
 
     </section>

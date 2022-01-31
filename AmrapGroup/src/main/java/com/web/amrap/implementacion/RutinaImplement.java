@@ -4,9 +4,11 @@ import com.web.amrap.entidades.Ejercicio;
 import com.web.amrap.entidades.Rutina;
 import com.web.amrap.entidades.Usuario;
 import com.web.amrap.errores.ErrorServicio;
+import com.web.amrap.repositorios.EjercicioRepositorio;
 import com.web.amrap.repositorios.RutinaRepositorio;
 import com.web.amrap.repositorios.UsuarioRepositorio;
 import com.web.amrap.servicios.RutinaService;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -21,6 +23,9 @@ public class RutinaImplement implements RutinaService {
 
     @Autowired
     UsuarioRepositorio usuarioRepositorio;
+    
+    @Autowired
+    EjercicioRepositorio ejercicioRepositorio;
 
     @Transactional
     @Override
@@ -35,6 +40,7 @@ public class RutinaImplement implements RutinaService {
         rutina.setNombre(nombre);
         rutina.setObjetivo(objetivo);
         rutina.setUsuario(usuario);
+        rutina.setAlta(new Date());
 
         rutinaRepositorio.save(rutina);
     }
@@ -71,8 +77,10 @@ public class RutinaImplement implements RutinaService {
     public void eliminarRutina(String idUsuario, String idRutina) throws ErrorServicio {
 
         Optional<Rutina> respuesta = rutinaRepositorio.findById(idRutina);
+        
+        List<Ejercicio> ejercicios = ejercicioRepositorio.buscarPorRutina(idRutina);
 
-        if (respuesta.isPresent()) {
+        if (respuesta.isPresent() && ejercicios.isEmpty()) {
 
             if (respuesta.get().getUsuario().getId().equals(idUsuario)) {
 
@@ -83,14 +91,14 @@ public class RutinaImplement implements RutinaService {
             }
 
         } else {
-            throw new ErrorServicio("No se encontró ninguna rutina con este id.");
+            throw new ErrorServicio("No se pudo eliminar la rutina. Primero debe eliminar los ejercicios asociados a la rutina");
         }
     }
 
     @Override
     public List<Rutina> listarRutinas() throws ErrorServicio {
 
-        List<Rutina> rutinas = rutinaRepositorio.findAll();
+        List<Rutina> rutinas = rutinaRepositorio.findAllOrdenado();
 
         if (rutinas != null && !rutinas.isEmpty()) {
 

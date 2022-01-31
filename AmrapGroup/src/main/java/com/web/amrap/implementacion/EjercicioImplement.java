@@ -1,5 +1,6 @@
 package com.web.amrap.implementacion;
 
+import Enumeraciones.Role;
 import com.web.amrap.entidades.Ejercicio;
 import com.web.amrap.entidades.EjercicioNombre;
 import com.web.amrap.entidades.IdentificadorEjerc;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.web.amrap.repositorios.IdentificadorEjercRepositorio;
 import com.web.amrap.repositorios.RutinaRepositorio;
+import java.util.Date;
 
 @Service
 public class EjercicioImplement implements EjercicioService {
@@ -57,6 +59,8 @@ public class EjercicioImplement implements EjercicioService {
         ejercicio.setNotas(notas);
         ejercicio.setAtencion(atencion);
         ejercicio.setIdentificador(identificador);
+        ejercicio.setCompletado(false);
+        ejercicio.setAlta(new Date());
 
         ejercicioRepositorio.save(ejercicio);
 
@@ -67,8 +71,8 @@ public class EjercicioImplement implements EjercicioService {
 
     @Transactional
     @Override
-    public void modificarEjercicio(String id, Integer series, Integer repeticiones, Integer pausa, Integer dificultad,
-            String kilogramos, String notas, String atencion, String idEjercNom, String idRutina) throws ErrorServicio {
+     public void modificarEjercicio(String id, Integer series, Integer repeticiones, Integer pausa, Integer dificultad,
+            String kilogramos, String notas, String atencion, String idEjercNom, String idRutina, Boolean completado) throws ErrorServicio {
 
         EjercicioNombre ejercicioNombre = ejercicioNombreRepositorio.findById(idEjercNom).get();
 
@@ -78,7 +82,19 @@ public class EjercicioImplement implements EjercicioService {
 
         Optional<Ejercicio> respuestaEjercicio = ejercicioRepositorio.findById(id);
 
-        if (respuestaEjercicio.isPresent()) {
+        if (rutina.getUsuario().getRol().equals(Role.USUARIO_REGISTRADO) && respuestaEjercicio.isPresent()) {
+
+            Ejercicio ejercicio = respuestaEjercicio.get();
+
+            ejercicio.setDificultad(dificultad);
+            ejercicio.setKilogramos(kilogramos);
+            ejercicio.setNotas(notas);
+            ejercicio.setAtencion(atencion);
+            ejercicio.setCompletado(true);
+
+            ejercicioRepositorio.save(ejercicio);
+
+        } else if (rutina.getUsuario().getRol().equals(Role.ADMIN) && respuestaEjercicio.isPresent()) {
 
             Ejercicio ejercicio = respuestaEjercicio.get();
 
@@ -91,12 +107,13 @@ public class EjercicioImplement implements EjercicioService {
             ejercicio.setKilogramos(kilogramos);
             ejercicio.setNotas(notas);
             ejercicio.setAtencion(atencion);
+            ejercicio.setCompletado(true);
 
             ejercicioRepositorio.save(ejercicio);
+
         } else {
             throw new ErrorServicio("No se encontró ningun ejercicio con este id.");
         }
-
     }
 
     @Transactional
@@ -196,8 +213,40 @@ public class EjercicioImplement implements EjercicioService {
 
         List<Ejercicio> ejercicios = ejercicioRepositorio.buscarPorRutina(idRutina);
 
+        Integer contador = 0;
+
         if (ejercicios != null && !ejercicios.isEmpty()) {
 
+            for (Ejercicio ejercicio : ejercicios) {
+
+                if (ejercicio.getCompletado() == true) {
+
+                    contador++;
+                    System.out.println("**********************************************");
+                    System.out.println("contador: " + contador);
+                    System.out.println("**********************************************");
+                }
+            }
+
+            if (ejercicios.size() == contador) {
+
+                System.out.println("**********************************************");
+                System.out.println("tamaño de la lista de ejercicios por rutina: " + ejercicios.size());
+                System.out.println("**********************************************");
+
+                Rutina rutina = rutinaRepositorio.findById(idRutina).get();
+
+                System.out.println("**********************************************");
+                System.out.println("rutina: " + rutina.getId() + ", " + rutina.getNombre());
+                System.out.println("**********************************************");
+
+                rutina.setCompletado(Boolean.TRUE);
+                System.out.println("**********************************************");
+                System.out.println("rutina completado: " + rutina.getCompletado());
+                System.out.println("**********************************************");
+                
+                rutinaRepositorio.save(rutina);
+            }
             return ejercicios;
 
         } else {

@@ -5,8 +5,8 @@
 <head >
     <meta charset="utf-8">
     <title>Amrap</title>
-    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
-    <link rel="stylesheet" href="CSS/fonts.css">
+    <link rel="stylesheet" href="css/Style_ejercicios.css">
+    <link rel="stylesheet" href="css/fonts.css">
 </head>
 
 <body>
@@ -19,16 +19,15 @@
     <header th:fragment="header">
         <nav>
             <ul>
-                <li> <a href="inicio"><span class="primero"><i class="icon icon-home "></i></span> Inicio</a> </li>
-                <li> <a th:href="@{/buscar-rutina}"><span class="cuarto"><i
-                                class="icon icon-books"></i></span>Rutinas</a></li>
-                <li> <a href="configuracion"><span class="tercero"><i
-                                class="icon icon-books"></i></span>Configuracion</a></li>
-                <li> <a th:href="@{/mostrar-perfil}+'?id='+${session.usuariosession.id}"><span class="segundo"><i
-                                class="icon icon-books"></i></span>
-                        <p th:text="${session.usuariosession.nombre}+' '+${session.usuariosession.apellido}"></p>
-                    </a></li>
-                <li> <a href="logout">Salir</a></li>
+                <li> <a href="inicio"><span class="primero"><br>Inicio</span> Inicio</a></li>
+                <li> <a th:href="@{/buscar-rutina}"><span class="cuarto"Rutinas><br>Rutinas</span>Rutinas</a></li>
+                <li sec:authorize="hasRole('ROLE_ADMIN')"> <a href="configuracion"><span class="tercero"><br>Configuracion</span>Configuracion</a></li>
+                <li sec:authorize="hasRole('ROLE_ADMIN')"> <a th:href="@{/listar-usuarios}"><span class="quinto"><br>Usuarios</span>Usuarios</a></li>
+                <li> <img class="foto1" th:if="${session.usuariosession.foto !=null}" th:src="${'/foto/usuario/' + session.usuariosession.id}">
+                    <a th:href="@{/mostrar-perfil}+'?id='+${session.usuariosession.id}"><span  class="segundo"></span>
+                        <p th:text="${session.usuariosession.nombre}+' '+${session.usuariosession.apellido}"></p></a></li>
+                <li> <a href="logout"><span class="sexto"><br>Salir</span>Salir</a></li>          
+                
 
             </ul>
         </nav>

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+    xlmns="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8">
     <title>Amrap</title>
-    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
-    <link rel="stylesheet" href="CSS/fonts.css">
+    <link rel="stylesheet" href="css/Style_ejercicios.css">
+    <link rel="stylesheet" href="css/fonts.css">
 
 </head>
 
@@ -22,8 +23,9 @@
 
         <div class="formulario">
             <div>
-                <a th:href="@{/nueva-rutina}"><button class="boton tres"><span>Crear Rutina</span></button></a>      
-                <a th:href="@{/listar-rutinas}"><button class="boton tres"><span>Listar Rutina</span></button></a>       
+                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/nueva-rutina}"><button
+                        class="boton tres"><span>Crear Rutina</span></button></a>
+                <a th:href="@{/listar-rutinas}"><button class="boton tres"><span>Listar Rutinas</span></button></a>
             </div>
 
             <form action="/buscar-rutina" method="GET">
@@ -43,49 +45,50 @@
 
         <!--   ************** formulario resultados -->
 
-        <section class="formulario2" action="/buscar-rutina" method="GET">
+        <div class="container2" th:each="rutinas : ${rutinas}">
 
-            <label>Rutinas</label><br><br>
+            <div class="card2" th:if="${rutinas.completado != true}">
 
-            <p th:if="${error != null}" th:text=${error} class=error></p>
-            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+                <img src="img/img5.jpg">
+                <h4 th:text="${rutinas.nombre}"></h4>
+                <p th:text="${'Objetivo: ' + rutinas.objetivo}"></p>
+                <p th:text="${rutinas.completado == true} ? 'Completada: si' : 'Completada: No'"> </p><br>
+                
 
-            <table>
+                <a th:href="@{/listar-ejercicios (idRutina=${rutinas.id})}"><button
+                    class="boton2 uno"><span>Ejercicios</span></button></a><br><br>
 
-                <thead>
-                    <tr>
-                        <th>
-                            <p>Nombre</p>
-                        </th>
+                <a sec:authorize="hasRole('ROLE_ADMIN')"
+                    th:href="@{/modificar-rutina (idUsuario=${rutinas.usuario.id},idRutina=${rutinas.id})}"><button
+                        class="boton2 uno"><span>Editar</span></button></a>
+                <a sec:authorize="hasRole('ROLE_ADMIN')"
+                    th:href="@{/eliminar-rutina (idUsuario=${rutinas.usuario.id},idRutina=${rutinas.id})}"><button
+                        class="boton2 uno"><span>Eliminar</span></button></a>
+                <!--  de esta manera se envia una hiperlink con dos o mas parametros para recibirlos en el controlador. -->
+                
+            </div>
 
-                        <th>
-                            <p>objetivo</p>
-                        </th>
+            <div class="card3" th:if="${rutinas.completado == true}">
 
-                        <th>
-                            <p>Acciones</p>
-                        </th>
+                <img src="img/img5.jpg">
+                <h4 th:text="${rutinas.nombre}"></h4>
+                <p th:text="${'Objetivo: ' + rutinas.objetivo}"></p>
+                <p th:text="${rutinas.completado == true} ? 'Completada: si' : 'Completada: No'"> </p><br>
+                
 
-                    </tr>
-                </thead>
+                <a th:href="@{/listar-ejercicios (idRutina=${rutinas.id})}"><button
+                    class="boton2 uno"><span>Ejercicios</span></button></a><br><br>
 
-                <tr th:each=" rutinas : ${rutinas}">
-                    <td th:text="${rutinas.nombre}"></td>
-                    <td th:text="${rutinas.objetivo}"></td>
-
-                    <td>
-                        <a th:href="@{/modificar-rutina (idUsuario=${rutinas.usuario.id},idRutina=${rutinas.id})}"><button class="boton2 uno"><span>Editar</span></button></a>  
-                        <a th:href="@{/eliminar-rutina (idUsuario=${rutinas.usuario.id},idRutina=${rutinas.id})}"><button class="boton2 uno"><span>Eliminar</span></button></a>  
-                        <!--  de esta manera se envia una hiperlink con dos o mas parametros para recibirlos en el controlador. -->
-                        <a th:href="@{/listar-ejercicios (idRutina=${rutinas.id})}"><button class="boton2 uno"><span>Ejercicios</span></button></a>
-                    </td>
-
-
-                </tr>
-
-            </table>
-
-        </section>
+                <a sec:authorize="hasRole('ROLE_ADMIN')"
+                    th:href="@{/modificar-rutina (idUsuario=${rutinas.usuario.id},idRutina=${rutinas.id})}"><button
+                        class="boton2 uno"><span>Editar</span></button></a>
+                <a sec:authorize="hasRole('ROLE_ADMIN')"
+                    th:href="@{/eliminar-rutina (idUsuario=${rutinas.usuario.id},idRutina=${rutinas.id})}"><button
+                        class="boton2 uno"><span>Eliminar</span></button></a>
+               
+                
+            </div>
+        </div>
 
     </section>
 </body>

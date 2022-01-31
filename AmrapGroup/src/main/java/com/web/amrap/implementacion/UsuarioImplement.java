@@ -1,10 +1,10 @@
 package com.web.amrap.implementacion;
 
+import Enumeraciones.Role;
 import com.web.amrap.entidades.Foto;
 import com.web.amrap.entidades.Usuario;
 import com.web.amrap.errores.ErrorServicio;
 import com.web.amrap.repositorios.UsuarioRepositorio;
-import com.web.amrap.servicios.FotoService;
 import com.web.amrap.servicios.UsuarioService;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,36 +32,50 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
     private UsuarioRepositorio usuarioRepositorio;
     
     @Autowired
-    private FotoService fotoService;
+    private FotoImplement fotoImplement;
 
     @Transactional
     @Override
-    public void registarUsuario(String nombre, String apellido, String dni, String email, String clave1, String clave2, MultipartFile archivo) throws ErrorServicio {
+    public void registarUsuario(String nombre, String apellido, String email, String clave1, String clave2, MultipartFile archivo) throws ErrorServicio {
 
-        validarDatos(nombre, apellido, email, dni);
+        validarDatos(nombre, apellido, email);
         validarClaves(clave1, clave2);
 
-        Usuario usuario = new Usuario();
+        if (usuarioRepositorio.buscarUsuarioPorEmail(email) == null) {
 
-        usuario.setNombre(nombre);
-        usuario.setApellido(apellido);
-        usuario.setDni(dni);
-        usuario.setEmail(email);
-        usuario.setAlta(new Date());
+            Usuario usuario = new Usuario();
 
-        String claveEncriptada = new BCryptPasswordEncoder().encode(clave1);
-        usuario.setClave(claveEncriptada);
+            usuario.setNombre(nombre);
+            usuario.setApellido(apellido);
+            usuario.setEmail(email);
+            usuario.setAlta(new Date());
+            usuario.setBaja(null);
+            usuario.setRol(Role.USUARIO_REGISTRADO);
 
-        Foto foto = fotoService.guardarFoto(archivo);
-        usuario.setFoto(foto);
-        usuarioRepositorio.save(usuario);
+            String claveEncriptada = new BCryptPasswordEncoder().encode(clave1);
+            usuario.setClave(claveEncriptada);
+
+            if (archivo != null && !archivo.isEmpty()) {
+
+                Foto foto = fotoImplement.guardarFoto(archivo);
+                usuario.setFoto(foto);
+                usuarioRepositorio.save(usuario);
+            } else {
+                Foto foto = fotoImplement.buscarFoto("d332f0c8-f071-4095-8516-74c4f8ce8b95");
+                usuario.setFoto(foto);
+                usuarioRepositorio.save(usuario);
+            }
+        } else {
+            throw new ErrorServicio("Ya existe un usuario registrado con este email");
+        }
+
     }
 
     @Transactional
     @Override
-    public void modificarUsuario(String id, String nombre, String apellido, String dni, String email, MultipartFile archivo) throws ErrorServicio {
+    public void modificarUsuario(String id, String nombre, String apellido, String email, MultipartFile archivo, Role rol) throws ErrorServicio {
 
-        validarDatos(nombre, apellido, email, dni);
+        validarDatos(nombre, apellido, email);
 
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
 
@@ -69,22 +83,25 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
 
             Usuario usuario = respuesta.get();
 
-            usuario.setNombre(nombre);
-            usuario.setApellido(apellido);
-            usuario.setEmail(email);
-            usuario.setDni(dni);
+            if (usuarioRepositorio.buscarUsuarioPorEmail(email).equals(usuario) || usuarioRepositorio.buscarUsuarioPorEmail(email) == null) {
 
+                usuario.setNombre(nombre);
+                usuario.setApellido(apellido);
+                usuario.setEmail(email);
+                usuario.setRol(rol);
+                usuario.setRol(rol);
 
+                if (archivo != null && !archivo.isEmpty()) {
 
-            String idFoto = null;
+                    Foto foto = fotoImplement.guardarFoto(archivo);
+                    usuario.setFoto(foto);
+                }
 
-            if (usuario.getFoto() != null) {
-                idFoto = usuario.getFoto().getId();
+                usuarioRepositorio.save(usuario);
+
+            } else {
+                throw new ErrorServicio("El email ingresado, ya esta registrado por otro usuario.");
             }
-               Foto foto = fotoService.guardarFoto(archivo);
-            usuario.setFoto(foto);
-            usuarioRepositorio.save(usuario);
-
         } else {
             throw new ErrorServicio("No se encontró el usuario");
         }
@@ -105,6 +122,27 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
         } else {
             throw new ErrorServicio("No se encontro ningún usuario");
         }
+    }
+
+    @Override
+    public List<Usuario> buscarUsuarioPorNombre(String nombre) throws ErrorServicio {
+
+        List<Usuario> usuarios = usuarioRepositorio.buscarUsuarioPorNombre(nombre);
+
+        if (usuarios != null || !usuarios.isEmpty()) {
+
+            return usuarios;
+
+        } else {
+            throw new ErrorServicio("No se encontró ninguna usuario.");
+        }
+    }
+
+    @Transactional
+    @Override
+    public Usuario buscarUsuarioPorEmail(String email) throws ErrorServicio {
+
+        return usuarioRepositorio.buscarUsuarioPorEmail(email);
 
     }
 
@@ -146,52 +184,6 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
         }
     }
 
-   
-    @Override
-    public void validarDatos(String nombre, String apellido, String email, String dni) throws ErrorServicio {
-
-        if (nombre == null || nombre.isEmpty()) {
-            throw new ErrorServicio("El nombre, no puede ser nulo.");
-        }
-
-        if (apellido == null || apellido.isEmpty()) {
-            throw new ErrorServicio("El apellido, no  puede ser nulo.");
-        }
-
-        if (email == null || email.isEmpty()) {
-            throw new ErrorServicio("El mail no puede ser nulo.");
-        }
-
-        if (dni == null || dni.isEmpty()) {
-            throw new ErrorServicio("El dni no puede ser nulo.");
-        }
-
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepositorio.buscarUsuarioPorMail(email);
-
-        System.out.println("******************************* este es el usuario que encontró para cuando quiera logearme: " + usuario);
-
-        if (usuario != null) {
-            List<GrantedAuthority> permisos = new ArrayList<>();
-
-            GrantedAuthority permiso1 = new SimpleGrantedAuthority("ROLE_USUARIO_REGISTRADO");
-            permisos.add(permiso1);
-
-            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-            HttpSession session = attr.getRequest().getSession(true);
-            session.setAttribute("usuariosession", usuario);
-
-            User user = new User(usuario.getEmail(), usuario.getClave(), permisos);
-            return user;
-        } else {
-            return null;
-        }
-    }
-
-    //******************************
     @Override
     public void modificarClaveUsuario(String id, String clave1, String clave2) throws ErrorServicio {
 
@@ -214,6 +206,22 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
     }
 
     @Override
+    public void validarDatos(String nombre, String apellido, String email) throws ErrorServicio {
+
+        if (nombre == null || nombre.isEmpty()) {
+            throw new ErrorServicio("El nombre, no puede ser nulo.");
+        }
+
+        if (apellido == null || apellido.isEmpty()) {
+            throw new ErrorServicio("El apellido, no  puede ser nulo.");
+        }
+
+        if (email == null || email.isEmpty()) {
+            throw new ErrorServicio("El mail no puede ser nulo.");
+        }
+    }
+
+    @Override
     public void validarClaves(String clave1, String clave2) throws ErrorServicio {
 
         if (clave1 == null || clave1.isEmpty() || clave1.length() < 6) {
@@ -222,6 +230,43 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
 
         if (!clave1.equals(clave2)) {
             throw new ErrorServicio("Las claves deben ser iguales");
+        }
+    }
+
+    public List<Usuario> listarUsuarios() throws ErrorServicio {
+
+        List<Usuario> usuarios = usuarioRepositorio.findAllOrdenado();
+
+        if (usuarios != null && !usuarios.isEmpty()) {
+
+            return usuarios;
+
+        } else {
+            throw new ErrorServicio("No se encontro ningún usuario");
+        }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepositorio.buscarUsuarioPorEmail(email);
+
+        System.out.println("******************************* este es el usuario que encontró para cuando quiera logearme: " + usuario);
+
+        if (usuario != null && usuario.getBaja() == null) {
+
+            List<GrantedAuthority> permisos = new ArrayList<>();
+
+            GrantedAuthority permiso1 = new SimpleGrantedAuthority("ROLE_" + usuario.getRol());
+            permisos.add(permiso1);
+
+            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+            HttpSession session = attr.getRequest().getSession(true);
+            session.setAttribute("usuariosession", usuario);
+
+            User user = new User(usuario.getEmail(), usuario.getClave(), permisos);
+            return user;
+        } else {
+            return null;
         }
     }
 

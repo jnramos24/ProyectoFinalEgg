@@ -27,7 +27,7 @@ public class RutinaController {
     @Autowired
     private UsuarioImplement usuarioImplement;
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO','ROLE_ADMIN')")
     @GetMapping("/listar-rutinas")
     public String listarRutinasPorId(ModelMap modelo, HttpSession session) {
 
@@ -47,7 +47,7 @@ public class RutinaController {
         return "/rutina/rutinas_busqueda.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO','ROLE_ADMIN')")
     @GetMapping("/buscar-rutina")
     public String buscarRutina(ModelMap modelo, HttpSession session,
             @RequestParam(required = false) String idUsuario) {
@@ -66,7 +66,7 @@ public class RutinaController {
         return "/rutina/rutinas_buscar.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/nueva-rutina")
     public String cargarRutina(ModelMap modelo, HttpSession session) {
 
@@ -76,7 +76,7 @@ public class RutinaController {
         return "/rutina/rutinas_cargar.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/crear-rutina")
     public String cargarRutina(ModelMap modelo, HttpSession session,
             @RequestParam(required = false) String nombre,
@@ -109,7 +109,7 @@ public class RutinaController {
         return "redirect:/listar-rutinas";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/modificar-rutina")
     public String modificarRutina(ModelMap modelo, HttpSession session,
             @RequestParam String idUsuario,
@@ -138,7 +138,7 @@ public class RutinaController {
 
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO','ROLE_ADMIN')")
     @PostMapping("/actualizar-rutina")
     public String actualizarRutina(ModelMap modelo, HttpSession session,
             @RequestParam String idUsuario,
@@ -170,7 +170,7 @@ public class RutinaController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/eliminar-rutina")
     public String eliminarRutina(ModelMap modelo, HttpSession session,
             @RequestParam String idUsuario,
@@ -180,20 +180,22 @@ public class RutinaController {
         if (login == null || !login.getId().equals(idUsuario)) {
             return "redirect:/inicio";
         }
+        
+         List<Rutina> rutinas = null;
 
         try {
+            
             rutinaImplement.eliminarRutina(idUsuario, idRutina);
-
             modelo.put("exito", "La rutina se eliminó correctamente");
 
             return "redirect:/listar-rutinas";
 
         } catch (ErrorServicio ex) {
-            modelo.put("error", ex.getMessage());
 
-            return "/rutina/rutinas_buscar.html";
+            modelo.addAttribute("rutinas", rutinas);
+
+            return "redirect:/listar-rutinas";
         }
-
     }
 
 }
