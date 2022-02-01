@@ -2,7 +2,6 @@ package com.web.amrap.servicios;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -17,10 +16,7 @@ public class MailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    public void enviaMail(String cuerpo,
-                                        String titulo,
-                                        String mail,
-                                        String archivo) throws MessagingException {
+    public void enviaMail(String cuerpo,String titulo,String mail,String archivo) throws MessagingException {
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
 

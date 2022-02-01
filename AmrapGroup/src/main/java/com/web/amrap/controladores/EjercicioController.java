@@ -9,9 +9,7 @@ import com.web.amrap.errores.ErrorServicio;
 import com.web.amrap.implementacion.CategoriaImplement;
 import com.web.amrap.implementacion.EjercicioImplement;
 import com.web.amrap.implementacion.EjercicioNombreImplement;
-import com.web.amrap.repositorios.CategoriaRepositorio;
 import com.web.amrap.repositorios.EjercicioNombreRepositorio;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,6 +124,7 @@ public class EjercicioController {
             modelo.put("kilogramos", kilogramos);
             modelo.put("notas", notas);
             modelo.put("atencion", atencion);
+            modelo.put("idRutina", idRutina);
 
             return "/ejercicio/ejercicios_cargar.html";
         }

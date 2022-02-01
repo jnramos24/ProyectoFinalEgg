@@ -1,7 +1,6 @@
 
 package com.web.amrap.servicios;
 
-import com.web.amrap.entidades.Ejercicio;
 import com.web.amrap.entidades.Rutina;
 import com.web.amrap.errores.ErrorServicio;
 import java.util.List;

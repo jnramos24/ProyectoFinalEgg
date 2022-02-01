@@ -1,6 +1,5 @@
 package com.web.amrap.controladores;
 
-import com.web.amrap.entidades.Ejercicio;
 import com.web.amrap.entidades.Rutina;
 import com.web.amrap.entidades.Usuario;
 import com.web.amrap.errores.ErrorServicio;

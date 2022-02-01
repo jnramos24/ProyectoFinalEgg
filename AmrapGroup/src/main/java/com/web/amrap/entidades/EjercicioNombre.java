@@ -1,5 +1,6 @@
 package com.web.amrap.entidades;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,7 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Data
 @Entity
 @Table
-public class EjercicioNombre {
+public class EjercicioNombre implements Serializable {
 
     @Id
     @GeneratedValue(generator = "uuid")
