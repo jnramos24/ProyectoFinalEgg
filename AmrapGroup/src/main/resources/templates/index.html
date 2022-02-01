@@ -72,7 +72,7 @@
             <ul class="ud-hero-buttons">
 
               <li>
-                <a href="registro" rel="nofollow noopener" target="_blank" class="ud-main-btn ud-link-btn">
+                <a href="registro" rel="nofollow noopener" target="_blank" class="btn-lg ud-main-btn">
                   REGISTRARSE
                 </a>
               </li>
@@ -625,11 +625,11 @@
               </div>
               <div class="ud-form-group">
                 <label for="email">Email</label>
-                <input type="email" name="email" placeholder="ejemplo@tumail.com" />
+                <input type="email" name="email" placeholder="Email" />
               </div>
               <div class="ud-form-group">
                 <label for="phone">Teléfono</label>
-                <input type="text" name="phone" placeholder="351 5211 552" />
+                <input type="text" name="phone" placeholder="Teléfono" />
               </div>
               <div class="ud-form-group">
                 <label for="message">Mensaje</label>
@@ -663,49 +663,7 @@
   <!-- ====== All Javascript Files ====== -->
   <script src="js/wow.min.js"></script>
   <script src="js/main.js"></script>
-  <script>
-    // ==== for menu scroll
-    const pageLink = document.querySelectorAll(".ud-menu-scroll");
-
-    pageLink.forEach((elem) => {
-      elem.addEventListener("click", (e) => {
-        e.preventDefault();
-        document.querySelector(elem.getAttribute("href")).scrollIntoView({
-          behavior: "smooth",
-          offsetTop: 1 - 60,
-        });
-      });
-    });
-
-    // section menu active
-    function onScroll(event) {
-      const sections = document.querySelectorAll(".ud-menu-scroll");
-      const scrollPos =
-        window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop;
-
-      for (let i = 0; i < sections.length; i++) {
-        const currLink = sections[i];
-        const val = currLink.getAttribute("href");
-        const refElement = document.querySelector(val);
-        const scrollTopMinus = scrollPos + 73;
-        if (
-          refElement.offsetTop <= scrollTopMinus &&
-          refElement.offsetTop + refElement.offsetHeight > scrollTopMinus
-        ) {
-          document
-            .querySelector(".ud-menu-scroll")
-            .classList.remove("active");
-          currLink.classList.add("active");
-        } else {
-          currLink.classList.remove("active");
-        }
-      }
-    }
-
-    window.document.addEventListener("scroll", onScroll);
-  </script>
+  <script src="js/menuScroll.js"></script>
 </body>
 
 </html>
