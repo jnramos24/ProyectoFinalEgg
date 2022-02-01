@@ -5,11 +5,15 @@ import com.web.amrap.entidades.Foto;
 import com.web.amrap.entidades.Usuario;
 import com.web.amrap.errores.ErrorServicio;
 import com.web.amrap.repositorios.UsuarioRepositorio;
+import com.web.amrap.servicios.MailService;
 import com.web.amrap.servicios.UsuarioService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +37,9 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
     
     @Autowired
     private FotoImplement fotoImplement;
+    
+    @Autowired
+    private MailService mailService; 
 
     @Transactional
     @Override
@@ -61,13 +68,22 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
                 usuario.setFoto(foto);
                 usuarioRepositorio.save(usuario);
             } else {
-                Foto foto = fotoImplement.buscarFoto("d332f0c8-f071-4095-8516-74c4f8ce8b95");
+                Foto foto = fotoImplement.buscarFoto("dedc2d21-15a2-48bc-b4c2-506fa7a4aa51");
                 usuario.setFoto(foto);
                 usuarioRepositorio.save(usuario);
+                
+                try {
+            //        mailService.enviarMail("PARA LA LU QUE LO MIRA POR TV!!", "AMRAP", usuario.getEmail());
+            mailService.enviaMail("Estoy enviando una imagen","Bienvenidos a AMRAP" , usuario.getEmail(), "C:\\ProyectoFinalEgg\\AmrapGroup\\src\\main\\resources\\static\\img\\Amrap mailing.png");
+        } catch (MessagingException ex) {
+            Logger.getLogger(UsuarioImplement.class.getName()).log(Level.SEVERE, null, ex);
+        }
             }
         } else {
             throw new ErrorServicio("Ya existe un usuario registrado con este email");
         }
+        
+        
 
     }
 
@@ -88,7 +104,6 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
                 usuario.setNombre(nombre);
                 usuario.setApellido(apellido);
                 usuario.setEmail(email);
-                usuario.setRol(rol);
                 usuario.setRol(rol);
 
                 if (archivo != null && !archivo.isEmpty()) {

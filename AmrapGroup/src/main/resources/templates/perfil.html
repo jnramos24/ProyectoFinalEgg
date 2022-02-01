@@ -43,9 +43,6 @@
                 <p><label> Apellido </label></p>
                 <input type="text" name="apellido" th:value="${perfil.apellido}" /><br><br>
 
-                <p><label> DNI </label></p>
-                <input type="text" name="dni" th:value="${perfil.dni}" /><br><br>
-
                 <p><label> E-mail </label></p>
                 <input type="email" name="email" th:value="${perfil.email}" /><br><br>
 
@@ -107,9 +104,6 @@
                         <th>
                             <p>E-mail</p>
                         </th>
-                        <th>
-                            <p>DNI</p>
-                        </th>
                          <th>
                             <p>Rol</p>
                         </th>
@@ -127,7 +121,6 @@
                     <td th:text="${session.usuariosession.nombre}"></td>
                     <td th:text="${session.usuariosession.apellido}"></td>
                     <td th:text="${session.usuariosession.email}"></td>
-                    <td th:text="${session.usuariosession.dni}"></td>
                     <td th:text="${session.usuariosession.rol}"></td>
                     <td th:text="${session.usuariosession.alta}"></td>
                     <td th:text="${session.usuariosession.baja}"></td>
