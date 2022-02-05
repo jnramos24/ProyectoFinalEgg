@@ -1,46 +1,34 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <title>Amrap</title>
-    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
-    <link rel="stylesheet" href="CSS/fonts.css">
-
-</head>
+<head th:replace="layout/plantilla :: menu-head"></head>
 
 <body>
+    <nav class="sidebar close" th:replace="layout/plantilla :: menu"></nav>
 
-    <h1 class="titulo">Cargar Categorías</h1>
+    <section class="home">
+        <div class="text">&nbsp&nbspCargar Categorías</div>
 
+        <section Class=principal>
 
-    <!-- menu desplegable comienzo  -->
-    <header th:replace="/inicio.html::header"></header>
-    <!-- menu desplegable fin  -->
-
-
-    <section Class=principal>
-
-        <form class="formulario" action="/cargar-categoria" method="POST">
-
-            <p th:if="${error != null}" th:text=${error} class=error></p>
-
-            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
-
-
-            <label >Nombre:</label><br>
-            <input type="text" name="nombre" th:value="${nombre}"><br><br>
-
-
-            <button type="submit" class="boton tres"><span>Guardar</span></button>
-
-            <button type="reset" class="boton cuatro"><span>Limpiar</span></button>
-
-        </form>
-
+            <form class="formulario" action="/cargar-categoria" method="POST">
+    
+                <p th:if="${error != null}" th:text=${error} class=error></p>
+    
+                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+    
+                <label >Nombre:</label><br>
+                <input type="text" name="nombre" th:value="${nombre}"><br><br>
+    
+                <button type="submit" class="boton tres"><span>Guardar</span></button>
+    
+                <button type="reset" class="boton cuatro"><span>Limpiar</span></button>
+    
+            </form>
+        </section>
     </section>
 
-
+    <script src="js/script.js"></script>
 </body>
 
 </html>

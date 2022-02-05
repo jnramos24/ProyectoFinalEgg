@@ -1,70 +1,54 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+  xlmns="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <meta charset="utf-8">
-    <title>Amrap</title>
-    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
-    <link rel="stylesheet" href="CSS/fonts.css">
-
-</head>
+<head th:replace="layout/plantilla :: menu-head"></head>
 
 <body>
-    <h1 class="titulo">Modificar Categorías</h1>
+    <nav class="sidebar close" th:replace="layout/plantilla :: menu"></nav>
 
+    <section class="home">
+        <div class="text">&nbsp&nbspModificar Categorías</div>
 
-    <!-- menu desplegable comienzo  -->
-    <header th:replace="/inicio.html::header"></header>
-    <!-- menu desplegable fin  -->
+        <section Class=principal>
 
-    <section Class=principal>
-
-        <form class="formulario" action="actualizar-categoria" method="POST">
-
-            <p th:if="${error != null}" th:text=${error} class=error></p>
-
-            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
-
-            <input type="hidden" name="id" th:value="${categoria.id}"><br>
-
-            <label>Nombre:</label><br>
-            <input type="text" name="nombre" th:value="${categoria.nombre}"><br><br>
-
-
-            <button type="submit" class="boton tres"><span>Actualizar</span></button>
-
-
-        </form>
-
-
-        <!--   formulario para mostrar el objeto cambiado-->
- 
-        <section class="formulario2" action="/buscar-categoria" method="GET">
-
-            <label>CATEGORÍA:</label><br><br>
-
-            <table>
-
-                <thead>
-                    <tr>
-                        <th>
-                            <p>Nombre</p>
-                        </th>
-
-                    </tr>
-                </thead>
-
-                <tr th:each=" categoria : ${categoria}">
-                    <td th:text="${categoria.nombre}"></td>
-                    
-                </tr>
-
-            </table>
-
+            <form class="formulario" action="actualizar-categoria" method="POST">
+    
+                <p th:if="${error != null}" th:text=${error} class=error></p>
+    
+                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+    
+                <input type="hidden" name="id" th:value="${categoria.id}"><br>
+    
+                <label>Nombre:</label><br>
+                <input type="text" name="nombre" th:value="${categoria.nombre}"><br><br>
+    
+                <button type="submit" class="boton tres"><span>Actualizar</span></button>  
+            </form>
+            <!--   formulario para mostrar el objeto cambiado-->
+            <section class="formulario2" action="/buscar-categoria" method="GET">
+    
+                <label>CATEGORÍA:</label><br><br>
+    
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                <p>Nombre</p>
+                            </th>
+    
+                        </tr>
+                    </thead>
+    
+                    <tr th:each=" categoria : ${categoria}">
+                        <td th:text="${categoria.nombre}"></td>    
+                    </tr>   
+                </table> 
+            </section>
         </section>
-
     </section>
-
+   
+    <script src="js/script.js"></script>
 </body>
 
 </html>

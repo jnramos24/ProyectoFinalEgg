@@ -68,12 +68,11 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
                 usuario.setFoto(foto);
                 usuarioRepositorio.save(usuario);
             } else {
-                Foto foto = fotoImplement.buscarFoto("dedc2d21-15a2-48bc-b4c2-506fa7a4aa51");
+                Foto foto = fotoImplement.buscarFoto("70c6ae74-6370-4262-9360-790001147617");
                 usuario.setFoto(foto);
                 usuarioRepositorio.save(usuario);
                 
-                try {
-            //        mailService.enviarMail("PARA LA LU QUE LO MIRA POR TV!!", "AMRAP", usuario.getEmail());
+                try {      
             mailService.enviaMail("Estoy enviando una imagen","Bienvenidos a AMRAP" , usuario.getEmail(), "C:\\ProyectoFinalEgg\\AmrapGroup\\src\\main\\resources\\static\\img\\Amrap mailing.png");
         } catch (MessagingException ex) {
             Logger.getLogger(UsuarioImplement.class.getName()).log(Level.SEVERE, null, ex);
@@ -82,9 +81,6 @@ public class UsuarioImplement implements UsuarioService, UserDetailsService {
         } else {
             throw new ErrorServicio("Ya existe un usuario registrado con este email");
         }
-        
-        
-
     }
 
     @Transactional

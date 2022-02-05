@@ -181,7 +181,7 @@ public class EjercicioController {
 
             Ejercicio ejercicio = ejercicioImplement.buscarEjercicioPorId(id);
             modelo.addAttribute("ejercicio", ejercicio);
-            
+            System.out.println("verificando si se obtiene el ejercicio" + ejercicio);
             Usuario login = (Usuario) session.getAttribute("usuariosession");  
             
             Role rol = Role.ADMIN;

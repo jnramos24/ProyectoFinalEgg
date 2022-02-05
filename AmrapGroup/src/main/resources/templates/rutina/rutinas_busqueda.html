@@ -2,95 +2,75 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
     xlmns="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <meta charset="utf-8">
-    <title>Amrap</title>
-    <link rel="stylesheet" href="css/Style_ejercicios.css">
-    <link rel="stylesheet" href="css/fonts.css">
-
-</head>
+<head th:replace="layout/plantilla :: menu-head"></head>
 
 <body>
-    <h1 class="titulo">Buscar Rutinas</h1>
 
+    <nav class="sidebar close" th:replace="layout/plantilla :: menu"></nav>
 
-    <!-- menu desplegable comienzo  -->
-    <header th:replace="/inicio.html::header"></header>
-    <!-- menu desplegable fin  -->
+    <section class="home">
+        <div class="text">&nbsp&nbspRutinas</div>
 
+        <div class="principal">
+            <div class="formulario">
+                <form action="/buscar-rutina" method="GET">
 
-    <section Class=principal>
+                    <p th:if="${error != null}" th:text=${error} class=error></p>
+                    <p th:if="${exito != null}" th:text=${exito} class=exito></p>
 
-        <div class="formulario">
-            <div>
+                </form>
                 <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/nueva-rutina}"><button
                         class="boton tres"><span>Crear Rutina</span></button></a>
                 <a th:href="@{/listar-rutinas}"><button class="boton tres"><span>Listar Rutinas</span></button></a>
+
             </div>
+            <br>
+            <!--   ************** formulario resultados -->
 
-            <form action="/buscar-rutina" method="GET">
-
-                <p th:if="${error != null}" th:text=${error} class=error></p>
-                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
-
-                <!-- <label>Id Usuario:</label><br>
-                <input type="text" name="idUsuario" th:value="${session.usuariosession.id}"><br><br> -->
-
-                <!-- <button type="submit" class="boton tres"><span>Buscar</span></button> -->
-
-            </form>
-
-        </div>
+            <div class="container2" th:each="rutinas : ${rutinas}">
+                <!-- class="container2"  -->
+                <div class="card2" th:if="${rutinas.completado != true}">
+                    <!--  class="card2"  -->
+                    <img src="img/img5.jpg">
+                    <h4 th:text="${rutinas.nombre}"></h4>
+                    <p th:text="${'Objetivo: ' + rutinas.objetivo}"></p>
+                    <p th:text="${rutinas.completado == true} ? 'Completada: si' : 'Completada: No'"> </p><br>
 
 
-        <!--   ************** formulario resultados -->
+                    <a th:href="@{/listar-ejercicios (idRutina=${rutinas.id})}"><button
+                            class="boton2 uno"><span>Ejercicios</span></button></a><br>
 
-        <div class="container2" th:each="rutinas : ${rutinas}">
+                    <a sec:authorize="hasRole('ROLE_ADMIN')"
+                        th:href="@{/modificar-rutina (idUsuario=${rutinas.usuario.id},idRutina=${rutinas.id})}"><button
+                            class="boton2 uno"><span>Editar</span></button></a>
+                    <a sec:authorize="hasRole('ROLE_ADMIN')"
+                        th:href="@{/eliminar-rutina (idUsuario=${rutinas.usuario.id},idRutina=${rutinas.id})}"><button
+                            class="boton2 uno"><span>Eliminar</span></button></a>
+                    <!--  de esta manera se envia una hiperlink con dos o mas parametros para recibirlos en el controlador. -->
+                </div>
 
-            <div class="card2" th:if="${rutinas.completado != true}">
+                <div class="card3" th:if="${rutinas.completado == true}">
+                    <img src="img/img5.jpg">
+                    <h4 th:text="${rutinas.nombre}"></h4>
+                    <p th:text="${'Objetivo: ' + rutinas.objetivo}"></p>
+                    <p th:text="${rutinas.completado == true} ? 'Completada: si' : 'Completada: No'"> </p><br>
 
-                <img src="img/img5.jpg">
-                <h4 th:text="${rutinas.nombre}"></h4>
-                <p th:text="${'Objetivo: ' + rutinas.objetivo}"></p>
-                <p th:text="${rutinas.completado == true} ? 'Completada: si' : 'Completada: No'"> </p><br>
-                
 
-                <a th:href="@{/listar-ejercicios (idRutina=${rutinas.id})}"><button
-                    class="boton2 uno"><span>Ejercicios</span></button></a><br><br>
+                    <a th:href="@{/listar-ejercicios (idRutina=${rutinas.id})}"><button
+                            class="boton2 uno"><span>Ejercicios</span></button></a><br>
 
-                <a sec:authorize="hasRole('ROLE_ADMIN')"
-                    th:href="@{/modificar-rutina (idUsuario=${rutinas.usuario.id},idRutina=${rutinas.id})}"><button
-                        class="boton2 uno"><span>Editar</span></button></a>
-                <a sec:authorize="hasRole('ROLE_ADMIN')"
-                    th:href="@{/eliminar-rutina (idUsuario=${rutinas.usuario.id},idRutina=${rutinas.id})}"><button
-                        class="boton2 uno"><span>Eliminar</span></button></a>
-                <!--  de esta manera se envia una hiperlink con dos o mas parametros para recibirlos en el controlador. -->
-                
-            </div>
-
-            <div class="card3" th:if="${rutinas.completado == true}">
-
-                <img src="img/img5.jpg">
-                <h4 th:text="${rutinas.nombre}"></h4>
-                <p th:text="${'Objetivo: ' + rutinas.objetivo}"></p>
-                <p th:text="${rutinas.completado == true} ? 'Completada: si' : 'Completada: No'"> </p><br>
-                
-
-                <a th:href="@{/listar-ejercicios (idRutina=${rutinas.id})}"><button
-                    class="boton2 uno"><span>Ejercicios</span></button></a><br><br>
-
-                <a sec:authorize="hasRole('ROLE_ADMIN')"
-                    th:href="@{/modificar-rutina (idUsuario=${rutinas.usuario.id},idRutina=${rutinas.id})}"><button
-                        class="boton2 uno"><span>Editar</span></button></a>
-                <a sec:authorize="hasRole('ROLE_ADMIN')"
-                    th:href="@{/eliminar-rutina (idUsuario=${rutinas.usuario.id},idRutina=${rutinas.id})}"><button
-                        class="boton2 uno"><span>Eliminar</span></button></a>
-               
-                
+                    <a sec:authorize="hasRole('ROLE_ADMIN')"
+                        th:href="@{/modificar-rutina (idUsuario=${rutinas.usuario.id},idRutina=${rutinas.id})}"><button
+                            class="boton2 uno"><span>Editar</span></button></a>
+                    <a sec:authorize="hasRole('ROLE_ADMIN')"
+                        th:href="@{/eliminar-rutina (idUsuario=${rutinas.usuario.id},idRutina=${rutinas.id})}"><button
+                            class="boton2 uno"><span>Eliminar</span></button></a>
+                </div>
             </div>
         </div>
-
     </section>
+
+    <script src="js/script.js"></script>
 </body>
 
 </html>

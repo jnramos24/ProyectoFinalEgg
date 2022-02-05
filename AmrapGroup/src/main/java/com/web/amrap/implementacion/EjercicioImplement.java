@@ -40,7 +40,7 @@ public class EjercicioImplement implements EjercicioService {
 
         Rutina rutina = rutinaRepositorio.findById(idRutina).get();
 
-        validarDatos(rutina, ejercicioNombre, series, repeticiones, pausa, dificultad, kilogramos);
+        validarDatos(rutina, ejercicioNombre, series, repeticiones, pausa);
 
         String identificador = identificadorImplement.indentificador(); // con este identificador, puedo buscar el ejercicio que acabo de crear.
 
@@ -75,7 +75,7 @@ public class EjercicioImplement implements EjercicioService {
 
         Rutina rutina = rutinaRepositorio.findById(idRutina).get();
 
-        validarDatos(rutina, ejercicioNombre, series, repeticiones, pausa, dificultad, kilogramos);
+        validarDatos(rutina, ejercicioNombre, series, repeticiones, pausa);
 
         Optional<Ejercicio> respuestaEjercicio = ejercicioRepositorio.findById(id);
 
@@ -206,11 +206,14 @@ public class EjercicioImplement implements EjercicioService {
         }
     }
 
+    @Override
     public List<Ejercicio> listarPorRutina(String idRutina) throws ErrorServicio {
 
         List<Ejercicio> ejercicios = ejercicioRepositorio.buscarPorRutina(idRutina);
 
         Integer contador = 0;
+
+        Rutina rutina = null;
 
         if (ejercicios != null && !ejercicios.isEmpty()) {
 
@@ -219,37 +222,31 @@ public class EjercicioImplement implements EjercicioService {
                 if (ejercicio.getCompletado() == true) {
 
                     contador++;
-                    System.out.println("**********************************************");
-                    System.out.println("contador: " + contador);
-                    System.out.println("**********************************************");
                 }
             }
 
             if (ejercicios.size() == contador) {
 
-                System.out.println("**********************************************");
-                System.out.println("tamaño de la lista de ejercicios por rutina: " + ejercicios.size());
-                System.out.println("**********************************************");
-
-                Rutina rutina = rutinaRepositorio.findById(idRutina).get();
-
-                System.out.println("**********************************************");
-                System.out.println("rutina: " + rutina.getId() + ", " + rutina.getNombre());
-                System.out.println("**********************************************");
+                rutina = rutinaRepositorio.findById(idRutina).get();
 
                 rutina.setCompletado(Boolean.TRUE);
-                System.out.println("**********************************************");
-                System.out.println("rutina completado: " + rutina.getCompletado());
-                System.out.println("**********************************************");
+
+                rutinaRepositorio.save(rutina);
+
+            } else {
                 
+                rutina = rutinaRepositorio.findById(idRutina).get();
+                
+                rutina.setCompletado(Boolean.FALSE);                
+
                 rutinaRepositorio.save(rutina);
             }
+
             return ejercicios;
 
         } else {
             throw new ErrorServicio("No se encontro ningún ejercicio");
         }
-
     }
 
     @Transactional
@@ -270,12 +267,9 @@ public class EjercicioImplement implements EjercicioService {
     }
 
     @Override
-    public void validarDatos(Rutina rutina, EjercicioNombre ejercicioNombre, Integer series, Integer repeticiones, Integer pausa,
-            Integer dificultad, String kilogramos) throws ErrorServicio {
+    public void validarDatos(Rutina rutina, EjercicioNombre ejercicioNombre, Integer series, Integer repeticiones,
+            Integer pausa) throws ErrorServicio {
 
-//        if (rutina == null) {
-//            throw new ErrorServicio("El ejercicio debe pertenecer a una rutina.");
-//        }
         if (ejercicioNombre == null) {
             throw new ErrorServicio("El ejercicio debe contener un objeto EjercicioNombre.");
         }
@@ -292,13 +286,6 @@ public class EjercicioImplement implements EjercicioService {
             throw new ErrorServicio("La pausa, no pueden ser nula.");
         }
 
-        if (dificultad == null) {
-            throw new ErrorServicio("La dificultad, no pueden ser nula.");
-        }
-
-        if (kilogramos == null || kilogramos.isEmpty()) {
-            throw new ErrorServicio("Los kilogramos, no pueden ser nulos.");
-        }
     }
 
 }

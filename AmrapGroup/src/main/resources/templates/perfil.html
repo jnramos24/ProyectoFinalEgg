@@ -2,140 +2,123 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
     xlmns="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <meta charset="utf-8">
-    <title>Amrap</title>
-    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
-    <link rel="stylesheet" href="CSS/fonts.css">
-</head>
+<head th:replace="layout/plantilla :: menu-head"></head>
 
 <body>
 
+    <nav class="sidebar close" th:replace="layout/plantilla :: menu"></nav>
 
-    <h1 class="titulo"><span class="letras-titulo">Amrap</span> </h1>
+    <section class="home">
+        <div class="text">&nbsp&nbspEditar Perfil</div>
 
+        <section Class=principal>
 
-    <!-- menu desplegable comienzo  -->
-    <header th:replace="/inicio.html::header"></header>
-    <!-- menu desplegable fin  -->
+            <div class=formulario>
 
-    <section Class=principal>
+                <h1>Editar Perfil</h1><br>
 
-        <div class=formulario>
+                <form action="/actualizar-perfil" method="POST" enctype="multipart/form-data">
 
-            <h1>Editar Perfil</h1><br>
+                    <p th:if="${error != null}" th:text=${error} class=error></p>
 
+                    <p th:if="${exito != null}" th:text=${exito} class=exito></p>
 
-            <form action="/actualizar-perfil" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="id" th:value="${perfil.id}" />
 
+                    <p><label> Nombre </label></p>
+                    <input type="text" name="nombre" th:value="${perfil.nombre}" /><br><br>
 
+                    <p><label> Apellido </label></p>
+                    <input type="text" name="apellido" th:value="${perfil.apellido}" /><br><br>
 
-                <p th:if="${error != null}" th:text=${error} class=error></p>
+                    <p><label> E-mail </label></p>
+                    <input type="email" name="email" th:value="${perfil.email}" /><br><br>
 
-                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+                    <div sec:authorize="hasRole('ROLE_ADMIN')">
+                        <label>Rol:</label><br>
+                        <span th:text="${perfil.rol}" class="exito"></span><br>
+                        <select class="alta" name="rol">
+                            <option th:each="roles : ${roles}" th:text="${roles}"></option>
+                        </select><br><br>
+                    </div>
 
-                <!-- <input type="text" name="id" th:value="${session.usuariosession.id}" /> -->
-                <input type="hidden" name="id" th:value="${perfil.id}" />
+                    <p><label> Foto </label></p>
+                    <input type="file" name="archivo" /><br><br>
+                    <button type="submit" class="boton tres"><span>Guardar cambios</span></button>
+                </form>
 
-                <p><label> Nombre </label></p>
-                <input type="text" name="nombre" th:value="${perfil.nombre}" /><br><br>
-
-                <p><label> Apellido </label></p>
-                <input type="text" name="apellido" th:value="${perfil.apellido}" /><br><br>
-
-                <p><label> E-mail </label></p>
-                <input type="email" name="email" th:value="${perfil.email}" /><br><br>
-
-                <div sec:authorize="hasRole('ROLE_ADMIN')">
-                    <label>Rol:</label><br>
-                    <span th:text="${perfil.rol}" class="exito"></span><br>
-                    <select class="alta" name="rol">
-                        <option th:each="roles : ${roles}" th:text="${roles}"></option>
-                    </select><br><br>
+                <div>
+                    <a th:href="@{/modificar-clave}+'?id='+${session.usuariosession.id}" id="a"><button
+                            class="boton tres"><span>Cambiar clave</span></button></a>
                 </div>
 
-                <p><label> Foto </label></p>
-                <input type="file" name="archivo" /><br><br>
+                <div th:if="${session.usuariosession.baja == null}">
+                    <a th:href="@{/deshabilitar-usuario}+'?id='+${session.usuariosession.id}" id="a"><button
+                            class="boton tres"><span>Inhabilitar Usuario</span></button></a>
+                </div>
 
-
-                <button type="submit" class="boton tres"><span>Guardar cambios</span></button>
-
-            </form>
-
-
-            <div>
-                <a th:href="@{/modificar-clave}+'?id='+${session.usuariosession.id}" id="a"><button
-                        class="boton tres"><span>Cambiar clave</span></button></a>
+                <div th:if="${session.usuariosession.baja != null}">
+                    <a th:href="@{/habilitar-usuario}+'?id='+${session.usuariosession.id}" id="a"><button
+                            class="boton tres"><span>Habilitar Usuario</span></button></a>
+                </div>
             </div>
 
-            <div th:if="${session.usuariosession.baja == null}">
-                <a th:href="@{/deshabilitar-usuario}+'?id='+${session.usuariosession.id}" id="a"><button
-                        class="boton tres"><span>Inhabilitar Usuario</span></button></a>
-            </div>
+            <section class="formulario2" action="/mostrar-perfil" method="GET">
+                <label
+                    th:text="${session.usuariosession.nombre} +' '+ ${session.usuariosession.apellido}"></label><br><br>
 
-            <div th:if="${session.usuariosession.baja != null}">
-                <a th:href="@{/habilitar-usuario}+'?id='+${session.usuariosession.id}" id="a"><button
-                        class="boton tres"><span>Habilitar Usuario</span></button></a>
-            </div>
-
-        </div>
-
-        <section class="formulario2" action="/mostrar-perfil" method="GET">
-
-            <label th:text="${session.usuariosession.nombre} +' '+ ${session.usuariosession.apellido}"></label><br><br>
-
-           
-       
-            <p th:if="${error != null}" th:text=${error} class=error></p>
-            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
-            <p th:if="${eliminado != null}" th:text=${exito} class=exito></p>
-
-            <table>
-
-                <thead>
+                <table>
                     <tr>
                         <th>
-                            <p>Nombre</p>
+                            <img class="foto" th:if="${session.usuariosession.foto !=null}"
+                                th:src="${'/foto/usuario/' + session.usuariosession.id}">
                         </th>
-
-                        <th>Apellido
-                            <p></p>
-                        </th>
-                        <th>
-                            <p>E-mail</p>
-                        </th>
-                         <th>
-                            <p>Rol</p>
-                        </th>
-                          <th>
-                            <p>Alta</p>
-                        </th>
-                        <th>
-                            <p>Baja</p>
-                        </th>
-
                     </tr>
-                </thead>
+                </table><br>
 
-                <tr >
-                    <td th:text="${session.usuariosession.nombre}"></td>
-                    <td th:text="${session.usuariosession.apellido}"></td>
-                    <td th:text="${session.usuariosession.email}"></td>
-                    <td th:text="${session.usuariosession.rol}"></td>
-                    <td th:text="${session.usuariosession.alta}"></td>
-                    <td th:text="${session.usuariosession.baja}"></td>
-                    <img class="foto" th:if="${session.usuariosession.foto !=null}" th:src="${'/foto/usuario/' + session.usuariosession.id}">
-                    
-                </tr>
-                
-            </table>
-            
+                <p th:if="${error != null}" th:text=${error} class=error></p>
+                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+                <p th:if="${eliminado != null}" th:text=${exito} class=exito></p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                <p>Nombre</p>
+                            </th>
+
+                            <th>Apellido
+                                <p></p>
+                            </th>
+                            <th>
+                                <p>E-mail</p>
+                            </th>
+                            <th>
+                                <p>Rol</p>
+                            </th>
+                            <th>
+                                <p>Alta</p>
+                            </th>
+                            <th>
+                                <p>Baja</p>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tr>
+                        <td th:text="${session.usuariosession.nombre}"></td>
+                        <td th:text="${session.usuariosession.apellido}"></td>
+                        <td th:text="${session.usuariosession.email}"></td>
+                        <td th:text="${session.usuariosession.rol}"></td>
+                        <td th:text="${session.usuariosession.alta}"></td>
+                        <td th:text="${session.usuariosession.baja}"></td>
+             
+                    </tr>
+                </table>
+            </section>
         </section>
-
-
     </section>
-
-
+<script src="js/script.js"></script>
 </body>
 
 </html>

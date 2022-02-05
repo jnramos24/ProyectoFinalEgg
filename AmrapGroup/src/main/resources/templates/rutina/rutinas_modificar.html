@@ -1,86 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+  xlmns="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <meta charset="utf-8">
-    <title>Amrap</title>
-    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
-    <link rel="stylesheet" href="CSS/fonts.css">
 
-</head>
+<head th:replace="layout/plantilla :: menu-head"></head>
 
 <body>
-
     <h1 class="titulo">Cargar rutinas</h1>
 
+    <nav class="sidebar close" th:replace="layout/plantilla :: menu"></nav>
 
-    <!-- menu desplegable comienzo  -->
-    <header th:replace="/inicio.html::header"></header>
- 
+    <section class="home">
+        <div class="text">Configuración</div>
+        <section Class=principal>
 
-    <!-- menu desplegable fin  -->
+            <form class="formulario" action="/actualizar-rutina" method="POST">
+    
+                <p th:if="${error != null}" th:text=${error} class=error></p>
+    
+                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+    
+                <input type="hidden" name="idRutina" th:value="${rutina.id}">
+    
+                <input type="hidden" name="idUsuario" th:value="${idUsuario}">
+    
+                <label>Nombre:</label><br>
+                <input type="text" name="nombre" th:value="${rutina.nombre}"><br><br>
+    
+                <label>Objetivo:</label><br>
+                <input type="text" name="objetivo" th:value="${rutina.objetivo}"><br><br>
 
-
-    <section Class=principal>
-
-        <form class="formulario" action="/actualizar-rutina" method="POST">
-
-            <p th:if="${error != null}" th:text=${error} class=error></p>
-
-            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
-
-
-            <input type="hidden" name="idRutina" th:value="${rutina.id}">
-
-            <input type="hidden" name="idUsuario" th:value="${idUsuario}">
-
-            <label>Nombre:</label><br>
-            <input type="text" name="nombre" th:value="${rutina.nombre}"><br><br>
-
-            <label>Objetivo:</label><br>
-            <input type="text" name="objetivo" th:value="${rutina.objetivo}"><br><br>
-
-            <!--    <td><button class="boton tres"><a th:href="@{/ejercicios_cargar}"><span>Agregar ejercicio</span></button></a></td> -->
-
-
-            <button type="submit" class="boton tres"><span>Actualizar</span></button>
-
-
-        </form>
-
-        <!--   formulario para mostrar el objeto cambiado-->
- 
-        <section class="formulario2" action="/buscar-rutina" method="GET">
-
-            <label>RUTINA:</label><br><br>
-
-            <table>
-
-                <thead>
-                    <tr>
-                        <th>
-                            <p>Nombre</p>
-                        </th>
-
-                        <th>
-                            <p>Objetivo</p>
-                        </th>
-
+                <button type="submit" class="boton tres"><span>Actualizar</span></button>
+            </form>
+            <!--   formulario para mostrar el objeto cambiado--> 
+            <section class="formulario2" action="/buscar-rutina" method="GET">
+                <label>RUTINA:</label><br><br>   
+                <table>
+    
+                    <thead>
+                        <tr>
+                            <th>
+                                <p>Nombre</p>
+                            </th>
+    
+                            <th>
+                                <p>Objetivo</p>
+                            </th>
+    
+                        </tr>
+                    </thead>
+                    
+                    <tr th:each=" rutina : ${rutina}">
+                        <td th:text="${rutina.nombre}"></td>
+                        <td th:text="${rutina.objetivo}"></td>
                     </tr>
-                </thead>
-
-                <tr th:each=" rutina : ${rutina}">
-                    <td th:text="${rutina.nombre}"></td>
-                    <td th:text="${rutina.objetivo}"></td>
-                </tr>
-
-            </table>
-
+                </table>
+            </section>
         </section>
-
     </section>
 
-
+<script src="js/script.js"></script>
 </body>
 
 </html>

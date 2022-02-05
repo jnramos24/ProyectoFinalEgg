@@ -1,51 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+  xlmns="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <meta charset="utf-8">
-    <title>Amrap</title>
-    <link rel="stylesheet" href="css/Style_ejercicios.css">
-    <link rel="stylesheet" href="css/fonts.css">
-</head>
+<head th:replace="layout/plantilla :: menu-head"></head>
 
 <body>
 
+    <nav class="sidebar close" th:replace="layout/plantilla :: menu"></nav>
 
-    <h1 class="titulo"><span class="letras-titulo">Amrap</span> </h1>
-
-
-    <!-- menu desplegable comienzo  -->
-    <header th:replace="/inicio.html::header"></header>
-    <!-- menu desplegable fin  -->
-
-    <section Class=principal>
-
-
-        <form class= formulario action="/actualizar-clave" method="POST" enctype="multipart/form-data">
-
-            <h1>Modificar Clave</h1><br>
-
-            <p th:if="${error != null}" th:text=${error} class=error></p>
-
-            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
-  
-
-            <input type="hidden" name="id" th:value="${perfil.id}"/>
-
-        
-            <p> <label> Clave </label></p>
-            <input type="password" name="clave1" th:value="${clave1}"/><br><br>
+    <section class="home">
+        <div class="text">Modificar Clave</div>
+        <section Class=principal>
+            <form class= formulario action="/actualizar-clave" method="POST" enctype="multipart/form-data">
+    
+                <h1>Modificar Clave</h1><br>
+    
+                <p th:if="${error != null}" th:text=${error} class=error></p>
+    
+                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+      
+                <input type="hidden" name="id" th:value="${perfil.id}"/>
             
-            <p> <label> Repetir Clave </label></p>
-            <input type="password"  name="clave2" th:value="${clave2}"/><br><br>
-            
-            <button type="submit" class="boton tres"><span>Guardar cambios</span></button>
-
-        </form>
-
+                <p> <label> Clave </label></p>
+                <input type="password" name="clave1" th:value="${clave1}"/><br><br>
+                
+                <p> <label> Repetir Clave </label></p>
+                <input type="password"  name="clave2" th:value="${clave2}"/><br><br>
+                
+                <button type="submit" class="boton tres"><span>Guardar cambios</span></button>
+    
+            </form>
+        </section>
     </section>
 
-
+    <script src="js/script.js"></script>
 </body>
 
 </html>

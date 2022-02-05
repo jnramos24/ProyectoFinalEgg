@@ -2,39 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
     xlmns="http://www.thymeleaf.org/extras/spring-security">
 
-<head >
-    <meta charset="utf-8">
-    <title>Amrap</title>
-    <link rel="stylesheet" href="css/Style_ejercicios.css">
-    <link rel="stylesheet" href="css/fonts.css">
-</head>
+<head th:replace="layout/plantilla :: menu-head"></head>
 
 <body>
 
+    <nav class="sidebar close" th:replace="layout/plantilla :: menu"></nav>
 
-    <h1 class="titulo"><span class="letras-titulo">Amrap</span> </h1>
+    <section class="home">
+        <div class="text">&nbsp&nbspInicio</div>
+    </section>
 
-
-    <!-- menu desplegable comienzo  -->
-    <header th:fragment="header">
-        <nav>
-            <ul>
-                <li> <a href="inicio"><span class="primero"><br>Inicio</span> Inicio</a></li>
-                <li> <a th:href="@{/buscar-rutina}"><span class="cuarto"Rutinas><br>Rutinas</span>Rutinas</a></li>
-                <li sec:authorize="hasRole('ROLE_ADMIN')"> <a href="configuracion"><span class="tercero"><br>Configuracion</span>Configuracion</a></li>
-                <li sec:authorize="hasRole('ROLE_ADMIN')"> <a th:href="@{/listar-usuarios}"><span class="quinto"><br>Usuarios</span>Usuarios</a></li>
-                <li> <img class="foto1" th:if="${session.usuariosession.foto !=null}" th:src="${'/foto/usuario/' + session.usuariosession.id}">
-                    <a th:href="@{/mostrar-perfil}+'?id='+${session.usuariosession.id}"><span  class="segundo"></span>
-                        <p th:text="${session.usuariosession.nombre}+' '+${session.usuariosession.apellido}"></p></a></li>
-                <li> <a href="logout"><span class="sexto"><br>Salir</span>Salir</a></li>          
-                
-
-            </ul>
-        </nav>
-
-    </header>
-    <!-- menu desplegable fin  -->
-
+<script src="js/script.js"></script>
 </body>
 
 </html>

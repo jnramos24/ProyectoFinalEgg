@@ -1,52 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+  xlmns="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <meta charset="utf-8">
-    <title>Amrap</title>
-    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
-    <link rel="stylesheet" href="CSS/fonts.css">
-
-</head>
+<head th:replace="layout/plantilla :: menu-head"></head>
 
 <body>
 
-    <h1 class="titulo">Cargar Nombres de ejercicios</h1>
+    <nav class="sidebar close" th:replace="laoyut/plantilla :: menu"></nav>
 
+    <section class="home">
+        <div class="text">&nbsp&nbspCargar Nombres de ejercicios</div>
+        <section Class=principal>
 
-    <!-- menu desplegable comienzo  -->
-    <header th:replace="/inicio.html::header"></header>
-    <!-- menu desplegable fin  -->
-
-
-    <section Class=principal>
-
-        <form class="formulario" action="/cargar-ejercicioNombre" method="POST">
-
-            <p th:if="${error != null}" th:text=${error} class=error></p>
-
-            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
-
-            <label >Nombre:</label><br>
-            <input type="text" name="nombre" th:value="${nombre}"><br><br>
-     
-            <label>video:</label><br>
-            <input type="text" name="video" th:value="${video}"><br><br>
-
-            <label>Categoría:</label><br>
-            <select class="alta" name="idCategoria" >
-                <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nombre}"></option>
-            </select><br><br>
-        
-            <button type="submit" class="boton tres"><span>Guardar</span></button>
-
-            <button type="reset" class="boton cuatro"><span>Limpiar</span></button>
-
-        </form>
-
+            <form class="formulario" action="/cargar-ejercicioNombre" method="POST">
+    
+                <p th:if="${error != null}" th:text=${error} class=error></p>
+    
+                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+    
+                <label >Nombre:</label><br>
+                <input type="text" name="nombre" th:value="${nombre}"><br><br>
+         
+                <label>video:</label><br>
+                <input type="text" name="video" th:value="${video}"><br><br>
+    
+                <label>Categoría:</label><br>
+                <select class="alta" name="idCategoria" >
+                    <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nombre}"></option>
+                </select><br><br>
+            
+                <button type="submit" class="boton tres"><span>Guardar</span></button>
+    
+                <button type="reset" class="boton cuatro"><span>Limpiar</span></button>
+    
+            </form>
+        </section>
     </section>
 
-
+    <script src=js/script.js"></script>
 </body>
 
 </html>

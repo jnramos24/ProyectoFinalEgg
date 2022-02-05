@@ -24,7 +24,6 @@ public class UsuarioController {
     @Autowired
     private UsuarioImplement usuarioImplement;
 
-    //@PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
    @GetMapping("/")
     public String index() {
         return "index.html";

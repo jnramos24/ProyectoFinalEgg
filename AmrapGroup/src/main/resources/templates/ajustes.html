@@ -1,34 +1,31 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <title>Amrap</title>
-    <link rel="stylesheet" href="css/Style_ejercicios.css">
-    <link rel="stylesheet" href="css/fonts.css">
-</head>
+<head th:replace="layout/plantilla :: menu-head"></head>
 
 <body>
+    <!-- menu desplegable -->
+    <nav th:replace="layout/plantilla :: menu" class="sidebar close"></nav>
 
-    <h1 class="titulo">Categorias</h1>
+    <section class="home">
+        <div class="text">&nbsp&nbspConfiguración</div>
 
+        <div class="principal">
+            <div class="formulario">
 
- <!-- menu desplegable comienzo  -->
- <header th:replace="/inicio.html::header"></header>
- <!-- menu desplegable fin  -->
+                <a th:href="@{/buscar-ejercicioNombre}" id="a"><button class="boton tres"><span>Nombres de
+                            Ejercicios</span></button></a>
+                <a th:href="@{/buscar-categoria}" id="a"><button class="boton tres"><span>Categorías</span></button></a>
 
-    <!--  botones inicio -->
-    ><div class="contenedor">
-        <div class="contenedor-botones">
-
-            <a th:href="@{/buscar-ejercicioNombre}" id="a"><button class="boton tres"><span>Nombres de ejercicios</span></button></a>
-            <a th:href="@{/buscar-categoria}"><button class="boton cuatro"><span>CategoríaS </span></button></a>
-            <a th:href="@{/listar-usuarios}"><button class="boton dos"><span>Listar usuarios </span></button></a>
-
+                <a th:href="@{/listar-usuarios}" id="a"><button class="boton cuatro"><span>
+                            Usuarios</span></button></a><br><br>
+            </div>
         </div>
-    </div>
-    <!--  botones fin -->
+        </div>
 
+    </section>
+
+    <script src="js/script.js"></script>
 </body>
 
 </html>

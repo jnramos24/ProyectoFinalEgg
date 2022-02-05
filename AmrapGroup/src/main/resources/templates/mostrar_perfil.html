@@ -2,92 +2,78 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
     xlmns="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <meta charset="utf-8">
-    <title>Amrap</title>
-    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
-    <link rel="stylesheet" href="CSS/fonts.css">
-</head>
+<head th:replace="layout/plantilla :: menu-head"></head>
 
 <body>
 
+    <nav class="sidebar close" th:replace="layout/plantilla :: menu"></nav>
 
-    <h1 class="titulo"><span class="letras-titulo">Amrap</span> </h1>
+    <section class="home">
+        <div class="text">&nbsp&nbspPerfil</div>
 
-
-    <!-- menu desplegable comienzo  -->
-    <header th:replace="/inicio.html::header"></header>
-    <!-- menu desplegable fin  -->
-
-    <section Class=principal>
-
-        <div class="formulario">
-
-            <div>
-                <a id="a" th:href="@{/editar-perfil}+'?id='+${session.usuariosession.id}"><button class="boton tres"><span>Editar perfil</span></button></a>
-            
+        <section Class=principal>
+            <div class="formulario">
+                <div>
+                    <a id="a" th:href="@{/editar-perfil}+'?id='+${session.usuariosession.id}"><button
+                            class="boton tres"><span>Editar perfil</span></button></a>
+                </div>
             </div>
+            <!--   ************** formulario resultados -->
+            <section class="formulario2" action="/mostrar-perfil" method="GET">
 
-            
-        </div>
+                <label th:text="${session.usuariosession.nombre} +' '+ ${session.usuariosession.apellido}"></label><br><br>
 
-        <!--   ************** formulario resultados -->
-
-        <section class="formulario2" action="/mostrar-perfil" method="GET">
-
-            <label th:text="${session.usuariosession.nombre} +' '+ ${session.usuariosession.apellido}"></label><br><br>
-
-           
-       
-            <p th:if="${error != null}" th:text=${error} class=error></p>
-            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
-            <p th:if="${eliminado != null}" th:text=${exito} class=exito></p>
-
-            <table>
-
-                <thead>
+                <table>
                     <tr>
                         <th>
-                            <p>Nombre</p>
+                            <img class="foto" th:if="${session.usuariosession.foto !=null}"
+                                th:src="${'/foto/usuario/' + session.usuariosession.id}">
                         </th>
-
-                        <th>Apellido
-                            <p></p>
-                        </th>
-                        <th>
-                            <p>E-mail</p>
-                        </th>
-                         <th>
-                            <p>Rol</p>
-                        </th>
-                          <th>
-                            <p>Alta</p>
-                        </th>
-                        <th>
-                            <p>Baja</p>
-                        </th>
-
                     </tr>
-                </thead>
+                </table><br>
 
-                <tr >
-                    <td th:text="${session.usuariosession.nombre}"></td>
-                    <td th:text="${session.usuariosession.apellido}"></td>
-                    <td th:text="${session.usuariosession.email}"></td>
-                    <td th:text="${session.usuariosession.rol}"></td>
-                    <td th:text="${session.usuariosession.alta}"></td>
-                    <td th:text="${session.usuariosession.baja}"></td>
-                    <img class="foto" th:if="${session.usuariosession.foto !=null}" th:src="${'/foto/usuario/' + session.usuariosession.id}">
-                    
-                </tr>
-                
-            </table>
-            
+                <p th:if="${error != null}" th:text=${error} class=error></p>
+                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+                <p th:if="${eliminado != null}" th:text=${exito} class=exito></p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                <p>Nombre</p>
+                            </th>
+
+                            <th>Apellido
+                                <p></p>
+                            </th>
+                            <th>
+                                <p>E-mail</p>
+                            </th>
+                            <th>
+                                <p>Rol</p>
+                            </th>
+                            <th>
+                                <p>Alta</p>
+                            </th>
+                            <th>
+                                <p>Baja</p>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td th:text="${session.usuariosession.nombre}"></td>
+                        <td th:text="${session.usuariosession.apellido}"></td>
+                        <td th:text="${session.usuariosession.email}"></td>
+                        <td th:text="${session.usuariosession.rol}"></td>
+                        <td th:text="${session.usuariosession.alta}"></td>
+                        <td th:text="${session.usuariosession.baja}"></td>
+                    </tr>
+                </table>
+            </section>
         </section>
-
     </section>
 
-
+<script src="js/script.js"></script>
 </body>
 
 </html>

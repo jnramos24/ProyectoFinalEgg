@@ -537,6 +537,10 @@ tr:nth-child(even){
     max-height: 60px;
 	margin: auto;
 }
+.foto2{
+    background-color: #960909;
+    height: 30px;
+}
 
 /* aca esta el estilo de las tarjetas*/
 

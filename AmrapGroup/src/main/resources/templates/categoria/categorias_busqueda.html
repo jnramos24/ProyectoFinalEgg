@@ -1,93 +1,73 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+xlmns="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <meta charset="utf-8">
-    <title>Amrap</title>
-    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
-    <link rel="stylesheet" href="CSS/fonts.css">
-
-</head>
+<head th:replace="layout/plantilla :: menu-head"></head>
 
 <body>
-    <h1 class="titulo">Buscar Categorias</h1>
+    <nav th:replace="layout/plantilla :: menu" class="sidebar close"></nav>
 
+    <section class="home">
+        <div class="text">&nbsp&nbspBuscar Categorías</div>
 
-    <!-- menu desplegable comienzo  -->
-    <header th:replace="/inicio.html::header"></header>
-    <!-- menu desplegable fin  -->
+        <section Class=principal>
 
-
-
-    <section Class=principal>
-
-        <div class="formulario">
-            <div>              
-                <a th:href="@{/nueva-categoria}" id="a"><button class="boton tres"><span>Crear categoría</span></button></a>
-                <a th:href="@{/listar-categorias}"><button class="boton cuatro"><span>Listar</span></button></a><br><br>
+            <div class="formulario">
+                <div>              
+                    <a th:href="@{/nueva-categoria}" id="a"><button class="boton tres"><span>Crear categoría</span></button></a>
+                    <a th:href="@{/listar-categorias}"><button class="boton cuatro"><span>Listar</span></button></a><br><br>
+                </div>
+    
+                <form  action="/buscar-categoria" method="GET">
+    
+                    <p th:if="${error != null}" th:text=${error} class=error></p>
+    
+                    <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+    
+                    <label>Nombre:</label><br>
+                    <select class="alta" name="nombre">
+                        <option th:each="categoria : ${categorias}" th:value="${categoria.nombre}" th:text="${categoria.nombre}"></option>
+                    </select><br><br>
+    
+                    <button type="submit" class="boton tres"><span>Buscar</span></button>
+    
+                </form>
             </div>
-
-            <form  action="/buscar-categoria" method="GET">
-
-                <p th:if="${error != null}" th:text=${error} class=error></p>
-
-                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
-
-                <label>Nombre:</label><br>
-                <select class="alta" name="nombre">
-                    <option th:each="categoria : ${categorias}" th:value="${categoria.nombre}" th:text="${categoria.nombre}"></option>
-                </select><br><br>
-
-                <button type="submit" class="boton tres"><span>Buscar</span></button>
-
-            </form>
-        </div>
-
-
-
-        <!--   ************** formulario resultados -->
-
-
-        <section class="formulario2" action="/buscar-categoria" method="GET">
-
-
-
-            <table>
-                <label>CATEGORÍAS</label><br><br>
-
-                <p th:if="${error != null}" th:text=${error} class=error></p>
-                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
-
-                <thead>
-                    <tr>
-                        <th>
-                            <p>Nombre</p>
-                        </th>
-                     <!--    <th>
-                            <p>Id</p>
-                        </th> -->
-                        <th>
-                            <p>Acciones</p>
-                        </th>
-
+    
+            <!--   ************** formulario resultados -->   
+    
+            <section class="formulario2" action="/buscar-categoria" method="GET">
+    
+                <table>
+                    <label>CATEGORÍAS</label><br><br>
+    
+                    <p th:if="${error != null}" th:text=${error} class=error></p>
+                    <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+    
+                    <thead>
+                        <tr>
+                            <th>
+                                <p>Nombre</p>
+                            </th>
+                            <th>
+                                <p>Acciones</p>
+                            </th>
+                        </tr>
+                    </thead>
+    
+                    <tr th:each=" categorias : ${listaCategorias}">
+                        <td th:text="${categorias.nombre}"></td>
+                        <td>
+                            <a th:href="@{/modificar-categoria}+'?id='+${categorias.id}"><button class="boton2 uno"><span>Editar</span></button></a>  
+                            <a th:href="@{/eliminar-categoria}+'?id='+${categorias.id}"><button class="boton2 uno"><span>Eliminar</span></button></a>   
+                        </td>
                     </tr>
-                </thead>
-
-                <tr th:each=" categorias : ${listaCategorias}">
-                    <td th:text="${categorias.nombre}"></td>
-                   <!--  <td th:text="${categorias.id}"></td> -->
-                    <td>
-                        <a th:href="@{/modificar-categoria}+'?id='+${categorias.id}"><button class="boton2 uno"><span>Editar</span></button></a>  
-                        <a th:href="@{/eliminar-categoria}+'?id='+${categorias.id}"><button class="boton2 uno"><span>Eliminar</span></button></a>   
-                    </td>
-
-                </tr>
-
-            </table>
-
+                </table>
+            </section>
         </section>
-
     </section>
+    
+    <script src="js/script.js"></script>
 
 </body>
 

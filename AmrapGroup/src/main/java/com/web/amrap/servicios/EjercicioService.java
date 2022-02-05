@@ -31,7 +31,7 @@ public interface EjercicioService {
     public Ejercicio buscarEjercicioPorIdentificador(String id) throws ErrorServicio;
     
     public void validarDatos(Rutina rutina, EjercicioNombre ejercicioNombre, Integer series, Integer repeticiones,
-            Integer pausa, Integer dificultad, String kilogramos) throws ErrorServicio;
+            Integer pausa) throws ErrorServicio;
 
     public List<Ejercicio> listarEjercicios() throws ErrorServicio;
 

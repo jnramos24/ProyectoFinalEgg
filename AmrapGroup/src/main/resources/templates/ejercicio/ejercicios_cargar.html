@@ -1,72 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+  xlmns="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <meta charset="utf-8">
-    <title>Amrap</title>
-    <link rel="stylesheet" href="CSS/Style_ejercicios.css">
-    <link rel="stylesheet" href="CSS/fonts.css">
-
-</head>
+<head th:replace="layout/plantilla :: menu-head"></head>
 
 <body>
+    
+    <nav class="sidebar close" th:fragment="layout/plantilla :: menu"></nav>
 
-    <h1 class="titulo">Cargar Ejercicios</h1>
+    <section class="home">
+        <div class="text">&nbsp&nbspCargar Ejercicios</div>
 
+        <section Class=principal>
 
-    <!-- menu desplegable comienzo  -->
-    <header th:replace="/inicio.html::header"></header>
-    <!-- menu desplegable fin  -->
+            <form class="formulario" action="/cargar-ejercicio" method="POST">
 
+                <h1>Crear Ejercicio</h1>
+                <p th:if="${error != null}" th:text=${error} class=error></p>
 
-    <section Class=principal>
+                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
 
-        <form class="formulario" action="/cargar-ejercicio" method="POST">
+                <input type="hidden" name="idRutina" th:value="${idRutina}"><br>
 
-            <h1 >Crear Ejercicio</h1>
-            <p th:if="${error != null}" th:text=${error} class=error></p>
+                <div class="borde">
+                    <label>Nombre:</label><br>
+                    <select class="alta" name="idEjercNom">
+                        <option th:each="nombre : ${nombres}" th:value="${nombre.id}" th:text="${nombre.nombre}">
+                        </option><br>
+                    </select><br><br>
 
-            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+                    <label>Series:</label><br>
+                    <input type="number" name="series" th:value="${series}"><br><br>
 
+                    <label>Repeticiones:</label><br>
+                    <input type="number" name="repeticiones" th:value="${repeticiones}"><br><br>
 
-            <input type="hidden" name="idRutina" th:value="${idRutina}"><br>
+                    <label>Pausa:</label><br>
+                    <input type="number" name="pausa" th:value="${pausa}"><br><br>
+                </div>
 
-            <label>Nombre:</label><br>
-            <select class="alta" name="idEjercNom" >
-                <option th:each="nombre : ${nombres}" th:value="${nombre.id}" th:text="${nombre.nombre}"></option><br>
-            </select><br><br>
+                <label>Dificultad:</label><br>
+                <input type="number" name="dificultad" th:value="${dificultad}"><br><br>
 
+                <label>Kilogramos:</label><br>
+                <input type="text" name="kilogramos" th:value="${kilogramos}"><br><br>
 
-            <label>Series:</label><br>
-            <input type="number" name="series" th:value="${series}"><br><br>
+                <label>Notas:</label><br>
+                <input type="text" name="notas" th:value="${notas}"><br><br>
 
-            <label>Repeticiones:</label><br>
-            <input type="number" name="repeticiones" th:value="${repeticiones}"><br><br>
-            
-            <label>Pausa:</label><br>
-            <input type="number" name="pausa" th:value="${pausa}"><br><br>
+                <label>Atencion:</label><br>
+                <input type="text" name="atencion" th:value="${atencion}"><br><br>
 
-            <label>Dificultad:</label><br>
-            <input type="number" name="dificultad" th:value="${dificultad}"><br><br>
+                <button type="submit" class="boton tres"><span>Guardar</span></button>
 
-            <label>Kilogramos:</label><br>
-            <input type="text" name="kilogramos" th:value="${kilogramos}"><br><br>
+                <button type="reset" class="boton cuatro"><span>Limpiar</span></button>
 
-            <label>Notas:</label><br>
-            <input type="text" name="notas" th:value="${notas}"><br><br>
-
-            <label>Atencion:</label><br>
-            <input type="text" name="atencion" th:value="${atencion}"><br><br>
-
-            <button type="submit" class="boton tres"><span>Guardar</span></button>
-
-            <button type="reset" class="boton cuatro"><span>Limpiar</span></button>
-
-        </form>
-
+            </form>
+        </section>
     </section>
 
-
+<script src="js/script.js"></script>
 </body>
 
 </html>

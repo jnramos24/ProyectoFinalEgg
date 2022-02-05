@@ -13,6 +13,9 @@ public interface EjercicioNombreRepositorio extends JpaRepository<EjercicioNombr
     @Query("SELECT c FROM EjercicioNombre c WHERE c.nombre like %:nombre%")
     public List<EjercicioNombre> buscarPorNombre(@Param("nombre") String nombre);
 
+    @Query("SELECT c FROM EjercicioNombre c WHERE c.nombre =:nombre")
+    EjercicioNombre buscarPorNombreEjercicio(@Param("nombre") String nombre);
+    
     @Query("SELECT c FROM EjercicioNombre c WHERE c.categoria.id like %:idCategoria%")
     public List<EjercicioNombre> buscarPorCategoria(@Param("idCategoria") String idCategoria );
 
