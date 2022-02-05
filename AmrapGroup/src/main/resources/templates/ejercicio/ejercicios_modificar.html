@@ -19,14 +19,12 @@
 
                         <p th:if="${exito != null}" th:text=${exito} class=exito></p>
 
-
                         <input type="hidden" name="id" th:value="${ejercicio.id}">
 
                         <input type="hidden" name="idRutina" th:value="${ejercicio.rutina.id}">
 
                         <input sec:authorize="hasRole('ROLE_USUARIO_REGISTRADO')" type="hidden" name="idEjercNom"
                             th:value="${ejercicio.ejercicioNombre.id}">
-
 
                         <div sec:authorize="hasRole('ROLE_ADMIN')">
                             <label>Nombre:</label><br>
@@ -38,7 +36,7 @@
 
                         <span th:text="${ejercicio.ejercicioNombre.nombre}" class="alta"></span><br><br>
 
-                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                        <div>
                         <label>Series:</label><br>
                         <input type="number" name="series" th:value="${ejercicio.series}"><br><br>
 
