@@ -8,28 +8,35 @@
 }
 
 :root{
-    /* ===== Colors ===== */
-    /* --body-color: #E4E9F7; */
-    --body-color: #f7ebe0;
+    /* ===== Colors light ===== */
+    /* --body-color: #E4E9F7; */    
     /* --sidebar-color: #FFF; */
-    --sidebar-color: rgb(217, 220, 223);
+    /* --sidebar-color: rgb(217, 220, 223);
     --primary-color: #695CFE;
     --primary-color-light: #F6F5FF;
-    --toggle-color: #DDD;
+    --toggle-color: #DDD; */
     /* --text-color: #707070; */
-    --text-color: #0a0707;
+    /* --text-color: #0a0707; */
+    --body-color: #18191a;
+    --sidebar-color: #04050f;
+    --primary-color: #2db9ad;
+    --primary-color-light: #3a3b3c;
+    --toggle-color: #fff;
+    --text-color: rgb(240, 240, 240);
 
     /* ====== Transition ====== */
     --tran-03: all 0.2s ease;
     --tran-03: all 0.3s ease;
     --tran-04: all 0.3s ease;
     --tran-05: all 0.3s ease;
+    
 }
 
 body{
-    min-height: 100vh;
-    background-color: var(--body-color);
+    min-height: 100vh;       
     transition: var(--tran-05);
+    background-image: url(../img/amrap_90.png);    
+
 }
 
 ::selection{
@@ -143,11 +150,12 @@ body.dark{
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-left: 5px;
 }
 
 .sidebar .header .image img{
-    width: 40px;
-    border-radius: 6px;
+    max-width: 70px;    
+    margin-right: 20px;
 }
 
 .sidebar .header .toggle{
@@ -217,7 +225,7 @@ body.dark .sidebar .header .toggle{
 }
 .sidebar li a:hover .icon,
 .sidebar li a:hover .text{
-    color: var(--sidebar-color);
+    color: rgb(70, 63, 63);
 }
 body.dark .sidebar li a:hover .icon,
 body.dark .sidebar li a:hover .text{
@@ -315,6 +323,7 @@ body.dark .switch::before{
     display: inline-block;
     padding: 10px;
     border-radius: 10px;
+    margin-left: 25px;
 }
 
 .sidebar.close ~ .home{
@@ -362,10 +371,16 @@ body.dark .home .text{
     max-width: 250px;
     width: 100% ;
     padding: 30px;
-    display: inline-table;
-
-   
+    display: inline-table; 
 }
+
+.principal .formulario h1 {
+   color: rgb(241, 247, 247);     
+}
+
+.principal .formulario label {
+    color: rgb(241, 247, 247);     
+ }
 
 /* **************** diseño de la tabla, comienzo ************************* */
 .principal .formulario2{
@@ -378,7 +393,7 @@ body.dark .home .text{
     list-style-type: none;
     text-decoration: none;
 	margin: auto;
-    background-color: rgb(76, 76, 78);
+    background-color: #04050f;
     border-radius: 10px;
     /* max-width: auto; */
 	width: auto;
@@ -405,7 +420,7 @@ table{
 
 
 thead{
-    color: #ccc;
+    color: rgb(42, 42, 42);
     /* background-color: var(--text-color); */
     background-color:var(--text-color);
     
@@ -474,8 +489,8 @@ tr:nth-child(even){
 	justify-content: center;
 	width: 80%;
 	height: 40px;
-	background: rgb(37, 5, 28);
-	color: #fff;
+	background: rgb(77, 76, 76);
+	color: rgb(240, 240, 240);
 	font-family: 'Roboto', sans-serif;
 	font-size: 15px;
 	font-weight: 500;
@@ -487,6 +502,7 @@ tr:nth-child(even){
 	position: relative;
 	overflow: hidden;
     margin: 10px;
+    padding: 22px 0px;
     
 }
 
@@ -543,7 +559,7 @@ tr:nth-child(even){
 	content: "";
 	width: 100%;
 	height: 300px;
-	background: #18a362;
+	background: #11796b;    
 	position: absolute;
 	z-index: 1;
 	top: -300px;
@@ -553,7 +569,7 @@ tr:nth-child(even){
 }
 
 .boton.tres:hover::after {
-	top: 0;
+	top: 0;    
 }
 
 .boton.cuatro::after {
@@ -572,11 +588,11 @@ tr:nth-child(even){
 
 .boton.cuatro:hover::after {
 	transform: scale(400);
-	background: #cc1010;
+	background: #149b89;
 }
 
 .boton.cuatro:hover {
-	 background: #960909; 
+	 background: #149b89; 
 }
 
 
@@ -996,10 +1012,14 @@ tr:nth-child(even){
     font-weight: 600;
 }
 
-.borde{
+.borde {
     /* border-style: var(--text-color); */
     /* background-color: rgb(217, 220, 223); */
-    background-color: rgb(195, 200, 204);
+    background-color: rgb(21, 124, 110);
     padding-top: 5px;
-    border-radius:10px ;   
+    border-radius:10px ;       
+}
+
+.borde .boton.tres::after {
+    background-color: rgb(113, 114, 114);
 }

@@ -9,19 +9,17 @@
     <nav class="sidebar close" th:replace="layout/plantilla :: menu"></nav>
 
     <section class="home">
-        <div class="text">&nbsp&nbspListar Usuarios</div>
+        <div class="text">Listar Usuarios</div>
 
         <section Class=principal>
             <div class="formulario">
                 <div>
                     <a th:href="@{/listar-usuarios}"><button class="boton cuatro"><span>Listar
                                 Usuarios</span></button></a><br><br>
-
                     <a th:href="@{/listar-usuarios/?format=pdf}" target="_blank" rel="noopener noreferrer">
                         <img src="img/descargar _pdf.png" class="borde">
                     </a><br><br>
                 </div>
-
 
                 <form action="/buscar-usuario" method="GET" class="borde">
 

@@ -55,7 +55,7 @@
   <div class="header">
     <div class="image-text">
       <span class="image">
-        <img src="IMG/amrap1.png" alt="">
+        <img src="IMG/marca_negativo.png" alt="">
       </span>
 
       <div class="text logo-text">
@@ -138,7 +138,7 @@
         <div class="col-lg-12">
           <nav class="navbar navbar-expand-lg">
             <a class="navbar-brand" href="/">
-              <img src="img/logo/amrap1.png" alt="Logo" />
+              <img src="img/marca_negativo.png" alt="Logo" />
             </a>
             <button class="navbar-toggler">
               <span class="toggler-icon"> </span>
@@ -165,38 +165,32 @@
                   <a class="ud-menu-scroll" href="/#contact">Contacto</a>
                 </li>
                 <li class="nav-item">
-                  <a th:href="login" class="ud-menu-scroll">Iniciar Sesión</a>
+                  <a th:href="login" class="ud-main-btn">Iniciar Sesión</a>
                 </li>
               </ul>
-            </div>
-
-            <div class="navbar-btn d-none d-sm-inline-block">
-              <a href="login" class="ud-main-btn ud-login-btn">
-                Iniciar Sesión
-              </a>
-            </div>
+            </div>           
           </nav>
         </div>
       </div>
     </div>
   </header>
   <!--- Seccion del login--->
-  <section th:fragment="login" class="ud-login">
+  <section th:fragment="login" class="ud-login2">
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
           <div class="ud-login-wrapper">
             <div class="ud-login-logo">
-              <img src="img/logo/amrap1.png" alt="logo" />
+              <img src="img/marca_color.png" alt="logo" />
             </div>
             <form class="ud-login-form" action="/logincheck" method="post">
               <div class="ud-form-group">
                 <p th:if="${error != null}" th:text="${error}" class=error></p>
                 <p th:if="${logout !=null}" th:text="${logout}" class=exito></p>
-                <input type="email" name="username" placeholder="Email" th:value="${mail}" />
+                <input type="email" name="username" placeholder="E-mail" th:value="${mail}" />
               </div>
               <div class="ud-form-group">
-                <input type="password" name="password" placeholder="Ingrese contraseña" th:value="${clave1}" />
+                <input type="password" name="password" placeholder="Contraseña" th:value="${clave1}" />
               </div>
               <div class="ud-form-group">
                 <button type="submit" class="ud-main-btn w-100">Iniciar sesión</button>
@@ -255,7 +249,7 @@
           <div class="col-xl-3 col-lg-4 col-md-6">
             <div class="ud-widget">
               <a href="#home" class="ud-footer-logo">
-                <img src="img/logo/amrap1.png" alt="logo" />
+                <img src="img/marca_negativo.png" alt="logo" />
               </a>
               <p class="ud-widget-desc">
                 Entrenamiento personalizado pensando en vos.
@@ -288,9 +282,9 @@
             </div>
           </div>
 
-          <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6">
+          <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6">
             <div class="ud-widget">
-              <h5 class="ud-widget-title">Nosotros</h5>
+              <h5 class="ud-widget-title a">Amrap</h5>
               <ul class="ud-widget-links">
                 <li>
                   <a href="#home">Inicio</a>
@@ -300,6 +294,9 @@
                 </li>
                 <li>
                   <a href="#testimonials">Testimonios</a>
+                </li>
+                <li>
+                  <a href="#team">Galería</a>
                 </li>
               </ul>
             </div>
@@ -323,43 +320,107 @@
               </ul>
             </div>
           </div>
-          <div class="col-xl-2 col-lg-3 col-md-6 col-md-6">
+          <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6">
+            <div class="ud-widget">
+              <h5 class="ud-widget-title a">Nuestros productos</h5>
+              <ul class="ud-widget-links">
+                <li>
+                  <a href="#">Entrenador personal</a>
+                </li>
+                <li>
+                  <a href="#">Entrenamiento remoto</a>
+                </li>
+                <li>
+                  <a href="#">Seguimiento nutricional</a>
+                </li>
+                <li>
+                  <a href="#">Clases al aire libre</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-6 col-md-8 col-sm-10">
             <div class="ud-widget">
               <h5 class="ud-widget-title">Socios</h5>
               <ul class="ud-widget-brands">
                 <li>
-                  <a href="https://ayroui.com/" rel="nofollow noopner" target="_blank">
-                    <img src="img/footer/brands/ayroui.svg" alt="ayroui" />
+                  <a
+                    href="https://ayroui.com/"
+                    rel="nofollow noopner"
+                    target="_blank"
+                  >
+                    <img
+                      src="img/footer/brands/ayroui.svg"
+                      alt="ayroui"
+                    />
                   </a>
                 </li>
                 <li>
-                  <a href="https://ecommercehtml.com/" rel="nofollow noopner" target="_blank">
-                    <img src="img/footer/brands/ecommerce-html.svg" alt="ecommerce-html" />
+                  <a
+                    href="https://ecommercehtml.com/"
+                    rel="nofollow noopner"
+                    target="_blank"
+                  >
+                    <img
+                      src="img/footer/brands/ecommerce-html.svg"
+                      alt="ecommerce-html"
+                    />
                   </a>
                 </li>
                 <li>
-                  <a href="https://graygrids.com/" rel="nofollow noopner" target="_blank">
-                    <img src="img/footer/brands/graygrids.svg" alt="graygrids" />
+                  <a
+                    href="https://graygrids.com/"
+                    rel="nofollow noopner"
+                    target="_blank"
+                  >
+                    <img
+                      src="img/footer/brands/graygrids.svg"
+                      alt="graygrids"
+                    />
                   </a>
                 </li>
                 <li>
-                  <a href="https://lineicons.com/" rel="nofollow noopner" target="_blank">
-                    <img src="img/footer/brands/lineicons.svg" alt="lineicons" />
+                  <a
+                    href="https://lineicons.com/"
+                    rel="nofollow noopner"
+                    target="_blank"
+                  >
+                    <img
+                      src="img/footer/brands/lineicons.svg"
+                      alt="lineicons"
+                    />
                   </a>
                 </li>
                 <li>
-                  <a href="https://uideck.com/" rel="nofollow noopner" target="_blank">
-                    <img src="img/footer/brands/uideck.svg" alt="uideck" />
+                  <a
+                    href="https://uideck.com/"
+                    rel="nofollow noopner"
+                    target="_blank"
+                  >
+                    <img
+                      src="img/footer/brands/uideck.svg"
+                      alt="uideck"
+                    />
                   </a>
                 </li>
                 <li>
-                  <a href="https://tailwindtemplates.co/" rel="nofollow noopner" target="_blank">
-                    <img src="img/footer/brands/tailwindtemplates.svg" alt="tailwindtemplates" />
+                  <a
+                    href="https://tailwindtemplates.co/"
+                    rel="nofollow noopner"
+                    target="_blank"
+                  >
+                    <img
+                      src="img/footer/brands/tailwindtemplates.svg"
+                      alt="tailwindtemplates"
+                    />
                   </a>
                 </li>
               </ul>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
         </div>
       </div>
     </div>

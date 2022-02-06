@@ -203,6 +203,7 @@ p {
   z-index: 99;
   -webkit-transition: all 0.3s ease-out 0s;
   transition: all 0.3s ease-out 0s;
+  padding: 10px;
 }
 
 .sticky {
@@ -226,7 +227,7 @@ p {
   border-radius: 5px;
   position: relative;
   -webkit-transition: all 0.3s ease-out 0s;
-  transition: all 0.3s ease-out 0s;
+  transition: all 0.3s ease-out 0s;  
 }
 
 .navbar-brand {
@@ -235,12 +236,12 @@ p {
 
 @media only screen and (min-width: 768px) and (max-width: 991px), (max-width: 767px) {
   .navbar-brand {
-    padding: 10px 0px;
+    padding: 20px 0px;
   }
 }
 
 .navbar-brand img {
-  max-width: 80px;
+  max-width: 120px;
 }
 
 .navbar-toggler {
@@ -290,7 +291,7 @@ p {
     border-radius: 5px;
   }
   .navbar-collapse.show {
-    display: block;
+    display: block;    
   }
 }
 
@@ -298,6 +299,11 @@ p {
   .navbar-nav {
     padding: 20px 30px;
   }
+}
+
+.nav-item .ud-main-btn {
+  background-color: unset;
+  text-align: left;
 }
 
 .navbar-nav .nav-item {
@@ -699,7 +705,7 @@ p {
 }
 
 .ud-section-title h3 {
-  text-shadow: #048f71 -4px -2px;
+  text-shadow: #048f71 -2px -2px;
   color: #000000;
   font-size: 40px; 
 }
@@ -1393,7 +1399,7 @@ p {
 }
 
 .ud-contact-title h3 {
-  text-shadow: #048f71 -4px -2px;
+  text-shadow: #048f71 -2px -2px;
   color: #000000;
   font-size: 35px; 
 }
@@ -1443,7 +1449,7 @@ p {
 
 .ud-contact-form-wrapper {
   -webkit-box-shadow: 0px 4px 28px rgba(0, 0, 0, 0.05);
-          box-shadow: 0px 4px 28px rgba(0, 0, 0, 0.05);
+          box-shadow: 0px 4px 28px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   background: var(--white);
   padding: 60px;
@@ -1475,7 +1481,7 @@ p {
 }
 
 .ud-contact-form-wrapper .ud-form-group {
-  margin-bottom: 25px;
+  margin-bottom: 25px;  
 }
 
 .ud-contact-form-wrapper .ud-form-group label {
@@ -1530,17 +1536,18 @@ p {
 }
 
 .ud-widget {
-  margin-bottom: 50px;
+  margin-bottom: 50px;  
 }
 
 .ud-widget .ud-footer-logo {
-  max-width: 160px;
+  max-width: 500px;
   display: block;
   margin-bottom: 10px;
 }
 
 .ud-widget .ud-footer-logo img {
-  width: 100%;
+  max-width: 200px;
+  padding-left: px;  
 }
 
 .ud-widget .ud-widget-desc {
@@ -1701,8 +1708,13 @@ p {
 
 /* ====== Login CSS ====== */
 .ud-login {
-  padding-top: 80px;
-  padding-bottom: 80px;
+  padding-top: 120px;
+  padding-bottom: 50px;
+}
+
+.ud-login2{
+  padding-top: 60px;
+  padding-bottom: 50px;
 }
 
 .ud-login-wrapper {

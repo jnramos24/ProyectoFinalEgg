@@ -8,23 +8,9 @@
 <body>
     <!-- ====== Header Start ====== -->
     <header th:replace="layout/plantilla :: header" class="ud-header">
-        
+
     </header>
     <!-- ====== Header End ====== -->
-
-    <!-- ====== Banner Start ====== -->
-    <section class="ud-page-banner">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="ud-banner-content">
-                        <h1> REGISTRO AMRAP </h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ====== Banner End ====== -->
 
     <!-- ====== Register Start ====== -->
     <section class="ud-login">
@@ -33,53 +19,36 @@
                 <div class="col-lg-12">
                     <div class="ud-login-wrapper">
                         <div class="ud-login-logo">
-                            <img src="img/logo/amrap1.png" alt="logo" />
+                            <img src="img/marca_color.png" alt="logo" />
+                            <p th:if="${error != null}" th:text=${error} class=error style="color: rgb(255, 4, 4);"></p>
+                            <p th:if="${exito != null}" th:text=${exito} class=exito></p>
                         </div>
                         <form class="ud-login-form" action="/registrar" method="POST" enctype="multipart/form-data">
-                            <h3> Registrarse </h3>
                             <div class="ud-form-group">
 
-                                <br>
-                                <input type="text" 
-                                name="nombre" 
-                                th:value="${nombre}" 
-                                placeholder="Nombre"><br><br>
+                                <input type="text" name="nombre" th:value="${nombre}" placeholder="Nombre"><br>
 
                                 <br>
-                                <input type="text" 
-                                name="apellido" 
-                                th:value="${apellido}"
-                                placeholder="Apellido"><br><br>
+                                <input type="text" name="apellido" th:value="${apellido}" placeholder="Apellido"><br>
 
                                 <br>
-                                <input type="text" 
-                                name="email" 
-                                th:value="${email}" 
-                                placeholder="Email"><br><br>
+                                <input type="text" name="email" th:value="${email}" placeholder="E-mail"><br>
 
-                                <label>Debe tener al menos 8 caracteres</label><br>
-                                <input type="password" 
-                                name="clave1" 
-                                placeholder="Password"
-                                th:value="${clave1}" /><br><br>
+                                <label>Debe tener al menos 6 caracteres</label><br>
+                                <input type="password" name="clave1" placeholder="Password" th:value="${clave1}" /><br>
 
                                 <br>
-                                <input type="password" 
-                                name="clave2" 
-                                placeholder="Repetir Password"
-                                th:value="${clave2}" />
-                                <br> <br>
-<!--                                 Descomentar para el primer registro-->
-<!--                                    <p><label> Foto </label></p>
+                                <input type="password" name="clave2" placeholder="Repetir Password"
+                                    th:value="${clave2}" />
+                                <br>
+                                <!--                                 Descomentar para el primer registro-->
+                                <!--                                    <p><label> Foto </label></p>
                                     <input type="file" name="archivo" />-->
                                 <br>
 
                                 <button class="ud-main-btn w-100">Enviar</button>
 
-                                <p th:if="${error != null}" th:text=${error} class=error></p>
-                                <p th:if="${exito != null}" th:text=${exito} class=exito></p>
                             </div>
-                            <br>
 
                         </form>
 
@@ -117,7 +86,7 @@
     <!-- ====== Register End ====== -->
 
     <!-- ====== Footer Start ====== -->
-    <footer th:replace="layout/plantilla :: footer"class="ud-footer wow fadeInUp" data-wow-delay=".15s">    
+    <footer th:replace="layout/plantilla :: footer" class="ud-footer wow fadeInUp" data-wow-delay=".15s">
     </footer>
     <!-- ====== Footer End ====== -->
 
@@ -128,7 +97,7 @@
     <!-- ====== Back To Top End ====== -->
 
     <!-- ====== All Javascript Files ====== -->
-    
+
     <script src="js/wow.min.js"></script>
     <script src="js/main.js"></script>
 

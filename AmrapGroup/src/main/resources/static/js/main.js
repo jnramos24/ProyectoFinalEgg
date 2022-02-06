@@ -15,9 +15,9 @@
 
     // === logo change
     if (ud_header.classList.contains("sticky")) {
-      logo.src = "../img/logo/amrap1.png";
+      logo.src = "img/marca_color.png";
     } else {
-      logo.src = "../img/logo/amrap1.png";
+      logo.src = "img/marca_negativo.png";
     }
 
     // show or hide the back-top-top button
