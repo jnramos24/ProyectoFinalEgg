@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
-  xlmns="http://www.thymeleaf.org/extras/spring-security">
+    xlmns="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="layout/plantilla :: menu-head"></head>
 
@@ -16,7 +16,12 @@
                 <div>
                     <a th:href="@{/listar-usuarios}"><button class="boton cuatro"><span>Listar
                                 Usuarios</span></button></a><br><br>
+
+                    <a th:href="@{/listar-usuarios/?format=pdf}" target="_blank" rel="noopener noreferrer">
+                        <img src="img/descargar _pdf.png" class="borde">
+                    </a><br><br>
                 </div>
+
 
                 <form action="/buscar-usuario" method="GET" class="borde">
 
