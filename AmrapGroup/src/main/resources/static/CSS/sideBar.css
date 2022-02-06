@@ -900,7 +900,6 @@ tr:nth-child(even){
 
 
 .container2{
-    float: left;
 	/* background-color: darkorange; */
     width: 100%;
     max-width: 260px;
@@ -910,7 +909,7 @@ tr:nth-child(even){
     justify-content: center;
     margin-top: 20px;
     margin-right: 20px;
-    margin-bottom: 20px;
+    margin-bottom: auto;
 	display:inline-block
 }
 
@@ -922,7 +921,6 @@ tr:nth-child(even){
     border-radius: 40px;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-    /* margin: 30px; */
     text-align: center;
     transition: all 0.25s;
 	
@@ -964,7 +962,7 @@ tr:nth-child(even){
 
 
 .container2 .card3{
-
+ 
     background-color:#8ce658;
     width: 260px;
     height: auto;
@@ -1022,4 +1020,10 @@ tr:nth-child(even){
 
 .borde .boton.tres::after {
     background-color: rgb(113, 114, 114);
+}
+
+.borde:hover {
+    background-color: rgb(11, 95, 84);
+    padding-top: 5px;
+    border-radius:10px ;       
 }

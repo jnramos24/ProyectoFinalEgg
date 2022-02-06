@@ -29,11 +29,11 @@ public class ContactoClienteController {
 
         try {
 
-            mailService.enviaMail("nombre: " + fullName + "\n"
+            mailService.enviaMail("Nombre: " + fullName + "\n"
                     + "E-mail: " + email + "\n"
-                    + "Telefono: " + phone + "\n"
-                    + "Mensaje: " + message, "Contacto cliente",
-                    "amrapgroup22@hotmail.com", "C:\\ProyectoFinalEgg\\AmrapGroup\\src\\main\\resources\\static\\img\\Amrap mailing.png");
+                    + "Telefono: " + phone + "\n"+"\n"
+                    + message, "Contacto de cliente desde el portal web",
+                    "manuel_quinteros@hotmail.com", "D:\\MANU\\LIBRERIA\\CURSOS\\Egg\\Proyecto final git\\ProyectoFinalEgg\\AmrapGroup\\src\\main\\resources\\static\\img\\amrap_90.png");
 
         } catch (MessagingException ex) {
             Logger.getLogger(UsuarioImplement.class.getName()).log(Level.SEVERE, null, ex);

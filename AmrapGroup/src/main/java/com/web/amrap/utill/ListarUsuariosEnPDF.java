@@ -121,6 +121,7 @@ public class ListarUsuariosEnPDF extends AbstractPdfView {
             nombre.setBorder(0);
             nombre.setHorizontalAlignment(Element.ALIGN_CENTER);
             nombre.setVerticalAlignment(Element.ALIGN_CENTER);
+            nombre.setPadding(10);
             if (contador % 2 == 0) {
                 nombre.setBackgroundColor(new Color(240, 255, 255));
             } else{
@@ -132,6 +133,7 @@ public class ListarUsuariosEnPDF extends AbstractPdfView {
             apellido.setBorder(0);
             apellido.setHorizontalAlignment(Element.ALIGN_CENTER);
             apellido.setVerticalAlignment(Element.ALIGN_CENTER);
+            apellido.setPadding(10);
             if (contador % 2 == 0) {
                 apellido.setBackgroundColor(new Color(240, 255, 255));
             } else{
@@ -143,6 +145,7 @@ public class ListarUsuariosEnPDF extends AbstractPdfView {
             email.setBorder(0);
             email.setHorizontalAlignment(Element.ALIGN_CENTER);
             email.setVerticalAlignment(Element.ALIGN_CENTER);
+            email.setPadding(10);
             if (contador % 2 == 0) {
                 email.setBackgroundColor(new Color(240, 255, 255));
             }else{
@@ -154,6 +157,7 @@ public class ListarUsuariosEnPDF extends AbstractPdfView {
             rol.setBorder(0);
             rol.setHorizontalAlignment(Element.ALIGN_CENTER);
             rol.setVerticalAlignment(Element.ALIGN_CENTER);
+            rol.setPadding(10);
             if (contador % 2 == 0) {
                 rol.setBackgroundColor(new Color(240, 255, 255));
             }else
@@ -164,6 +168,7 @@ public class ListarUsuariosEnPDF extends AbstractPdfView {
             alta.setBorder(0);
             alta.setHorizontalAlignment(Element.ALIGN_CENTER);
             alta.setVerticalAlignment(Element.ALIGN_CENTER);
+            alta.setPadding(10);
             if (contador % 2 == 0) {
                 alta.setBackgroundColor(new Color(240, 255, 255));
             } else{
@@ -179,6 +184,7 @@ public class ListarUsuariosEnPDF extends AbstractPdfView {
                 baja.setBorder(0);
                 baja.setHorizontalAlignment(Element.ALIGN_CENTER);
                 baja.setVerticalAlignment(Element.ALIGN_CENTER);
+                baja.setPadding(10);
                 if (contador % 2 == 0) {
                     baja.setBackgroundColor(new Color(240, 255, 255));
                 } else{
@@ -192,6 +198,7 @@ public class ListarUsuariosEnPDF extends AbstractPdfView {
                 baja.setBorder(0);
                 baja.setHorizontalAlignment(Element.ALIGN_CENTER);
                 baja.setVerticalAlignment(Element.ALIGN_CENTER);
+                baja.setPadding(10);
                 if (contador % 2 == 0) {
                     baja.setBackgroundColor(new Color(240, 255, 255));
                 } else{

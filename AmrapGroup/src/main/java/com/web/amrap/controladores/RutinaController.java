@@ -33,6 +33,9 @@ public class RutinaController {
         try {
 
             Usuario login = (Usuario) session.getAttribute("usuariosession");
+            
+            String idLogin = login.getId();
+            modelo.put("idLogin", idLogin);
 
             List<Rutina> rutinas = rutinaImplement.buscarRutinaPorUsuario(login.getId());
             modelo.addAttribute("rutinas", rutinas);
@@ -123,9 +126,9 @@ public class RutinaController {
 
             Rutina rutina = rutinaImplement.buscarRutinaPorId(idRutina);
             modelo.addAttribute("rutina", rutina);
-            
+
             modelo.addAttribute("idUsuario", idUsuario);
-  
+
             return "/rutina/rutinas_modificar.html";
 
         } catch (ErrorServicio ex) {
@@ -179,11 +182,11 @@ public class RutinaController {
         if (login == null || !login.getId().equals(idUsuario)) {
             return "redirect:/inicio";
         }
-        
-         List<Rutina> rutinas = null;
+
+        List<Rutina> rutinas = null;
 
         try {
-            
+
             rutinaImplement.eliminarRutina(idUsuario, idRutina);
             modelo.put("exito", "La rutina se eliminó correctamente");
 

@@ -35,11 +35,23 @@ public class ListarEjerciciosEnPDF extends AbstractPdfView {
         document.setPageSize(PageSize.LEGAL.rotate());
         document.open();
 
+        String nombreUsuario = "";
+        String nombreRutina = "";
+        String apellidoUsuario = "";
+
+        for (Ejercicio Ejercicio : listaEjercicios) {
+
+            nombreRutina = Ejercicio.getRutina().getNombre();
+            nombreUsuario = Ejercicio.getRutina().getUsuario().getNombre();
+            apellidoUsuario = Ejercicio.getRutina().getUsuario().getApellido();
+            //como los datos se repiten, la variable toma el ultimo valor, pero da igual.
+        }
+
         // tabla y estilo
         PdfPTable tituloTabla = new PdfPTable(1);
         Font fuenteTitulo = FontFactory.getFont("Helvetica", 16, Color.BLACK);
         // celda de la tabla y estilo
-        PdfPCell celda = new PdfPCell(new Phrase("Lista de Ejercicios", fuenteTitulo));
+        PdfPCell celda = new PdfPCell(new Phrase("Alumno:  " + nombreUsuario + " "+ apellidoUsuario + "  -  Rutina: " + nombreRutina, fuenteTitulo));
         celda.setBorder(0);
         celda.setBackgroundColor(new Color(217, 220, 223));
         celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -50,10 +62,10 @@ public class ListarEjerciciosEnPDF extends AbstractPdfView {
         tituloTabla.setSpacingAfter(20); // le doy separacion del cuerpo de la tabla 
 
         // tabla y estilo
-        PdfPTable titulosCampos = new PdfPTable(7);
-        titulosCampos.setTotalWidth(new float[]{3f, 1f, 1f, 1f, 1f, 1f,1f});  // ancho de las columbas
+        PdfPTable titulosCampos = new PdfPTable(8);
+        titulosCampos.setTotalWidth(new float[]{2.4f, 1f, 1.6f, 1f, 1.2f, 1.3f, 1f, 1.2f});  // ancho de las columbas
         Font fuenteCampos = FontFactory.getFont("Helvetica", 16, Color.DARK_GRAY);
-        
+
         // celdas de la tabla y estilo
         PdfPCell nombre = new PdfPCell(new Phrase("Ejercicio", fuenteCampos));
         nombre.setBorder(0);
@@ -104,6 +116,13 @@ public class ListarEjerciciosEnPDF extends AbstractPdfView {
         notas.setVerticalAlignment(Element.ALIGN_CENTER);
         notas.setPadding(10);
 
+        PdfPCell atencion = new PdfPCell(new Phrase("atencion", fuenteCampos));
+        atencion.setBorder(0);
+        atencion.setBackgroundColor(new Color(217, 220, 223));
+        atencion.setHorizontalAlignment(Element.ALIGN_CENTER);
+        atencion.setVerticalAlignment(Element.ALIGN_CENTER);
+        atencion.setPadding(10);
+
         titulosCampos.addCell(nombre); // guado la celda
         titulosCampos.addCell(series);
         titulosCampos.addCell(repeticiones);
@@ -111,53 +130,68 @@ public class ListarEjerciciosEnPDF extends AbstractPdfView {
         titulosCampos.addCell(dificultad);
         titulosCampos.addCell(kilogramos);
         titulosCampos.addCell(notas);
+        titulosCampos.addCell(atencion);
 
         titulosCampos.setSpacingAfter(0); // le doy separacion del cuerpo de la tabla 
 
         // tabla con datos de los usuarios
-        PdfPTable tablaEjercicios = new PdfPTable(7);
-        tablaEjercicios.setTotalWidth(new float[]{3f, 1f, 1f, 1f, 1f, 1f,1f});  // ancho de las columbas
+        PdfPTable tablaEjercicios = new PdfPTable(8);
+        tablaEjercicios.setTotalWidth(new float[]{2.4f, 1f, 1.6f, 1f, 1.2f, 1.3f, 1f,1.2f});  // ancho de las columbas
 
         Font fuenteDatos = FontFactory.getFont("Arial", 12, Color.darkGray);
-        
+
         int contador = 0;
 
         for (Ejercicio ejercicio : listaEjercicios) {
-            
-//            contador++;
-//            
-//            if (contador % 2 == 0) {
-//                nombre.setBackgroundColor(new Color(240, 255, 255));
-//                series.setBackgroundColor(new Color(240, 255, 255));
-//                repeticiones.setBackgroundColor(new Color(240, 255, 255));
-//                pausa.setBackgroundColor(new Color(240, 255, 255));
-//                dificultad.setBackgroundColor(new Color(240, 255, 255));
-//                kilogramos.setBackgroundColor(new Color(240, 255, 255));         
-//                
-//            }
-            
+
+            contador++;
+
             nombre = new PdfPCell(new Phrase(ejercicio.getEjercicioNombre().getNombre(), fuenteDatos));
             nombre.setBorder(0);
             nombre.setHorizontalAlignment(Element.ALIGN_CENTER);
             nombre.setVerticalAlignment(Element.ALIGN_CENTER);
+            nombre.setPadding(10);
+            if (contador % 2 == 0) {
+                nombre.setBackgroundColor(new Color(240, 255, 255));
+            } else {
+                nombre.setBackgroundColor(new Color(245, 245, 220));
+            }
             tablaEjercicios.addCell(nombre);
 
             series = new PdfPCell(new Phrase(ejercicio.getSeries().toString(), fuenteDatos));
             series.setBorder(0);
             series.setHorizontalAlignment(Element.ALIGN_CENTER);
             series.setVerticalAlignment(Element.ALIGN_CENTER);
+            series.setPadding(10);
+            if (contador % 2 == 0) {
+                series.setBackgroundColor(new Color(240, 255, 255));
+            } else {
+                series.setBackgroundColor(new Color(245, 245, 220));
+            }
             tablaEjercicios.addCell(series);
 
             repeticiones = new PdfPCell(new Phrase(ejercicio.getRepeticiones().toString(), fuenteDatos));
             repeticiones.setBorder(0);
             repeticiones.setHorizontalAlignment(Element.ALIGN_CENTER);
             repeticiones.setVerticalAlignment(Element.ALIGN_CENTER);
+            repeticiones.setPadding(10);
+            if (contador % 2 == 0) {
+                repeticiones.setBackgroundColor(new Color(240, 255, 255));
+            } else {
+                repeticiones.setBackgroundColor(new Color(245, 245, 220));
+            }
             tablaEjercicios.addCell(repeticiones);
 
             pausa = new PdfPCell(new Phrase(ejercicio.getPausa().toString(), fuenteDatos));
             pausa.setBorder(0);
             pausa.setHorizontalAlignment(Element.ALIGN_CENTER);
             pausa.setVerticalAlignment(Element.ALIGN_CENTER);
+            pausa.setPadding(10);
+            if (contador % 2 == 0) {
+                pausa.setBackgroundColor(new Color(240, 255, 255));
+            } else {
+                pausa.setBackgroundColor(new Color(245, 245, 220));
+            }
             tablaEjercicios.addCell(pausa);
 
             if (ejercicio.getDificultad() == null) {
@@ -166,7 +200,13 @@ public class ListarEjerciciosEnPDF extends AbstractPdfView {
                 dificultad.setBorder(0);
                 dificultad.setHorizontalAlignment(Element.ALIGN_CENTER);
                 dificultad.setVerticalAlignment(Element.ALIGN_CENTER);
-                tablaEjercicios.addCell(dificultad);         
+                dificultad.setPadding(10);
+                if (contador % 2 == 0) {
+                    dificultad.setBackgroundColor(new Color(240, 255, 255));
+                } else {
+                    dificultad.setBackgroundColor(new Color(245, 245, 220));
+                }
+                tablaEjercicios.addCell(dificultad);
 
             } else {
 
@@ -174,9 +214,14 @@ public class ListarEjerciciosEnPDF extends AbstractPdfView {
                 dificultad.setBorder(0);
                 dificultad.setHorizontalAlignment(Element.ALIGN_CENTER);
                 dificultad.setVerticalAlignment(Element.ALIGN_CENTER);
+                dificultad.setPadding(10);
+                if (contador % 2 == 0) {
+                    dificultad.setBackgroundColor(new Color(240, 255, 255));
+                } else {
+                    dificultad.setBackgroundColor(new Color(245, 245, 220));
+                }
                 tablaEjercicios.addCell(dificultad);
             }
- 
 
             if (ejercicio.getKilogramos() == null) {
 
@@ -184,7 +229,12 @@ public class ListarEjerciciosEnPDF extends AbstractPdfView {
                 kilogramos.setBorder(0);
                 kilogramos.setHorizontalAlignment(Element.ALIGN_CENTER);
                 kilogramos.setVerticalAlignment(Element.ALIGN_CENTER);
-
+                kilogramos.setPadding(10);
+                if (contador % 2 == 0) {
+                    kilogramos.setBackgroundColor(new Color(240, 255, 255));
+                } else {
+                    kilogramos.setBackgroundColor(new Color(245, 245, 220));
+                }
                 tablaEjercicios.addCell(kilogramos);
 
             } else {
@@ -193,25 +243,71 @@ public class ListarEjerciciosEnPDF extends AbstractPdfView {
                 kilogramos.setBorder(0);
                 kilogramos.setHorizontalAlignment(Element.ALIGN_CENTER);
                 kilogramos.setVerticalAlignment(Element.ALIGN_CENTER);
+                kilogramos.setPadding(10);
+                if (contador % 2 == 0) {
+                    kilogramos.setBackgroundColor(new Color(240, 255, 255));
+                } else {
+                    kilogramos.setBackgroundColor(new Color(245, 245, 220));
+                }
                 tablaEjercicios.addCell(kilogramos);
             }
-            
-              if (ejercicio.getNotas()== null) {
+
+            if (ejercicio.getNotas() == null) {
 
                 notas = new PdfPCell(new Phrase(" ", fuenteDatos));
                 notas.setBorder(0);
                 notas.setHorizontalAlignment(Element.ALIGN_CENTER);
                 notas.setVerticalAlignment(Element.ALIGN_CENTER);
-
+                notas.setPadding(10);
+                if (contador % 2 == 0) {
+                    notas.setBackgroundColor(new Color(240, 255, 255));
+                } else {
+                    notas.setBackgroundColor(new Color(245, 245, 220));
+                }
                 tablaEjercicios.addCell(notas);
 
             } else {
 
-                notas = new PdfPCell(new Phrase(ejercicio.getKilogramos().toString(), fuenteDatos));
+                notas = new PdfPCell(new Phrase(ejercicio.getNotas().toString(), fuenteDatos));
                 notas.setBorder(0);
                 notas.setHorizontalAlignment(Element.ALIGN_CENTER);
                 notas.setVerticalAlignment(Element.ALIGN_CENTER);
+                notas.setPadding(10);
+                if (contador % 2 == 0) {
+                    notas.setBackgroundColor(new Color(240, 255, 255));
+                } else {
+                    notas.setBackgroundColor(new Color(245, 245, 220));
+                }
                 tablaEjercicios.addCell(notas);
+            }
+
+            if (ejercicio.getAtencion() == null) {
+
+                atencion = new PdfPCell(new Phrase(" ", fuenteDatos));
+                atencion.setBorder(0);
+                atencion.setHorizontalAlignment(Element.ALIGN_CENTER);
+                atencion.setVerticalAlignment(Element.ALIGN_CENTER);
+                atencion.setPadding(10);
+                if (contador % 2 == 0) {
+                    atencion.setBackgroundColor(new Color(240, 255, 255));
+                } else {
+                    atencion.setBackgroundColor(new Color(245, 245, 220));
+                }
+                tablaEjercicios.addCell(atencion);
+
+            } else {
+
+                atencion = new PdfPCell(new Phrase(ejercicio.getAtencion().toString(), fuenteDatos));
+                atencion.setBorder(0);
+                atencion.setHorizontalAlignment(Element.ALIGN_CENTER);
+                atencion.setVerticalAlignment(Element.ALIGN_CENTER);
+                atencion.setPadding(10);
+                if (contador % 2 == 0) {
+                    atencion.setBackgroundColor(new Color(240, 255, 255));
+                } else {
+                    atencion.setBackgroundColor(new Color(245, 245, 220));
+                }
+                tablaEjercicios.addCell(atencion);
             }
         }
 

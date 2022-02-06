@@ -20,7 +20,7 @@
                     <!--  en esta url, le sumamos al metodo nuevo-ejercicio, el id de rutina, que lo recibimos en la vista por medio de un model, que a vez, venia como un requestparam -->
 
                     <a th:href="@{/listar-ejercicios (idRutina=${idRutina})}"><button class="boton cuatro"><span>Listar
-                                Ejercicios</span></button></a><br><br>
+                                Ejercicios</span></button></a>
                     <!--  en esta url, le sumamos al metodo nuevo-ejercicio, el id de rutina, que lo recibimos en la vista por medio de un model, que a vez, venia como un requestparam -->
                     <a th:href="@{/listar-ejercicios (idRutina=${idRutina},format=pdf)}" target="_blank" rel="noopener noreferrer">
                         <img src="img/descargar _pdf.png" class="borde">
@@ -52,7 +52,7 @@
 
                         <button type="submit" class="boton tres"><span>Buscar</span></button>
                     </div>
-                </form>
+                </form><br>
 
                 <a th:href="@{/listar-rutinas}"><button class="boton tres"><span>Listar Rutinas</span></button></a>
             </div>
@@ -71,7 +71,7 @@
                     <p th:text="${'Kilogramos: ' +listaEjercicios.kilogramos}"> </p>
                     <p th:text="${'Notas: ' +listaEjercicios.notas}"> </p>
                     <p th:text="${'Atencion: ' +listaEjercicios.atencion}"> </p>
-                    <p th:text="${listaEjercicios.completado == true} ? 'Completado: si' : 'Completado: No'"> </p>
+                    <p th:text="${listaEjercicios.completado == true} ? 'Completado' : 'No completado'"> </p>
                     <br>
                     <td><a th:href="${listaEjercicios.ejercicioNombre.video}" target="_blank"><button
                                 class="boton2 uno "><span>Video</span></button></a></td>
@@ -96,7 +96,7 @@
                     <p th:text="${'Kilogramos: ' +listaEjercicios.kilogramos}"> </p>
                     <p th:text="${'Notas: ' +listaEjercicios.notas}"> </p>
                     <p th:text="${'Atencion: ' +listaEjercicios.atencion}"> </p>
-                    <p th:text="${listaEjercicios.completado == true} ? 'Completado: si' : 'Completado: No'"> </p>
+                    <p th:text="${listaEjercicios.completado == true} ? 'Completado' : 'No completado'"> </p>
                     <br>
                     <td><a th:href="${listaEjercicios.ejercicioNombre.video}" target="_blank"><button
                                 class="boton2 uno "><span>Video</span></button></a></td>

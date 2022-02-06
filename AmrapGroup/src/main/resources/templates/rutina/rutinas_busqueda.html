@@ -17,14 +17,21 @@
 
                     <p th:if="${error != null}" th:text=${error} class=error></p>
                     <p th:if="${exito != null}" th:text=${exito} class=exito></p>
+                    
 
-                </form>
-                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/nueva-rutina}"><button
-                        class="boton tres"><span>Crear Rutina</span></button></a>
+                </form>                
+
+                <a sec:authorize="hasRole('ROLE_ADMIN')"th:href="@{/nueva-rutina}"><button class="boton tres"><span>Crear Rutina</span></button></a>
+
                 <a th:href="@{/listar-rutinas}"><button class="boton tres"><span>Listar Rutinas</span></button></a>
 
+                <a th:href="@{/listar-rutinas/?format=pdf}" target="_blank" rel="noopener noreferrer">
+                    <img src="img/descargar _pdf.png" class="borde">
+                </a><br><br>
+                
             </div>
-            <br>
+
+            
             <!--   ************** formulario resultados -->
 
             <div class="container2" th:each="rutinas : ${rutinas}">
@@ -34,7 +41,7 @@
                     <img src="img/img5.jpg">
                     <h4 th:text="${rutinas.nombre}"></h4>
                     <p th:text="${'Objetivo: ' + rutinas.objetivo}"></p>
-                    <p th:text="${rutinas.completado == true} ? 'Completada: si' : 'Completada: No'"> </p><br>
+                    <p th:text="${rutinas.completado == true} ? 'Completada' : 'No completada'"> </p><br>
 
 
                     <a th:href="@{/listar-ejercicios (idRutina=${rutinas.id})}"><button
@@ -53,7 +60,7 @@
                     <img src="img/img5.jpg">
                     <h4 th:text="${rutinas.nombre}"></h4>
                     <p th:text="${'Objetivo: ' + rutinas.objetivo}"></p>
-                    <p th:text="${rutinas.completado == true} ? 'Completada: si' : 'Completada: No'"> </p><br>
+                    <p th:text="${rutinas.completado == true} ? 'Completada' : 'No Completada'"> </p><br>
 
 
                     <a th:href="@{/listar-ejercicios (idRutina=${rutinas.id})}"><button
