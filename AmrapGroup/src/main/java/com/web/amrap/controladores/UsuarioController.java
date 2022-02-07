@@ -6,6 +6,8 @@ import com.web.amrap.errores.ErrorServicio;
 import com.web.amrap.implementacion.UsuarioImplement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,7 +26,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioImplement usuarioImplement;
 
-   @GetMapping("/")
+    @GetMapping("/")
     public String index() {
         return "index.html";
     }
@@ -92,9 +94,11 @@ public class UsuarioController {
 
         Usuario login = (Usuario) session.getAttribute("usuariosession");
         if (login == null || !login.getId().equals(id)) {
-
             return "redirect:/inicio";
         }
+
+        model.put("login", login);
+
         return "mostrar_perfil.html";
     }
 

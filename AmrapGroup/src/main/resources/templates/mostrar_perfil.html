@@ -13,15 +13,23 @@
 
         <section Class=principal>
             <div class="formulario">
-                <div>
-                    <a id="a" th:href="@{/editar-perfil}+'?id='+${session.usuariosession.id}"><button
-                            class="boton tres"><span>Editar perfil</span></button></a>
-                </div>
+
+                <a id="a" th:href="@{/editar-perfil}+'?id='+${session.usuariosession.id}"><button
+                        class="boton tres"><span>Editar perfil</span></button></a>
+
+                <a th:href="@{/mostrar-perfil (id=${session.usuariosession.id},format=pdf)}" target="_blank" rel="noopener noreferrer">
+                    <img src="img/descargar _pdf.png" class="borde">
+                </a>
+          
+            </div>
+
+              
             </div>
             <!--   ************** formulario resultados -->
             <section class="formulario2" action="/mostrar-perfil" method="GET">
 
-                <label th:text="${session.usuariosession.nombre} +' '+ ${session.usuariosession.apellido}"></label><br><br>
+                <label
+                    th:text="${session.usuariosession.nombre} +' '+ ${session.usuariosession.apellido}"></label><br><br>
 
                 <table>
                     <tr>
@@ -73,7 +81,7 @@
         </section>
     </section>
 
-<script src="js/script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 
 </html>

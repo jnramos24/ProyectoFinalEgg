@@ -21,16 +21,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
 
-@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-@Component("/usuarios_busqueda.html")
-public class ListarUsuariosEnPDF extends AbstractPdfView {
+@Component("mostrar_perfil.html")
+public class MostrarPerfilUsuarioEnPDF extends AbstractPdfView {
 
     @Override
     protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        List<Usuario> listaUsuarios = (List<Usuario>) model.get("listaUsuarios");        
-     
+        Usuario usuario = (Usuario) model.get("login");
+
         document.setMargins(-20, -20, 40, 20);
         document.setPageSize(PageSize.LEGAL.rotate());
         document.open();
@@ -39,7 +38,7 @@ public class ListarUsuariosEnPDF extends AbstractPdfView {
         PdfPTable tituloTabla = new PdfPTable(1);
         Font fuenteTitulo = FontFactory.getFont("Helvetica", 16, Color.BLACK);
         // celda de la tabla y estilo
-        PdfPCell celda = new PdfPCell(new Phrase("Lista de Usuarios", fuenteTitulo));
+        PdfPCell celda = new PdfPCell(new Phrase("Usuario", fuenteTitulo));
         celda.setBorder(0);
         celda.setBackgroundColor(new Color(217, 220, 223));
         celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -106,122 +105,81 @@ public class ListarUsuariosEnPDF extends AbstractPdfView {
         titulosCampos.setSpacingAfter(0); // le doy separacion del cuerpo de la tabla 
 
         // tabla con datos de los usuarios
-        PdfPTable tablaUsuarios = new PdfPTable(6);
-        tablaUsuarios.setTotalWidth(new float[]{1f, 1f, 3f, 2f, 1f, 1f}); // ancho de las columnas
+        PdfPTable tablaUsuario = new PdfPTable(6);
+        tablaUsuario.setTotalWidth(new float[]{1f, 1f, 3f, 2f, 1f, 1f}); // ancho de las columnas
 
         Font fuenteDatos = FontFactory.getFont("Arial", 12, Color.darkGray);
 
-        int contador = 0;
+        nombre = new PdfPCell(new Phrase(usuario.getNombre(), fuenteDatos));
+        nombre.setBorder(0);
+        nombre.setHorizontalAlignment(Element.ALIGN_CENTER);
+        nombre.setVerticalAlignment(Element.ALIGN_CENTER);
+        nombre.setBackgroundColor(new Color(240, 255, 255));
+        nombre.setPadding(10);
 
-        for (Usuario usuario : listaUsuarios) {
+        tablaUsuario.addCell(nombre);
 
-            contador++;
+        apellido = new PdfPCell(new Phrase(usuario.getApellido(), fuenteDatos));
+        apellido.setBorder(0);
+        apellido.setHorizontalAlignment(Element.ALIGN_CENTER);
+        apellido.setVerticalAlignment(Element.ALIGN_CENTER);
+        apellido.setBackgroundColor(new Color(240, 255, 255));
+        apellido.setPadding(10);
 
-            nombre = new PdfPCell(new Phrase(usuario.getNombre(), fuenteDatos));
-            nombre.setBorder(0);
-            nombre.setHorizontalAlignment(Element.ALIGN_CENTER);
-            nombre.setVerticalAlignment(Element.ALIGN_CENTER);
-            nombre.setPadding(10);
-            if (contador % 2 == 0) {
-                nombre.setBackgroundColor(new Color(240, 255, 255));
-            } else{
-                nombre.setBackgroundColor(new Color(245, 245, 220));
-            }
-            tablaUsuarios.addCell(nombre);
+        tablaUsuario.addCell(apellido);
 
-            apellido = new PdfPCell(new Phrase(usuario.getApellido(), fuenteDatos));
-            apellido.setBorder(0);
-            apellido.setHorizontalAlignment(Element.ALIGN_CENTER);
-            apellido.setVerticalAlignment(Element.ALIGN_CENTER);
-            apellido.setPadding(10);
-            if (contador % 2 == 0) {
-                apellido.setBackgroundColor(new Color(240, 255, 255));
-            } else{
-                apellido.setBackgroundColor(new Color(245, 245, 220));
-            }
-            tablaUsuarios.addCell(apellido);
+        email = new PdfPCell(new Phrase(usuario.getEmail(), fuenteDatos));
+        email.setBorder(0);
+        email.setHorizontalAlignment(Element.ALIGN_CENTER);
+        email.setVerticalAlignment(Element.ALIGN_CENTER);
+        email.setBackgroundColor(new Color(240, 255, 255));        
+        email.setPadding(10);
 
-            email = new PdfPCell(new Phrase(usuario.getEmail(), fuenteDatos));
-            email.setBorder(0);
-            email.setHorizontalAlignment(Element.ALIGN_CENTER);
-            email.setVerticalAlignment(Element.ALIGN_CENTER);
-            email.setPadding(10);
-            if (contador % 2 == 0) {
-                email.setBackgroundColor(new Color(240, 255, 255));
-            }else{
-                email.setBackgroundColor(new Color(245, 245, 220));
-            }
-            tablaUsuarios.addCell(email);
+        tablaUsuario.addCell(email);
 
-            rol = new PdfPCell(new Phrase(usuario.getRol().name(), fuenteDatos));
-            rol.setBorder(0);
-            rol.setHorizontalAlignment(Element.ALIGN_CENTER);
-            rol.setVerticalAlignment(Element.ALIGN_CENTER);
-            rol.setPadding(10);
-            if (contador % 2 == 0) {
-                rol.setBackgroundColor(new Color(240, 255, 255));
-            }else
-                rol.setBackgroundColor(new Color(245, 245, 220));
-            tablaUsuarios.addCell(rol);
+        rol = new PdfPCell(new Phrase(usuario.getRol().name(), fuenteDatos));
+        rol.setBorder(0);
+        rol.setHorizontalAlignment(Element.ALIGN_CENTER);
+        rol.setVerticalAlignment(Element.ALIGN_CENTER);
+        rol.setBackgroundColor(new Color(240, 255, 255));  
+        rol.setPadding(10);
 
-            alta = new PdfPCell(new Phrase(usuario.getAlta().toString(), fuenteDatos));
-            alta.setBorder(0);
-            alta.setHorizontalAlignment(Element.ALIGN_CENTER);
-            alta.setVerticalAlignment(Element.ALIGN_CENTER);
-            alta.setPadding(10);
-            if (contador % 2 == 0) {
-                alta.setBackgroundColor(new Color(240, 255, 255));
-            } else{
-                alta.setBackgroundColor(new Color(245, 245, 220));
-            }
-            tablaUsuarios.addCell(alta);
+        tablaUsuario.addCell(rol);
 
-            System.out.println("baja: " + usuario.getBaja());
+        alta = new PdfPCell(new Phrase(usuario.getAlta().toString(), fuenteDatos));
+        alta.setBorder(0);
+        alta.setHorizontalAlignment(Element.ALIGN_CENTER);
+        alta.setVerticalAlignment(Element.ALIGN_CENTER);
+        alta.setBackgroundColor(new Color(240, 255, 255));  
+        alta.setPadding(10);
 
-            if (usuario.getBaja() == null) {
+        tablaUsuario.addCell(alta);
 
-                baja = new PdfPCell(new Phrase(" ", fuenteDatos));
-                baja.setBorder(0);
-                baja.setHorizontalAlignment(Element.ALIGN_CENTER);
-                baja.setVerticalAlignment(Element.ALIGN_CENTER);
-                baja.setPadding(10);
-                if (contador % 2 == 0) {
-                    baja.setBackgroundColor(new Color(240, 255, 255));
-                } else{
-                    baja.setBackgroundColor(new Color(245, 245, 220));
-                }
-                tablaUsuarios.addCell(baja);
+        System.out.println("baja: " + usuario.getBaja());
 
-            } else {
+        if (usuario.getBaja() == null) {
 
-                baja = new PdfPCell(new Phrase(usuario.getBaja().toString(), fuenteDatos));
-                baja.setBorder(0);
-                baja.setHorizontalAlignment(Element.ALIGN_CENTER);
-                baja.setVerticalAlignment(Element.ALIGN_CENTER);
-                baja.setPadding(10);
-                if (contador % 2 == 0) {
-                    baja.setBackgroundColor(new Color(240, 255, 255));
-                } else{
-                    baja.setBackgroundColor(new Color(245, 245, 220));
-                }
-                tablaUsuarios.addCell(baja);
-            }
+            baja = new PdfPCell(new Phrase(" ", fuenteDatos));
+            baja.setBorder(0);
+            baja.setHorizontalAlignment(Element.ALIGN_CENTER);
+            baja.setVerticalAlignment(Element.ALIGN_CENTER);
+            baja.setBackgroundColor(new Color(240, 255, 255));
+            baja.setPadding(10);
+
+            tablaUsuario.addCell(baja);
+
+        } else {
+
+            baja = new PdfPCell(new Phrase(usuario.getBaja().toString(), fuenteDatos));
+            baja.setBorder(0);
+            baja.setHorizontalAlignment(Element.ALIGN_CENTER);
+            baja.setVerticalAlignment(Element.ALIGN_CENTER);
+            baja.setBackgroundColor(new Color(240, 255, 255));
+            baja.setPadding(10);
         }
+        tablaUsuario.addCell(baja);
 
-//        listaUsuarios.forEach(usuario -> {
-//            tablaUsuarios.addCell(usuario.getNombre());
-//            tablaUsuarios.addCell(usuario.getApellido());
-//            tablaUsuarios.addCell(usuario.getEmail());
-//            tablaUsuarios.addCell(usuario.getRol().name());
-//            tablaUsuarios.addCell(usuario.getAlta().toString());
-//
-//            if (usuario.getBaja() != null) {
-//                tablaUsuarios.addCell(usuario.getBaja().toString());
-//            } else {
-//                tablaUsuarios.addCell(" ");
-//            }
-//        });
-        tablaUsuarios.setSpacingAfter(30);
+        tablaUsuario.setSpacingAfter(30);
 
         //tabla de fecha de actualizacion
         PdfPTable tablaFechaActualizado = new PdfPTable(1);
@@ -238,7 +196,7 @@ public class ListarUsuariosEnPDF extends AbstractPdfView {
 
         document.add(tituloTabla);
         document.add(titulosCampos);
-        document.add(tablaUsuarios);
+        document.add(tablaUsuario);
         document.add(tablaFechaActualizado);
     }
 
